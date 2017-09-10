@@ -1,0 +1,30 @@
+{
+  "name": "chickenbus",
+  "version": "0.0.0",
+  "description": "Repo for ChickenBus app",
+  "main": "index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KyleMartin95/ChickenBus.git"
+  },
+  "author": "Kyle Martin, Scott Brumley, Eric New, Eric Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KyleMartin95/ChickenBus/issues"
+  },
+  "homepage": "https://github.com/KyleMartin95/ChickenBus#readme",
+  "dependencies": {
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.2.3",
+    "source-map-loader": "^0.2.1",
+    "typescript": "^2.5.2"
+  }
+}
