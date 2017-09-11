@@ -79,7 +79,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(2);
 var Hello_1 = __webpack_require__(3);
-ReactDOM.render(React.createElement(Hello_1.Hello, { compiler: "TypeScript", framework: "React" }), document.getElementById("example"));
+ReactDOM.render(React.createElement(Hello_1.Hello, { compiler: "Webpack", framework: "React" }), document.getElementById("example"));
 
 
 /***/ }),
@@ -110,8 +110,8 @@ var React = __webpack_require__(0);
 // State is never set so we use the 'undefined' type.
 var Hello = /** @class */ (function (_super) {
     __extends(Hello, _super);
-    function Hello() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Hello(props) {
+        return _super.call(this, props) || this;
     }
     Hello.prototype.render = function () {
         return React.createElement("h1", null,
