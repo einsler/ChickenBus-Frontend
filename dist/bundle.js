@@ -622,7 +622,7 @@ function isVirtualElement(element) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var mergeStyles_1 = __webpack_require__(15);
+var mergeStyles_1 = __webpack_require__(16);
 exports.mergeStyles = mergeStyles_1.mergeStyles;
 var mergeStyleSets_1 = __webpack_require__(97);
 exports.mergeStyleSets = mergeStyleSets_1.mergeStyleSets;
@@ -660,7 +660,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", { value: true });
 var AnimationStyles_1 = __webpack_require__(100);
 exports.AnimationStyles = AnimationStyles_1.AnimationStyles;
-var DefaultPalette_1 = __webpack_require__(16);
+var DefaultPalette_1 = __webpack_require__(17);
 exports.DefaultPalette = DefaultPalette_1.DefaultPalette;
 var DefaultFontStyles_1 = __webpack_require__(32);
 exports.DefaultFontStyles = DefaultFontStyles_1.DefaultFontStyles;
@@ -696,7 +696,7 @@ exports.createTheme = theme_1.createTheme;
 
 
 
-var emptyFunction = __webpack_require__(10);
+var emptyFunction = __webpack_require__(11);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -825,6 +825,17 @@ exports.keyframes = keyframes;
 
 /***/ }),
 /* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = __webpack_require__(0);
+tslib_1.__exportStar(__webpack_require__(38), exports);
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1070,7 +1081,7 @@ exports.EventGroup = EventGroup;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1114,7 +1125,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1176,7 +1187,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1197,7 +1208,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1273,7 +1284,7 @@ var _a;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1370,7 +1381,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1431,7 +1442,7 @@ exports.mergeStyles = mergeStyles;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1486,17 +1497,6 @@ exports.DefaultPalette = {
     green: '#107c10',
     greenLight: '#bad80a',
 };
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = __webpack_require__(0);
-tslib_1.__exportStar(__webpack_require__(38), exports);
 
 
 /***/ }),
@@ -2352,7 +2352,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(0);
 var React = __webpack_require__(2);
 var Async_1 = __webpack_require__(18);
-var EventGroup_1 = __webpack_require__(9);
+var EventGroup_1 = __webpack_require__(10);
 var warn_1 = __webpack_require__(22);
 /**
  * BaseComponent class, which provides basic helpers for all components.
@@ -3057,7 +3057,7 @@ exports.placeholder = placeholder;
 exports.cssFor = cssFor;
 exports.attribsFor = attribsFor;
 
-var _objectAssign = __webpack_require__(14);
+var _objectAssign = __webpack_require__(15);
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
@@ -4426,9 +4426,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(2);
 var ReactDOM = __webpack_require__(34);
 var Fabric_1 = __webpack_require__(35);
-var Hello_1 = __webpack_require__(107);
+var index_1 = __webpack_require__(107);
 var MyPage = function () { return (React.createElement(Fabric_1.Fabric, null,
-    React.createElement(Hello_1.Hello, { compiler: 'ts', framework: 'react' }))); };
+    React.createElement(index_1.Example, { title: 'Example 1', text: 'Here is the text' }))); };
 ReactDOM.render(React.createElement(MyPage, null), document.body);
 
 
@@ -4469,7 +4469,7 @@ tslib_1.__exportStar(__webpack_require__(37), exports);
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(0);
 var React = __webpack_require__(2);
-var Utilities_1 = __webpack_require__(17);
+var Utilities_1 = __webpack_require__(9);
 var Fabric_styles_1 = __webpack_require__(64);
 var DIRECTIONAL_KEY_CODES = [
     38 /* up */,
@@ -4546,9 +4546,9 @@ tslib_1.__exportStar(__webpack_require__(39), exports);
 tslib_1.__exportStar(__webpack_require__(21), exports);
 tslib_1.__exportStar(__webpack_require__(42), exports);
 tslib_1.__exportStar(__webpack_require__(46), exports);
-tslib_1.__exportStar(__webpack_require__(9), exports);
+tslib_1.__exportStar(__webpack_require__(10), exports);
 tslib_1.__exportStar(__webpack_require__(24), exports);
-tslib_1.__exportStar(__webpack_require__(13), exports);
+tslib_1.__exportStar(__webpack_require__(14), exports);
 tslib_1.__exportStar(__webpack_require__(47), exports);
 tslib_1.__exportStar(__webpack_require__(48), exports);
 tslib_1.__exportStar(__webpack_require__(49), exports);
@@ -4580,7 +4580,7 @@ tslib_1.__exportStar(__webpack_require__(63), exports);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var EventGroup_1 = __webpack_require__(9);
+var EventGroup_1 = __webpack_require__(10);
 var scroll_1 = __webpack_require__(19);
 var dom_1 = __webpack_require__(3);
 var SCROLL_ITERATION_DELAY = 16;
@@ -4775,11 +4775,11 @@ exports.Customizer = Customizer;
 
 
 
-var emptyFunction = __webpack_require__(10);
-var invariant = __webpack_require__(11);
+var emptyFunction = __webpack_require__(11);
+var invariant = __webpack_require__(12);
 var warning = __webpack_require__(7);
 
-var ReactPropTypesSecret = __webpack_require__(12);
+var ReactPropTypesSecret = __webpack_require__(13);
 var checkPropTypes = __webpack_require__(44);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
@@ -5296,9 +5296,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(11);
+  var invariant = __webpack_require__(12);
   var warning = __webpack_require__(7);
-  var ReactPropTypesSecret = __webpack_require__(12);
+  var ReactPropTypesSecret = __webpack_require__(13);
   var loggedTypeFailures = {};
 }
 
@@ -5364,9 +5364,9 @@ module.exports = checkPropTypes;
 
 
 
-var emptyFunction = __webpack_require__(10);
-var invariant = __webpack_require__(11);
-var ReactPropTypesSecret = __webpack_require__(12);
+var emptyFunction = __webpack_require__(11);
+var invariant = __webpack_require__(12);
+var ReactPropTypesSecret = __webpack_require__(13);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -5733,7 +5733,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(0);
 var React = __webpack_require__(2);
 var PropTypes = __webpack_require__(23);
-var GlobalSettings_1 = __webpack_require__(13);
+var GlobalSettings_1 = __webpack_require__(14);
 function customizable(fields) {
     // tslint:disable-next-line:no-shadowed-variable
     return function customizableFactory(ComposedComponent) {
@@ -6696,7 +6696,7 @@ function _createNode() {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Utilities_1 = __webpack_require__(17);
+var Utilities_1 = __webpack_require__(9);
 var Styling_1 = __webpack_require__(65);
 var inheritFont = { fontFamily: 'inherit' };
 exports.getStyles = Utilities_1.memoizeFunction(function (theme) {
@@ -6751,7 +6751,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.StyleSheet = StyleSheet;
 
-var _objectAssign = __webpack_require__(14);
+var _objectAssign = __webpack_require__(15);
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
@@ -7512,7 +7512,7 @@ exports.fallbacks = fallbacks;
 exports.contentWrap = contentWrap;
 exports.prefixes = prefixes;
 
-var _objectAssign = __webpack_require__(14);
+var _objectAssign = __webpack_require__(15);
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
@@ -8650,7 +8650,7 @@ exports.AnimationClassNames = index_1.buildClassMap(index_2.AnimationStyles);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var mergeStyles_1 = __webpack_require__(15);
+var mergeStyles_1 = __webpack_require__(16);
 /**
  * Merges a give set of styles by running mergeStyles for each unique key. Works
  * like Object.assign in that it layers them in the argument order specified, but will
@@ -8687,7 +8687,7 @@ exports.mergeStyleSets = mergeStyleSets;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var mergeStyles_1 = __webpack_require__(15);
+var mergeStyles_1 = __webpack_require__(16);
 /**
  * Builds a class names object from a given map.
  *
@@ -11962,9 +11962,9 @@ exports.hideText = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(0);
-var GlobalSettings_1 = __webpack_require__(13);
+var GlobalSettings_1 = __webpack_require__(14);
 var DefaultFontStyles_1 = __webpack_require__(32);
-var DefaultPalette_1 = __webpack_require__(16);
+var DefaultPalette_1 = __webpack_require__(17);
 var load_themed_styles_1 = __webpack_require__(20);
 var _theme = {
     palette: DefaultPalette_1.DefaultPalette,
@@ -12073,7 +12073,7 @@ exports.FontClassNames = index_1.buildClassMap(index_2.DefaultFontStyles);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __webpack_require__(4);
-var DefaultPalette_1 = __webpack_require__(16);
+var DefaultPalette_1 = __webpack_require__(17);
 var index_2 = __webpack_require__(6);
 exports.ColorClassNames = {};
 for (var colorName in DefaultPalette_1.DefaultPalette) {
@@ -12115,6 +12115,32 @@ function _defineGetter(obj, colorName, suffix, isHover, cssProperty) {
 
 "use strict";
 
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(108));
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(109));
+
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -12126,25 +12152,32 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var Utilities_1 = __webpack_require__(9);
 var React = __webpack_require__(2);
-// 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
-var Hello = /** @class */ (function (_super) {
-    __extends(Hello, _super);
-    function Hello() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var Example = /** @class */ (function (_super) {
+    __extends(Example, _super);
+    function Example(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            title: props.title,
+            text: props.text
+        };
+        return _this;
     }
-    Hello.prototype.render = function () {
-        return React.createElement("h1", null,
-            "Bye from ",
-            this.props.compiler,
-            " and ",
-            this.props.framework,
-            "!");
+    Example.prototype.render = function () {
+        return (React.createElement("div", null,
+            React.createElement("h1", null,
+                " ",
+                this.state.title,
+                " "),
+            React.createElement("p", null,
+                " ",
+                this.state.text,
+                " ")));
     };
-    return Hello;
-}(React.Component));
-exports.Hello = Hello;
+    return Example;
+}(Utilities_1.BaseComponent));
+exports.Example = Example;
 
 
 /***/ })
