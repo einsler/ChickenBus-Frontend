@@ -1,7 +1,9 @@
+const path = require('path');
+
 module.exports = {
     entry: "./src/index.tsx",
     output: {
-        filename: "bundle.js",
+        filename: "js/bundle.js",
         path: __dirname + "/dist"
     },
 
@@ -11,6 +13,10 @@ module.exports = {
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
+    },
+
+    devServer: {
+        contentBase: path.join(__dirname, "dist")
     },
 
     module: {

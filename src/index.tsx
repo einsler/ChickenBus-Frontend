@@ -1,9 +1,9 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { Example } from "./components/index";
 
-import { Hello } from "./components/Hello";
+const MyPage = () => (<Fabric><Example title='Example 1' text='Here is the text'/></Fabric>);
 
-ReactDOM.render(
-    <Hello compiler="Webpack" framework="React" />,
-    document.getElementById("example")
-);
+ReactDOM.render(<MyPage />, document.body);
