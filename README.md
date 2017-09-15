@@ -1,9 +1,8 @@
 # ChickenBus
 ## Installation
-1. Run `npm install -g webpack` in the root directory.
-2. Run `npm install` in the root directory.
-3. Run `webpack` in the root directory to generate new files in the dist. This will be what is being served to the browser.
-4. For now we are serving the index.html page statically, so just copy and paste the address of the file on your computer into a browser.
+1. Run `npm install` in the root directory.
+2. Run `npm start` in the root directory
+3. Go to localhost:8080 in your browser
 
 ## Creating a new React component
 1. Create a directory for the component with the same name as the component.
