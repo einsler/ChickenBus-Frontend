@@ -10,6 +10,7 @@ import * as React from 'react';
 import { autobind } from "@uifabric/utilities/lib";
 import { HomeContent, SearchContent } from "../index";
 import { getStyles } from "./BasePage.styles";
+import { examplePersona } from "../../MockData/MockFrontEnd";
 
 interface IBasePageState {
     contentKey: string;
@@ -27,11 +28,16 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     }
 
     public render() {
+        console.log(styles.header);
         return(
             <div>
-                <div className={ styles.header as string }> 
-                    <h2>Place Holder for logo</h2>
-                    <Persona />
+                <div style={ styles.header }> 
+                    <div>
+                        <h2>Place Holder for logo</h2>
+                    </div>
+                    <div>
+                        <Persona { ...examplePersona} />
+                    </div>
                 </div>
                 <Pivot
                     selectedKey={ this.state.contentKey }

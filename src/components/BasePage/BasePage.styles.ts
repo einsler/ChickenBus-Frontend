@@ -10,7 +10,8 @@ import {
   export const getStyles = memoizeFunction((): IBasePageStyles => {
     return {
       header: {
-        display: 'inline-block'
+        display: 'inline-block',
+        // backgroundColor: '#ADD8E6'
       }
     }
   });
