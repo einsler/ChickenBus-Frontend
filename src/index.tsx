@@ -4,6 +4,6 @@ import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { Example } from "./components/index";
 
-const MyPage = () => (<Fabric><Example title='Example 2' text='Here is the text'/></Fabric>);
+const MyPage = () => (<Fabric><Example title='Example' text='Here is the text'/></Fabric>);
 
 ReactDOM.render(<MyPage />, document.body);
