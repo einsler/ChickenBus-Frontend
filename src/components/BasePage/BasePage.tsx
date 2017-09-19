@@ -40,6 +40,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                     </div>
                 </div>
                 <Pivot
+                    initialSelectedKey= { this.state.contentKey }
                     selectedKey={ this.state.contentKey }
                     onLinkClick={ this._handleLinkClick }
                     getTabId={ this._getTabId}>

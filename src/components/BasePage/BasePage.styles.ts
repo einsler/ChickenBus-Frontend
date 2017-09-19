@@ -11,7 +11,7 @@ import {
     return {
       header: {
         display: 'inline-block',
-        // backgroundColor: '#ADD8E6'
+        backgroundColor: '#ADD8E6'
       }
     }
   });
