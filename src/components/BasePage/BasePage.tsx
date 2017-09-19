@@ -3,11 +3,10 @@ import {
     IBasePageProps,
     IBasePageStyles
 } from './BasePage.Props';
-import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import { Persona } from 'office-ui-fabric-react/lib/Persona';
 import * as React from 'react';
-import { autobind } from "@uifabric/utilities/lib";
 import { HomeContent, SearchContent } from "../index";
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/MockFrontEnd";
