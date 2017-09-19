@@ -28,31 +28,32 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     }
 
     public render() {
-        console.log(styles.header);
         return(
             <div>
                 <div style={ styles.header }> 
-                    <div>
+                    <div style={ styles.logo }>
                         <h2>Place Holder for logo</h2>
                     </div>
-                    <div>
+                    <div style={ styles.profile }>
                         <Persona { ...examplePersona} />
                     </div>
                 </div>
-                <Pivot
-                    initialSelectedKey= { this.state.contentKey }
-                    selectedKey={ this.state.contentKey }
-                    onLinkClick={ this._handleLinkClick }
-                    getTabId={ this._getTabId}>
-                    <PivotItem 
-                        linkText='Home'>
-                        <HomeContent/>
-                    </PivotItem>
-                    <PivotItem 
-                        linkText='Search'>
-                        <SearchContent/>
-                    </PivotItem>
-                </Pivot>
+                <div>
+                    <Pivot
+                        initialSelectedKey= { this.state.contentKey }
+                        selectedKey={ this.state.contentKey }
+                        onLinkClick={ this._handleLinkClick }
+                        getTabId={ this._getTabId}>
+                        <PivotItem 
+                            linkText='Home'>
+                            <HomeContent/>
+                        </PivotItem>
+                        <PivotItem 
+                            linkText='Search'>
+                            <SearchContent/>
+                        </PivotItem>
+                    </Pivot>
+                </div>
             </div>
         )
     }

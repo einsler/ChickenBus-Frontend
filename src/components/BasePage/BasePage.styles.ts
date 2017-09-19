@@ -10,8 +10,16 @@ import {
   export const getStyles = memoizeFunction((): IBasePageStyles => {
     return {
       header: {
-        display: 'inline-block',
+        width:'100%',
+        display: 'flex',
         backgroundColor: '#ADD8E6'
+      },
+      logo: {
+        margin: '10px'
+      },
+      profile: {
+        marginLeft: 'auto',
+        padding: '15px'
       }
     }
   });

@@ -33,4 +33,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
  export interface IBasePageStyles {
     header: IStyle;
+    logo: IStyle;
+    profile: IStyle;
  }
