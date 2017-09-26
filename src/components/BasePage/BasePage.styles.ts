@@ -9,12 +9,17 @@ import {
   
   export const getStyles = memoizeFunction((): IBasePageStyles => {
     return {
+      root: {
+        height: '20vh',
+        width: '100vw',
+      },
       header: {
         width:'100%',
         display: 'flex',
-        backgroundColor: '#ADD8E6'
+        backgroundColor: '#000000'
       },
       logo: {
+        color: '#ffffff',
         margin: '10px'
       },
       profile: {
