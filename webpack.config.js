@@ -16,7 +16,10 @@ module.exports = {
     },
 
     devServer: {
-        contentBase: path.join(__dirname, "dist")
+        contentBase: path.join(__dirname, "dist"),
+        proxy: {
+            "/api": "http://localhost:3000"
+        }
     },
 
     module: {
@@ -36,5 +39,5 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM"
-    },
+    }
 };
