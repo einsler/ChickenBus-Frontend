@@ -12,3 +12,4 @@ Note: `npm run start` is used for production.
 4. Create a file for the component with the name formate ComponentName.tsx
 5. Create an index file that will export the props and components with the name index.ts
 6. Add an export statement to the index.ts file in the component directory that will export all files from the component's index file.
+ 
