@@ -3,17 +3,16 @@ import {
     IBasePageProps,
     IBasePageStyles
 } from './BasePage.Props';
-import { BaseComponent } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import { Persona } from 'office-ui-fabric-react/lib/Persona';
 import * as React from 'react';
-import { autobind } from "@uifabric/utilities/lib";
 import { HomeContent, SearchContent } from "../index";
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/MockFrontEnd";
 
 interface IBasePageState {
-    contentKey: string;
+    content: JSX.Element;
 }
 
 const styles: IBasePageStyles = getStyles();
@@ -23,13 +22,13 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     constructor(props: IBasePageProps) {
         super(props);
         this.state = {
-            contentKey: 'home'
+            content: <SearchContent/>
         }
     }
 
     public render() {
         return(
-            <div>
+            <div style={ styles.root }>
                 <div style={ styles.header }> 
                     <div style={ styles.logo }>
                         <h2>Place Holder for logo</h2>
@@ -38,22 +37,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                         <Persona { ...examplePersona} />
                     </div>
                 </div>
-                <div>
-                    <Pivot
-                        initialSelectedKey= { this.state.contentKey }
-                        selectedKey={ this.state.contentKey }
-                        onLinkClick={ this._handleLinkClick }
-                        getTabId={ this._getTabId}>
-                        <PivotItem 
-                            linkText='Home'>
-                            <HomeContent/>
-                        </PivotItem>
-                        <PivotItem 
-                            linkText='Search'>
-                            <SearchContent/>
-                        </PivotItem>
-                    </Pivot>
-                </div>
+                { this.state.content }
             </div>
         )
     }
@@ -61,7 +45,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     @autobind
     private _handleLinkClick(item: PivotItem): void {
         this.setState({
-            contentKey: item.props.itemKey
+            content: item.props.linkText === 'Home' ? <HomeContent/> : <SearchContent/>
         })
     }
 

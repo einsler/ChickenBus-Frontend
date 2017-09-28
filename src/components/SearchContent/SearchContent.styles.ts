@@ -13,16 +13,19 @@ import {
         margin: 'auto',
         width: '100%',
         height: '100%',
+        display: 'flex'
       },
       searchPanel: {
-        width: '25%',
-        float: 'left',
-        margin: '20 px',
+        width: '20vw',
+        height: '80vh',
+        margin: '10px',
+      },
+      searchButtonBox: {
+        display: 'flex',
+        justifyContent: 'center',
       },
       googleMap: {
-        width: '70%',
-        height: '500px',
-        float: 'left',
-        margin: '10px'
+        width: '78vw',
+        height: '88vh',
       }
   }})

@@ -35,4 +35,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     header: IStyle;
     logo: IStyle;
     profile: IStyle;
+    root: IStyle;
  }
