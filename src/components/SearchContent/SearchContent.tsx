@@ -11,6 +11,7 @@ import { Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
 import { APIKey } from '../../MockData/MockFrontEnd'
+import { GoogleMap } from "../GoogleMap/index";
 
 const styles = getStyles();
 
@@ -46,11 +47,13 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <iframe width='100%' height='100%' src={ this.state.googleURL }/>
+                    <GoogleMap />
                 </div>
             </div>
         )
     }
+
+    // <iframe width='100%' height='100%' src={ this.state.googleURL }/>
 
     @autobind
     public onRoute() {
