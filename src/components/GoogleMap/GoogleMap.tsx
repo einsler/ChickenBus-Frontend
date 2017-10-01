@@ -18,7 +18,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
     private _map: google.maps.Map;
     private _mapOptions: google.maps.MapOptions;
     private _mapCanvas: HTMLDivElement;
-    
+
     constructor(props: IGoogleMapProps) {
         super(props);
 
@@ -43,7 +43,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
         });
         console.log("ran");
         fetch('/api/test').then((response: any) => {
-            that._map.data.addGeoJson(response.json()[0])
-        })
+            return response.json();
+        }).then((responseJSON) => {
+            that._map.data.addGeoJson(responseJSON[0])
+        });
     }
 }
