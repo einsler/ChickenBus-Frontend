@@ -17,7 +17,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
     private _map: google.maps.Map;
     private _mapCanvas: HTMLDivElement;
     private _geoCoder: google.maps.Geocoder;
-    
+
     constructor(props: IGoogleMapProps) {
         super(props);
 
@@ -49,9 +49,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
             address: newProps.origin,
             componentRestrictions: { country: supportedCountries[0] },
         }
-        this._geoCoder.geocode(originRequest, 
-            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => 
-                { 
+        this._geoCoder.geocode(originRequest,
+            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
+                {
                     latOrig = results[0].geometry.location.lat();
                     lngOrig = results[0].geometry.location.lng();
                     let newMarker = new google.maps.Marker({
@@ -65,8 +65,11 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
                         }
                     })
                     this._map.setCenter(this.state.mapOptions.center);
+                    let map: google.maps.Map = this._map;
                     fetch('/api/stops/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig).then((response: any) => {
-                        this._map.data.addGeoJson(response[0]);
+                        return response.json();
+                    }).then(function(responseJson){
+                        map.data.addGeoJson(responseJson[0]);
                     });
                 }
             );
