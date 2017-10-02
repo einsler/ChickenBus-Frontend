@@ -17,6 +17,16 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      * The optional custom styling to be applied to the GoogleMap component.
      */
     styles?: IGoogleMapStyles;
+
+    /**
+     * The address of the origin.
+     */
+    origin?: string;
+
+    /**
+     * The address of the destination.
+     */
+    destination?: string;
  }
 
  export interface IGoogleMapStyles {

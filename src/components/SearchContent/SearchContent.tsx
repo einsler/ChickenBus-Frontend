@@ -10,23 +10,27 @@ import * as React from "react";
 import { Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
-import { APIKey } from '../../MockData/MockFrontEnd'
+import { APIKey, supportedCountries } from '../../MockData/MockFrontEnd'
 import { GoogleMap } from "../GoogleMap/index";
 
 const styles = getStyles();
 
 interface ISearchContentState {
-    googleURL?: string;
     origin?: string;
     destination?: string;
 }
 
 export class SearchContent extends BaseComponent<ISearchContentProps, ISearchContentState> {
+    private _geocoder: google.maps.Geocoder;
+    private _origin: string;
+    private _destination: string;
 
     constructor(props: ISearchContentProps) {
         super(props);
+        this._geocoder = new google.maps.Geocoder();
         this.state = {
-            googleURL: "https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d12924.499537941252!2d-79.0588559!3d35.9194431!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1505772467532"
+            origin: undefined,
+            destination: undefined
         }
     }
 
@@ -35,9 +39,9 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
             <div style={ styles.root }>
                 <div style={ styles.searchPanel }>
                     <Label required={ true }> Origin </Label>
-                    <SearchBox onChange={this.onOriginChange} style={{ width: '30%', float: 'left'}} labelText='Managua, Nicaragua' />
+                    <SearchBox onChange={this.onOriginChange} style={{ width: '30%', float: 'left'}} labelText='Enter Origin' />
                     <Label required={ true }> Destination </Label>
-                    <SearchBox onChange={this.onDestinationChange} labelText='Masaya, Nicaragua' />
+                    <SearchBox onChange={this.onDestinationChange} labelText='Enter Destination' />
                     <Label required={ true }> Depart Date </Label>
                     <DatePicker placeholder='Choose the date to leave' isRequired={ true }/>
                     <Label> Arrive by Date </Label>
@@ -47,37 +51,35 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap />
+                    <GoogleMap origin={ this.state.origin } destination={ this.state.destination } />
                 </div>
             </div>
         )
     }
 
-    // <iframe width='100%' height='100%' src={ this.state.googleURL }/>
-
     @autobind
     public onRoute() {
-        this.setState({googleURL: "https://www.google.com/maps/embed/v1/directions" +
-            "?key=" + APIKey +
-            "&origin=" + this.state.origin +
-            "&destination=" + this.state.destination});
+        let request: google.maps.GeocoderRequest = {
+            address: this.state.origin,
+            componentRestrictions: { country: supportedCountries[0] },
+        }
+        this._geocoder.geocode(request, 
+            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => 
+                { 
+                    this.setState({
+                        origin: this._origin,
+                        destination: this._destination,
+                    });
+                });
     }
 
     @autobind
     private onOriginChange(newValue: string) {
-        console.log(this.state.origin)
-        this.setState( {
-                origin: newValue.replace(', ','+').replace(' ,','+').replace(' ','+').replace(',','+')
-            }
-        )
-        console.log(this.state.origin)        
+        this._origin = newValue;  
     }
 
     @autobind
     private onDestinationChange(newValue: string) {
-        this.setState( {
-                destination: newValue.replace(', ','+').replace(' ,','+').replace(' ','+').replace(',','+')
-            }
-        )
+        this._destination = newValue;
     }
 }
