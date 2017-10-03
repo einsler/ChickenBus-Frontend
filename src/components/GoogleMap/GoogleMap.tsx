@@ -7,9 +7,9 @@ import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
 import { getStyles } from './GoogleMap.styles'
 import { sampleGeoJSON, supportedCountries } from '../../MockData/MockFrontEnd'
+import { Feature, LineString } from "geojson";
 
 interface IGoogleMapState {
-    mapOptions: google.maps.MapOptions;
 }
 const styles: IGoogleMapStyles = getStyles();
 
@@ -22,13 +22,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
         super(props);
 
         this._geoCoder = new google.maps.Geocoder();
-
-        this.state = {
-            mapOptions: {
-                center: new google.maps.LatLng(35.9132, -79.0558),
-                zoom: 12
-            }
-        }
     }
 
     public render() {
@@ -38,7 +31,12 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
     }
 
     public componentDidMount() {
-        this._map = new google.maps.Map(this._mapCanvas, this.state.mapOptions);
+        this._map = new google.maps.Map(this._mapCanvas,
+            {
+                center: new google.maps.LatLng(35.9132, -79.0558),
+                zoom: 12
+            }
+        );
     }
 
     @autobind
@@ -58,19 +56,16 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
                         map: this._map,
                         position: new google.maps.LatLng(latOrig, lngOrig)
                     });
-                    console.log(this._map);
-                    this.setState({
-                        mapOptions: {
-                            center: new google.maps.LatLng(latOrig, lngOrig)
-                        }
-                    })
-                    this._map.setCenter(this.state.mapOptions.center);
                     let map: google.maps.Map = this._map;
                     fetch('/api/stops/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig).then((response: any) => {
                         return response.json();
                     }).then(function(responseJson){
-                        map.data.addGeoJson(responseJson[0]);
-                    });
+                        let route: Feature<LineString> = responseJson[0];
+                        map.data.addGeoJson(route);
+                        let lastStopCoords = route.geometry.coordinates[route.geometry.coordinates.length-1];
+                        let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);
+                        map.fitBounds(new google.maps.LatLngBounds(newMarker.getPosition(), lastStopLatLng));
+                    });                   
                 }
             );
     }
