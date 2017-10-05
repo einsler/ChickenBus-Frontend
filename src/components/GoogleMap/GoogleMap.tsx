@@ -10,6 +10,7 @@ import { sampleGeoJSON, supportedCountries } from '../../MockData/MockFrontEnd'
 import { Feature, LineString } from "geojson";
 
 interface IGoogleMapState {
+    activeMarkers?: google.maps.Marker[];
 }
 const styles: IGoogleMapStyles = getStyles();
 
@@ -20,7 +21,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
 
     constructor(props: IGoogleMapProps) {
         super(props);
-
+        this.state = {
+            activeMarkers: []
+        };
         this._geoCoder = new google.maps.Geocoder();
     }
 
@@ -47,26 +50,52 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
             address: newProps.origin,
             componentRestrictions: { country: supportedCountries[0] },
         }
+
+        let latDest: number;
+        let lngDest: number;
+        let destinationRequest: google.maps.GeocoderRequest = {
+            address: newProps.destination,
+            componentRestrictions: { country: supportedCountries[0] },
+        }
+
         this._geoCoder.geocode(originRequest,
             (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
                 {
+                    this.state.activeMarkers.forEach((marker: google.maps.Marker) => marker.setMap(null))                    
+                    this._map.data.forEach((feature: google.maps.Data.Feature) => this._map.data.remove(feature));
                     latOrig = results[0].geometry.location.lat();
                     lngOrig = results[0].geometry.location.lng();
-                    let newMarker = new google.maps.Marker({
-                        map: this._map,
-                        position: new google.maps.LatLng(latOrig, lngOrig)
-                    });
-                    let map: google.maps.Map = this._map;
-                    fetch('/api/stops/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig).then((response: any) => {
-                        return response.json();
-                    }).then(function(responseJson){
-                        let route: Feature<LineString> = responseJson[0];
-                        map.data.addGeoJson(route);
-                        let lastStopCoords = route.geometry.coordinates[route.geometry.coordinates.length-1];
-                        let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);
-                        map.fitBounds(new google.maps.LatLngBounds(newMarker.getPosition(), lastStopLatLng));
-                    });                   
-                }
-            );
+
+                    
+                    this._geoCoder.geocode(destinationRequest,
+                        (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
+                            {
+                                latDest = results[0].geometry.location.lat();
+                                lngDest = results[0].geometry.location.lng();
+                                let originMarker = new google.maps.Marker({
+                                    map: this._map,
+                                    position: new google.maps.LatLng(latOrig, lngOrig)
+                                });
+                                let destinationMarker = new google.maps.Marker({
+                                    map: this._map,
+                                    position: new google.maps.LatLng(latDest, lngDest)
+                                });
+                                this.setState({
+                                    activeMarkers: [originMarker, destinationMarker]
+                                });
+                                let that = this;
+                                fetch('/api/stops/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig).then((response: any) => {
+                                    return response.json();
+                                }).then(function(responseJson){
+                                    let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
+                                    let lastStopCoords = responseJson[0].geometry.coordinates[responseJson[0].geometry.coordinates.length-1];
+                                    let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);
+                                    console.log(originMarker.getPosition().lat() + " " + originMarker.getPosition().lng()+" .... " + destinationMarker.getPosition().lat() + " " + destinationMarker.getPosition().lng())
+                                    that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
+                                        new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
+                                        new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
+                                });
+                    });                      
+        });
     }
 }
