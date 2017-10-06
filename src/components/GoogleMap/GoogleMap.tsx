@@ -42,23 +42,18 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
         );
     }
 
-    public componentWillUpdate() {
-        this.updateMap();
-    }
-
-    @autobind
-    public updateMap(): void {
+    public componentWillReceiveProps(newProps: IGoogleMapProps): void {
         let latOrig: number;
         let lngOrig: number;
         let originRequest: google.maps.GeocoderRequest = {
-            address: this.props.origin,
+            address: newProps.origin,
             componentRestrictions: { country: supportedCountries[0] },
         }
 
         let latDest: number;
         let lngDest: number;
         let destinationRequest: google.maps.GeocoderRequest = {
-            address: this.props.destination,
+            address: newProps.destination,
             componentRestrictions: { country: supportedCountries[0] },
         }
 
@@ -68,12 +63,12 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     this.state.activeMarkers.forEach((marker: google.maps.Marker) => marker.setMap(null))                    
                     this._map.data.forEach((feature: google.maps.Data.Feature) => this._map.data.remove(feature));
                     latOrig = results[0].geometry.location.lat();
-                    lngOrig = results[0].geometry.location.lng();
-
-                    
+                    lngOrig = results[0].geometry.location.lng(); 
                     this._geoCoder.geocode(destinationRequest,
                         (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
                             {
+                                console.log(results);
+                                console.log(status);
                                 latDest = results[0].geometry.location.lat();
                                 lngDest = results[0].geometry.location.lng();
                                 let originMarker = new google.maps.Marker({

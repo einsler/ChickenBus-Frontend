@@ -4,8 +4,8 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { SearchBox } from "office-ui-fabric-react/lib/components/SearchBox";
 
  export interface IGoogleMap {
-    updateMap(): void;
- }
+
+}
 
  export interface IGoogleMapProps extends React.HTMLAttributes<HTMLElement | GoogleMap> {
     /**
