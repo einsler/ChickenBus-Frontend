@@ -16,22 +16,20 @@ import { GoogleMap } from "../GoogleMap/index";
 const styles = getStyles();
 
 interface ISearchContentState {
-    origin?: string;
-    destination?: string;
+    destination?: string,
+    origin?: string  
 }
 
 export class SearchContent extends BaseComponent<ISearchContentProps, ISearchContentState> {
-    private _geocoder: google.maps.Geocoder;
-    private _origin: string;
-    private _destination: string;
+    private _originAutocomplete: google.maps.places.Autocomplete;
+    private _originInput: HTMLInputElement;
+    private _destinationAutocomplete: google.maps.places.Autocomplete;
+    private _destinationInput: HTMLInputElement;
+    private _googleMap: GoogleMap;
 
     constructor(props: ISearchContentProps) {
         super(props);
-        this._geocoder = new google.maps.Geocoder();
-        this.state = {
-            origin: undefined,
-            destination: undefined
-        }
+        this.state = {}
     }
 
     public render() {
@@ -39,47 +37,34 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
             <div style={ styles.root }>
                 <div style={ styles.searchPanel }>
                     <Label required={ true }> Origin </Label>
-                    <SearchBox onChange={this.onOriginChange} style={{ width: '30%', float: 'left'}} labelText='Enter Origin' />
+                    <input ref={ (input) => this._originInput = input } style={ styles.locationInput }/>
                     <Label required={ true }> Destination </Label>
-                    <SearchBox onChange={this.onDestinationChange} labelText='Enter Destination' />
+                    <input ref={ (input) => this._destinationInput = input } style={ styles.locationInput }/>
                     <Label required={ true }> Depart Date </Label>
                     <DatePicker placeholder='Choose the date to leave' isRequired={ true }/>
                     <Label> Arrive by Date </Label>
-                    <DatePicker placeholder='Latest date to arrive' />
+                    <DatePicker placeholder='Latest date to arrive'/>
                     <div style={ styles.searchButtonBox }>
-                        <Button text='Search' onClick={ this.onRoute}/>
+                        <Button text='Search' onClick={ this.onRoute }/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap origin={ this.state.origin } destination={ this.state.destination } />
+                    <GoogleMap componentRef={ this._resolveRef("_googleMap") } origin={ this.state.origin } destination={ this.state.destination }/>
                 </div>
             </div>
         )
     }
 
-    @autobind
-    public onRoute() {
-        let request: google.maps.GeocoderRequest = {
-            address: this.state.origin,
-            componentRestrictions: { country: supportedCountries[0] },
-        }
-        this._geocoder.geocode(request, 
-            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => 
-                { 
-                    this.setState({
-                        origin: this._origin,
-                        destination: this._destination,
-                    });
-                });
+    public componentDidMount() {
+        this._originAutocomplete = new google.maps.places.Autocomplete(this._originInput ,{componentRestrictions: { country: supportedCountries[0]}});        
+        this._destinationAutocomplete = new google.maps.places.Autocomplete(this._destinationInput ,{componentRestrictions: { country: supportedCountries[0]}});
     }
 
     @autobind
-    private onOriginChange(newValue: string) {
-        this._origin = newValue;  
-    }
-
-    @autobind
-    private onDestinationChange(newValue: string) {
-        this._destination = newValue;
+    public onRoute() {   
+        this.setState({
+            origin: this._originInput.value,
+            destination: this._destinationInput.value
+        })
     }
 }

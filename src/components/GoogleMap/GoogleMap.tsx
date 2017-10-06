@@ -14,7 +14,7 @@ interface IGoogleMapState {
 }
 const styles: IGoogleMapStyles = getStyles();
 
-export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
+export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> implements IGoogleMap {
     private _map: google.maps.Map;
     private _mapCanvas: HTMLDivElement;
     private _geoCoder: google.maps.Geocoder;
@@ -36,25 +36,29 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
     public componentDidMount() {
         this._map = new google.maps.Map(this._mapCanvas,
             {
-                center: new google.maps.LatLng(35.9132, -79.0558),
-                zoom: 12
+                center: new google.maps.LatLng(12.4150, -85.2362),
+                zoom: 7
             }
         );
     }
 
+    public componentWillUpdate() {
+        this.updateMap();
+    }
+
     @autobind
-    public componentWillReceiveProps(newProps: IGoogleMapProps) {
+    public updateMap(): void {
         let latOrig: number;
         let lngOrig: number;
         let originRequest: google.maps.GeocoderRequest = {
-            address: newProps.origin,
+            address: this.props.origin,
             componentRestrictions: { country: supportedCountries[0] },
         }
 
         let latDest: number;
         let lngDest: number;
         let destinationRequest: google.maps.GeocoderRequest = {
-            address: newProps.destination,
+            address: this.props.destination,
             componentRestrictions: { country: supportedCountries[0] },
         }
 

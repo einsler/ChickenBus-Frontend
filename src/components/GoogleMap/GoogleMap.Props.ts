@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { GoogleMap } from './GoogleMap';
 import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
+import { SearchBox } from "office-ui-fabric-react/lib/components/SearchBox";
 
  export interface IGoogleMap {
-
+    updateMap(): void;
  }
 
  export interface IGoogleMapProps extends React.HTMLAttributes<HTMLElement | GoogleMap> {
@@ -19,14 +20,14 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     styles?: IGoogleMapStyles;
 
     /**
-     * The address of the origin.
+     * The searchbox used in the searchContent component for inputing the origin.
      */
-    origin?: string;
+    origin: string;
 
     /**
-     * The address of the destination.
+     * The searchbox used in the searchContent component for inputing the destination.
      */
-    destination?: string;
+    destination: string;
  }
 
  export interface IGoogleMapStyles {
