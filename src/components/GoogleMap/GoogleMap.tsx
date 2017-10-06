@@ -88,7 +88,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     activeMarkers: [originMarker, destinationMarker]
                                 });
                                 let that = this;
-                                fetch('/api/stops/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig).then((response: any) => {
+                                fetch('/api/routes/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig+'&lngDest='+ lngDest+'&latDest='+latDest).then((response: any) => {
                                     return response.json();
                                 }).then(function(responseJson){
                                     let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
