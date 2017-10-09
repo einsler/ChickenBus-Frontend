@@ -67,8 +67,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     this._geoCoder.geocode(destinationRequest,
                         (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
                             {
-                                console.log(results);
-                                console.log(status);
                                 latDest = results[0].geometry.location.lat();
                                 lngDest = results[0].geometry.location.lng();
                                 let originMarker = new google.maps.Marker({
@@ -89,7 +87,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
                                     let lastStopCoords = responseJson[0].geometry.coordinates[responseJson[0].geometry.coordinates.length-1];
                                     let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);
-                                    console.log(originMarker.getPosition().lat() + " " + originMarker.getPosition().lng()+" .... " + destinationMarker.getPosition().lat() + " " + destinationMarker.getPosition().lng())
                                     that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
                                         new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
                                         new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
