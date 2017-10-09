@@ -84,6 +84,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 fetch('/api/routes/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig+'&lngDest='+ lngDest+'&latDest='+latDest).then((response: any) => {
                                     return response.json();
                                 }).then(function(responseJson){
+                                    console.log(responseJson[0]);
                                     let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
                                     let lastStopCoords = responseJson[0].geometry.coordinates[responseJson[0].geometry.coordinates.length-1];
                                     let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);

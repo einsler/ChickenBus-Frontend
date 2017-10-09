@@ -3,7 +3,7 @@ import {
     ISearchContentProps,
     ISearchContentStyles
 } from './SearchContent.Props';
-import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
+import { BaseComponent, autobind, KeyCodes } from "office-ui-fabric-react/lib/Utilities";
 import{ SearchBox } from 'office-ui-fabric-react/lib/components/SearchBox';
 import{ DatePicker } from 'office-ui-fabric-react/lib/components/DatePicker';
 import * as React from "react";
@@ -37,15 +37,15 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
             <div style={ styles.root }>
                 <div style={ styles.searchPanel }>
                     <Label required={ true }> Origin </Label>
-                    <input ref={ (input) => this._originInput = input } style={ styles.locationInput }/>
+                    <input ref={ (input) => this._originInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
                     <Label required={ true }> Destination </Label>
-                    <input ref={ (input) => this._destinationInput = input } style={ styles.locationInput }/>
+                    <input ref={ (input) => this._destinationInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
                     <Label required={ true }> Depart Date </Label>
                     <DatePicker placeholder='Choose the date to leave' isRequired={ true }/>
                     <Label> Arrive by Date </Label>
                     <DatePicker placeholder='Latest date to arrive'/>
                     <div style={ styles.searchButtonBox }>
-                        <Button text='Search' onClick={ this.onRoute }/>
+                        <Button text='Search' onClick={ this.onRouteButton }/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
@@ -61,10 +61,38 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     }
 
     @autobind
-    public onRoute() {   
-        this.setState({
-            origin: this._originInput.value,
-            destination: this._destinationInput.value
-        })
+    public onRouteButton() {   
+        if(!this._originAutocomplete.getPlace() || !this._originAutocomplete.getPlace().geometry) {
+            alert("Enter a valid origin");
+        }
+        else if(!this._destinationAutocomplete.getPlace() || !this._destinationAutocomplete.getPlace().geometry) {
+            alert("Enter a valid destination");
+        }
+        else {
+            this.setState({
+                origin: this._originInput.value,
+                destination: this._destinationInput.value
+            });
+        }
+    }
+
+    @autobind
+    public onRouteEnter(ev: React.KeyboardEvent<HTMLInputElement>) {
+        if(ev.which === KeyCodes.enter) {
+            event.preventDefault();
+            event.stopPropagation();
+            if(!this._originAutocomplete.getPlace() || !this._originAutocomplete.getPlace().geometry) {
+                alert("Enter a valid origin");
+            }
+            else if(!this._destinationAutocomplete.getPlace() || !this._destinationAutocomplete.getPlace().geometry) {
+                alert("Enter a valid destination");
+            }
+            else {
+                this.setState({
+                    origin: this._originInput.value,
+                    destination: this._destinationInput.value
+                });
+            }
+        }
     }
 }
