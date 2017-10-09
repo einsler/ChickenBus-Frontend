@@ -30,7 +30,17 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      */
     styles?: IHomeContentStyles;
  }
+ export interface IBlogItem {
+   title: string;
+   imgurl: string;
+   text: string;
+ }
 
  export interface IHomeContentStyles {
-    
+   root: IStyle;
+   searchPanel: IStyle;
+   blog: IStyle;
+   ad1: IStyle;
+   ad2: IStyle;
+   margin: IStyle;
  }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BasePage } from './BasePage';
+import { EnterGate } from './EnterGate';
 import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
 /**
@@ -7,11 +7,11 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
  * the component.
  */
 
- export interface IBasePage {
+ export interface IEnterGate {
 
  }
 
- export interface IBasePageProps extends React.HTMLAttributes<HTMLBaseElement | BasePage> {
+ export interface IEnterGateProps extends React.HTMLAttributes<HTMLBaseElement | EnterGate> {
 
     // The following props should be in most every component prop interface.
 
@@ -19,7 +19,7 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      * Optional callback to access the IBasePage interface. Use this instead of ref for accessing
      * the public methods and properties of the component.
      */
-    componentRef?: (component: IBasePage) => void;
+    componentRef?: (component: IEnterGate) => void;
 
     // End of props shared by all components.
 
@@ -28,13 +28,11 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     /**
      * The optional custom styling to be applied to the BasePage component.
      */
-    styles?: IBasePageStyles;
+    styles?: IEnterGateStyles;
  }
-
- export interface IBasePageStyles {
-    header: IStyle;
-    logo: IStyle;
-    profile: IStyle;
-    root: IStyle;
-    pivot: IStyle;
- }
+  export interface IEnterGateStyles {
+     root: IStyle;
+     entryPanel: IStyle;
+     enterButtonBox: IStyle;
+     googleMap: IStyle;
+  }
