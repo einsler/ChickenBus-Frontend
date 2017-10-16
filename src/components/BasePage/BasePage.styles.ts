@@ -6,7 +6,7 @@ import {
     FontSizes
   } from 'office-ui-fabric-react/lib/Styling';
   import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
-  
+
   export const getStyles = memoizeFunction((): IBasePageStyles => {
     return {
       root: {
@@ -25,6 +25,13 @@ import {
       profile: {
         marginLeft: 'auto',
         padding: '15px'
+      },
+      pivot: {
+        margin: '10px',
+        color: '#ffffff',
+        position: 'absolute',
+        left: '41%',
+        background: 'white'
       }
     }
   });

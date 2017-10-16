@@ -22,12 +22,12 @@ import { SearchBox } from "office-ui-fabric-react/lib/components/SearchBox";
     /**
      * The searchbox used in the searchContent component for inputing the origin.
      */
-    origin: string;
+    origin?: string;
 
     /**
      * The searchbox used in the searchContent component for inputing the destination.
      */
-    destination: string;
+    destination?: string;
  }
 
  export interface IGoogleMapStyles {

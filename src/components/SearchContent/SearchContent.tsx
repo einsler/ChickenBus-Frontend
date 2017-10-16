@@ -10,7 +10,7 @@ import * as React from "react";
 import { Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
-import { APIKey, supportedCountries } from '../../MockData/MockFrontEnd'
+import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 
 const styles = getStyles();
@@ -40,10 +40,6 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     <input ref={ (input) => this._originInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
                     <Label required={ true }> Destination </Label>
                     <input ref={ (input) => this._destinationInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
-                    <Label required={ true }> Depart Date </Label>
-                    <DatePicker placeholder='Choose the date to leave' isRequired={ true }/>
-                    <Label> Arrive by Date </Label>
-                    <DatePicker placeholder='Latest date to arrive'/>
                     <div style={ styles.searchButtonBox }>
                         <Button text='Search' onClick={ this.onRouteButton }/>
                     </div>
