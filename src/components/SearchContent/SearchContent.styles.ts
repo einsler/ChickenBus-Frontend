@@ -27,5 +27,9 @@ import {
       googleMap: {
         width: '78vw',
         height: '88vh',
+      },
+      locationInput: {
+        width: '100%',
+        height: '30px'
       }
   }})

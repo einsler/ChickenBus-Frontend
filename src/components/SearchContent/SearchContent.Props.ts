@@ -36,4 +36,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     googleMap: IStyle;
     root: IStyle;
     searchButtonBox: IStyle;
+    locationInput: IStyle;
  }

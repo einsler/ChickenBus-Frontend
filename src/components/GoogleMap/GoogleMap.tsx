@@ -4,28 +4,27 @@ import {
     IGoogleMapStyles
 } from './GoogleMap.Props';
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
-// import { Promise } form
 import * as React from "react";
-import { MapContainer } from './GoogleMapJS';
 import { getStyles } from './GoogleMap.styles'
+import { supportedCountries, IconsForMap } from '../../MockData/FrontEndConsts'
+import { Feature, LineString } from "geojson";
 
 interface IGoogleMapState {
-    mapCanvas: HTMLDivElement;
+    activeMarkers?: google.maps.Marker[];
 }
 const styles: IGoogleMapStyles = getStyles();
 
-export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
+export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> implements IGoogleMap {
     private _map: google.maps.Map;
-    private _mapOptions: google.maps.MapOptions;
     private _mapCanvas: HTMLDivElement;
+    private _geoCoder: google.maps.Geocoder;
 
     constructor(props: IGoogleMapProps) {
         super(props);
-
-        this._mapOptions = {
-            center: new google.maps.LatLng(51.508742,-0.120850),
-            zoom: 5
-        }
+        this.state = {
+            activeMarkers: []
+        };
+        this._geoCoder = new google.maps.Geocoder();
     }
 
     public render() {
@@ -34,18 +33,67 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> {
         )
     }
 
-    @autobind
     public componentDidMount() {
-        this._map = new google.maps.Map(this._mapCanvas, this._mapOptions);
-        let that = this;
-        this.setState({
-            mapCanvas: this._mapCanvas
-        });
-        console.log("ran");
-        fetch('/api/test').then((response: any) => {
-            return response.json();
-        }).then((responseJSON) => {
-            that._map.data.addGeoJson(responseJSON[0])
+        this._map = new google.maps.Map(this._mapCanvas,
+            {
+                center: new google.maps.LatLng(12.4150, -85.2362),
+                zoom: 7
+            }
+        );
+    }
+
+    public componentWillReceiveProps(newProps: IGoogleMapProps): void {
+        let latOrig: number;
+        let lngOrig: number;
+        let originRequest: google.maps.GeocoderRequest = {
+            address: newProps.origin,
+            componentRestrictions: { country: supportedCountries[0] },
+        }
+
+        let latDest: number;
+        let lngDest: number;
+        let destinationRequest: google.maps.GeocoderRequest = {
+            address: newProps.destination,
+            componentRestrictions: { country: supportedCountries[0] },
+        }
+
+        this._geoCoder.geocode(originRequest,
+            (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
+                {
+                    this.state.activeMarkers.forEach((marker: google.maps.Marker) => marker.setMap(null))                    
+                    this._map.data.forEach((feature: google.maps.Data.Feature) => this._map.data.remove(feature));
+                    latOrig = results[0].geometry.location.lat();
+                    lngOrig = results[0].geometry.location.lng(); 
+                    this._geoCoder.geocode(destinationRequest,
+                        (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
+                            {
+                                latDest = results[0].geometry.location.lat();
+                                lngDest = results[0].geometry.location.lng();
+                                let originMarker = new google.maps.Marker({
+                                    map: this._map,
+                                    // icon: IconsForMap.origin,
+                                    position: new google.maps.LatLng(latOrig, lngOrig)
+                                });
+                                let destinationMarker = new google.maps.Marker({
+                                    map: this._map,
+                                    // icon: IconsForMap.destination,
+                                    position: new google.maps.LatLng(latDest, lngDest)
+                                });
+                                this.setState({
+                                    activeMarkers: [originMarker, destinationMarker]
+                                });
+                                let that = this;
+                                fetch('/api/routes/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig+'&lngDest='+ lngDest+'&latDest='+latDest).then((response: any) => {
+                                    return response.json();
+                                }).then(function(responseJson){
+                                    let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
+                                    let lastStopCoords = responseJson[0].geometry.coordinates[responseJson[0].geometry.coordinates.length-1];
+                                    let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);
+                                    that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
+                                        new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
+                                        new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
+                                });
+                    });                      
         });
     }
 }

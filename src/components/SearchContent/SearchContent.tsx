@@ -3,31 +3,33 @@ import {
     ISearchContentProps,
     ISearchContentStyles
 } from './SearchContent.Props';
-import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
+import { BaseComponent, autobind, KeyCodes } from "office-ui-fabric-react/lib/Utilities";
 import{ SearchBox } from 'office-ui-fabric-react/lib/components/SearchBox';
 import{ DatePicker } from 'office-ui-fabric-react/lib/components/DatePicker';
 import * as React from "react";
 import { Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
-import { APIKey } from '../../MockData/MockFrontEnd'
+import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 
 const styles = getStyles();
 
 interface ISearchContentState {
-    googleURL?: string;
-    origin?: string;
-    destination?: string;
+    destination?: string,
+    origin?: string  
 }
 
 export class SearchContent extends BaseComponent<ISearchContentProps, ISearchContentState> {
+    private _originAutocomplete: google.maps.places.Autocomplete;
+    private _originInput: HTMLInputElement;
+    private _destinationAutocomplete: google.maps.places.Autocomplete;
+    private _destinationInput: HTMLInputElement;
+    private _googleMap: GoogleMap;
 
     constructor(props: ISearchContentProps) {
         super(props);
-        this.state = {
-            googleURL: "https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d12924.499537941252!2d-79.0588559!3d35.9194431!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1505772467532"
-        }
+        this.state = {}
     }
 
     public render() {
@@ -35,49 +37,62 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
             <div style={ styles.root }>
                 <div style={ styles.searchPanel }>
                     <Label required={ true }> Origin </Label>
-                    <SearchBox onChange={this.onOriginChange} style={{ width: '30%', float: 'left'}} labelText='Managua, Nicaragua' />
+                    <input ref={ (input) => this._originInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
                     <Label required={ true }> Destination </Label>
-                    <SearchBox onChange={this.onDestinationChange} labelText='Masaya, Nicaragua' />
+                    <input ref={ (input) => this._destinationInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
                     <Label required={ true }> Depart Date </Label>
                     <DatePicker placeholder='Choose the date to leave' isRequired={ true }/>
                     <Label> Arrive by Date </Label>
-                    <DatePicker placeholder='Latest date to arrive' />
+                    <DatePicker placeholder='Latest date to arrive'/>
                     <div style={ styles.searchButtonBox }>
-                        <Button text='Search' onClick={ this.onRoute}/>
+                        <Button text='Search' onClick={ this.onRouteButton }/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap />
+                    <GoogleMap componentRef={ this._resolveRef("_googleMap") } origin={ this.state.origin } destination={ this.state.destination }/>
                 </div>
             </div>
         )
     }
 
-    // <iframe width='100%' height='100%' src={ this.state.googleURL }/>
-
-    @autobind
-    public onRoute() {
-        this.setState({googleURL: "https://www.google.com/maps/embed/v1/directions" +
-            "?key=" + APIKey +
-            "&origin=" + this.state.origin +
-            "&destination=" + this.state.destination});
+    public componentDidMount() {
+        this._originAutocomplete = new google.maps.places.Autocomplete(this._originInput ,{componentRestrictions: { country: supportedCountries[0]}});        
+        this._destinationAutocomplete = new google.maps.places.Autocomplete(this._destinationInput ,{componentRestrictions: { country: supportedCountries[0]}});
     }
 
     @autobind
-    private onOriginChange(newValue: string) {
-        console.log(this.state.origin)
-        this.setState( {
-                origin: newValue.replace(', ','+').replace(' ,','+').replace(' ','+').replace(',','+')
-            }
-        )
-        console.log(this.state.origin)        
+    public onRouteButton() {   
+        if(!this._originAutocomplete.getPlace() || !this._originAutocomplete.getPlace().geometry) {
+            alert("Enter a valid origin");
+        }
+        else if(!this._destinationAutocomplete.getPlace() || !this._destinationAutocomplete.getPlace().geometry) {
+            alert("Enter a valid destination");
+        }
+        else {
+            this.setState({
+                origin: this._originInput.value,
+                destination: this._destinationInput.value
+            });
+        }
     }
 
     @autobind
-    private onDestinationChange(newValue: string) {
-        this.setState( {
-                destination: newValue.replace(', ','+').replace(' ,','+').replace(' ','+').replace(',','+')
+    public onRouteEnter(ev: React.KeyboardEvent<HTMLInputElement>) {
+        if(ev.which === KeyCodes.enter) {
+            event.preventDefault();
+            event.stopPropagation();
+            if(!this._originAutocomplete.getPlace() || !this._originAutocomplete.getPlace().geometry) {
+                alert("Enter a valid origin");
             }
-        )
+            else if(!this._destinationAutocomplete.getPlace() || !this._destinationAutocomplete.getPlace().geometry) {
+                alert("Enter a valid destination");
+            }
+            else {
+                this.setState({
+                    origin: this._originInput.value,
+                    destination: this._destinationInput.value
+                });
+            }
+        }
     }
 }
