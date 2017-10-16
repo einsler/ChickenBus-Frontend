@@ -6,7 +6,7 @@ import {
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
 import { getStyles } from './GoogleMap.styles'
-import { sampleGeoJSON, supportedCountries } from '../../MockData/MockFrontEnd'
+import { supportedCountries, IconsForMap } from '../../MockData/FrontEndConsts'
 import { Feature, LineString } from "geojson";
 
 interface IGoogleMapState {
@@ -71,10 +71,12 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 lngDest = results[0].geometry.location.lng();
                                 let originMarker = new google.maps.Marker({
                                     map: this._map,
+                                    //icon: IconsForMap.origin,
                                     position: new google.maps.LatLng(latOrig, lngOrig)
                                 });
                                 let destinationMarker = new google.maps.Marker({
                                     map: this._map,
+                                    //icon: IconsForMap.destination,
                                     position: new google.maps.LatLng(latDest, lngDest)
                                 });
                                 this.setState({
@@ -84,7 +86,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 fetch('/api/routes/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig+'&lngDest='+ lngDest+'&latDest='+latDest).then((response: any) => {
                                     return response.json();
                                 }).then(function(responseJson){
-                                    console.log(responseJson[0]);
                                     let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
                                     let lastStopCoords = responseJson[0].geometry.coordinates[responseJson[0].geometry.coordinates.length-1];
                                     let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);

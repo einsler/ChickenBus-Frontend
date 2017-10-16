@@ -10,7 +10,7 @@ import * as React from "react";
 import { Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
-import { APIKey, supportedCountries } from '../../MockData/MockFrontEnd'
+import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 
 const styles = getStyles();

@@ -9,7 +9,7 @@ import { Persona } from 'office-ui-fabric-react/lib/Persona';
 import * as React from 'react';
 import { HomeContent, SearchContent } from "../index";
 import { getStyles } from "./BasePage.styles";
-import { examplePersona } from "../../MockData/MockFrontEnd";
+import { examplePersona } from "../../MockData/FrontEndConsts";
 
 interface IBasePageState {
     content: JSX.Element;
