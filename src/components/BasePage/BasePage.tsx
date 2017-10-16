@@ -35,9 +35,8 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                     </div>
                     <div style = {styles.pivot}>
                       <Pivot onLinkClick = {this.onLinkClick}>
-                        <PivotItem linkText='Home'/>
                         <PivotItem linkText='Search'/>
-                        <PivotItem linkText='Entry Gate'/>
+                        <PivotItem linkText='Route Entry'/>
                       </Pivot>
                     </div>
                     <div style={ styles.profile }>
@@ -60,13 +59,10 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     private onLinkClick(itemKey: PivotItem): void {
         let content: JSX.Element;
         switch(itemKey.props.linkText){
-          case 'Home':
-            content = <HomeContent/>
-            break;
           case 'Search':
             content = <SearchContent/>
             break;
-          case 'Entry Gate':
+          case 'Route Entry':
             content = <EnterGate/>
             break;
         }

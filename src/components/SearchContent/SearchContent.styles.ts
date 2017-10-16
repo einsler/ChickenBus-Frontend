@@ -23,6 +23,7 @@ import {
       searchButtonBox: {
         display: 'flex',
         justifyContent: 'center',
+        margin: '20px'
       },
       googleMap: {
         width: '78vw',

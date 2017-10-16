@@ -10,7 +10,7 @@ import { TextField } from "office-ui-fabric-react/lib/TextField";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { PrimaryButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
 import { getStyles } from "./HomeContent.styles";
-import { exampleBlogItem } from "../../MockData/MockFrontEnd";
+import { exampleBlogItem } from "../../MockData/FrontEndConsts";
 import { IBlogItem } from "./index";
 import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
