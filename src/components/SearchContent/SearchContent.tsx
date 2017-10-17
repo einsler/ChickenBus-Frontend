@@ -12,6 +12,7 @@ import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
 import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
+import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 
 const styles = getStyles();
 
@@ -21,11 +22,8 @@ interface ISearchContentState {
 }
 
 export class SearchContent extends BaseComponent<ISearchContentProps, ISearchContentState> {
-    private _originAutocomplete: google.maps.places.Autocomplete;
-    private _originInput: HTMLInputElement;
-    private _destinationAutocomplete: google.maps.places.Autocomplete;
-    private _destinationInput: HTMLInputElement;
-    private _googleMap: GoogleMap;
+    private _destinationAutocomplete: PlaceAutocomplete;
+    private _originAutocomplete: PlaceAutocomplete;
 
     constructor(props: ISearchContentProps) {
         super(props);
@@ -36,59 +34,32 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         return(
             <div style={ styles.root }>
                 <div style={ styles.searchPanel }>
-                    <Label required={ true }> Origin </Label>
-                    <input ref={ (input) => this._originInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
-                    <Label required={ true }> Destination </Label>
-                    <input ref={ (input) => this._destinationInput = input } style={ styles.locationInput } onKeyPress={ this.onRouteEnter }/>
+                    <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
+                    <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                     <div style={ styles.searchButtonBox }>
-                        <Button text='Search' onClick={ this.onRouteButton }/>
+                        <Button text='Search' onClick={ this._onRoute }/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap componentRef={ this._resolveRef("_googleMap") } origin={ this.state.origin } destination={ this.state.destination }/>
+                    <GoogleMap origin={ this.state.origin } destination={ this.state.destination }/>
                 </div>
             </div>
         )
     }
 
-    public componentDidMount() {
-        this._originAutocomplete = new google.maps.places.Autocomplete(this._originInput ,{componentRestrictions: { country: supportedCountries[0]}});        
-        this._destinationAutocomplete = new google.maps.places.Autocomplete(this._destinationInput ,{componentRestrictions: { country: supportedCountries[0]}});
-    }
-
     @autobind
-    public onRouteButton() {   
-        if(!this._originAutocomplete.getPlace() || !this._originAutocomplete.getPlace().geometry) {
+    public _onRoute() {   
+        if(!this._originAutocomplete.getPlace()) {
             alert("Enter a valid origin");
         }
-        else if(!this._destinationAutocomplete.getPlace() || !this._destinationAutocomplete.getPlace().geometry) {
+        else if(!this._destinationAutocomplete.getPlace()) {
             alert("Enter a valid destination");
         }
         else {
             this.setState({
-                origin: this._originInput.value,
-                destination: this._destinationInput.value
+                origin: this._originAutocomplete.getPlace(),
+                destination: this._destinationAutocomplete.getPlace()
             });
-        }
-    }
-
-    @autobind
-    public onRouteEnter(ev: React.KeyboardEvent<HTMLInputElement>) {
-        if(ev.which === KeyCodes.enter) {
-            event.preventDefault();
-            event.stopPropagation();
-            if(!this._originAutocomplete.getPlace() || !this._originAutocomplete.getPlace().geometry) {
-                alert("Enter a valid origin");
-            }
-            else if(!this._destinationAutocomplete.getPlace() || !this._destinationAutocomplete.getPlace().geometry) {
-                alert("Enter a valid destination");
-            }
-            else {
-                this.setState({
-                    origin: this._originInput.value,
-                    destination: this._destinationInput.value
-                });
-            }
         }
     }
 }

@@ -21,14 +21,12 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      */
     componentRef?: (component: ISearchContent) => void;
 
-    // End of props shared by all components.
-
-    content?: JSX.Element;
-
     /**
      * The optional custom styling to be applied to the SearchContent component.
      */
     styles?: ISearchContentStyles;
+    // End of props shared by all components.
+
  }
 
  export interface ISearchContentStyles {
