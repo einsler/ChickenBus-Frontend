@@ -10,7 +10,7 @@ import { TextField } from "office-ui-fabric-react/lib/TextField";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { PrimaryButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
 import { getStyles } from "./HomeContent.styles";
-import { exampleBlogItem } from "../../MockData/FrontEndConsts";
+//import { exampleBlogItem } from "../../MockData/FrontEndConsts";
 import { IBlogItem } from "./index";
 import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
@@ -46,7 +46,7 @@ export class HomeContent extends BaseComponent<IHomeContentProps, IHomeContentSt
               <div style = { styles.blog }>
                 <Label> Blog Content </Label>
                 <List
-                  items = { exampleBlogItem }
+                  //items = { exampleBlogItem }
                   onRenderCell = { (item: IBlogItem, index) => (
                   <div className = 'ms-ListBasicExample-ItemCell' data-is-focusable = { true }>
                     <Image
@@ -71,7 +71,7 @@ export class HomeContent extends BaseComponent<IHomeContentProps, IHomeContentSt
                 <div style = {styles.ad1}>
                 <Label> Advertisements </Label>
                 <List
-                  items = { exampleBlogItem }
+                  //items = { exampleBlogItem }
                   onRenderCell = { (item: IBlogItem, index) => (
                   <div className = 'ms-ListBasicExample-ItemCell' data-is-focusable = { true }>
                     <Image
@@ -96,7 +96,7 @@ export class HomeContent extends BaseComponent<IHomeContentProps, IHomeContentSt
                 <div style = {styles.ad2}>
                 <Label> Advertisements </Label>
                 <List
-                  items = { exampleBlogItem }
+                  //items = { exampleBlogItem }
                   onRenderCell = { (item: IBlogItem, index) => (
                   <div className = 'ms-ListBasicExample-ItemCell' data-is-focusable = { true }>
                     <Image

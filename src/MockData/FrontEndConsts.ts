@@ -42,8 +42,7 @@ export const IconsForMap: MapIcons = {
   }
 }
 
-import { IBlogItem } from '../Components/HomeContent/HomeContent.Props';
-
+/**
   export const exampleBlogItem: IBlogItem[] = [
     {
       title: '10 Great Surfing Spots in Nicaragua',
@@ -71,3 +70,4 @@ import { IBlogItem } from '../Components/HomeContent/HomeContent.Props';
       imgurl: 'https://i.ytimg.com/vi/RA3zhDWgkMU/maxresdefault.jpg'
     }
   ]
+  */
