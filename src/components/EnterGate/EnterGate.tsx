@@ -21,7 +21,7 @@ interface IEnterGateState {
   pickUP?: string;
   dropOFF?: string;
   stops: PlaceAutocomplete[];
-  times?: string[];  
+  times?: string[];
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
@@ -57,7 +57,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     @autobind
     private removeTime(): void {
         if (this._pickUpTime.value != null){
-            this._times.removeChild(this._times.lastChild)            
+            this._times.removeChild(this._times.lastChild)
             this.setState({
               times: this.state.times.slice(0, this.state.times.length-1)
             })
@@ -84,57 +84,33 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private  generateStops() {
-        console.log("called")
-        let counter = 0;
-        let geoCoder = new google.maps.Geocoder();
-        let stopRequest: google.maps.GeocoderRequest;
-        let stops: any = []
-        stopRequest = {
-            address: this._origin.getPlace().formatted_address,
-            componentRestrictions: { country: supportedCountries[0] },
-        }
-        stops[0] = geoCoder.geocode(stopRequest, (result)=>{
-            console.log("coded")
-            stops.push({"coordinates": [result[0].geometry.location.lng, result[0].geometry.location.lat]})
-        });
-        this.state.stops.forEach((p, index) => {
-            if(!p.getPlace()) return null
-            stopRequest = {
-                address: p.getPlace().formatted_address,
-                componentRestrictions: { country: supportedCountries[0] },
-            }
-            console.log("runing")            
-            geoCoder.geocode(stopRequest, (result)=>{
-                console.log("coded")
-                counter += 1;                
-                stops.push({"coordinates": [result[0].geometry.location.lng, result[0].geometry.location.lat]})
+            let geoCoder = new google.maps.Geocoder();
+            let stopRequest: google.maps.GeocoderRequest;
+            let stops: any = []
+            let autoCompletes: PlaceAutocomplete[] = [this._origin].concat(this.state.stops.concat(this._destination))
+            let counter = 0;
+            autoCompletes.forEach((p, index) => {
+                if(!p.getPlace()) return null
+                stopRequest = {
+                    address: p.getPlace().formatted_address,
+                    componentRestrictions: { country: supportedCountries[0] },
+                }
+                geoCoder.geocode(stopRequest, (result)=>{
+                    console.log(result);
+                    stops.push({"coordinates": [result[0].geometry.location.lng, result[0].geometry.location.lat]})
+                    counter++;
+                    if(counter === autoCompletes.length){
+                        this.addRoute(stops);
+                    }
+                });
             });
-            console.log(counter + " " + index)
-            while(counter != index+1) {
-                console.log("ran")
-            }
-        });
-        stopRequest = {
-            address: this._destination.getPlace().formatted_address,
-            componentRestrictions: { country: supportedCountries[0] },
-        }
-        stops.push(geoCoder.geocode(stopRequest, (result)=>{
-            console.log("coded")
-            stops.push({"coordinates": [result[0].geometry.location.lng, result[0].geometry.location.lat]})
-        }));
-        while(counter < 2) {
-            console.log("ran")
-        }
-        return stops
-    }
+        };
+
 
     @autobind
-    private addRoute(): void{
-        if(!this.generateStops()) {
-            return;
-        }
+    private addRoute(stops: any[]): void{
         let route = {
-            "stops" : this.generateStops(),
+            "stops" : stops,
             "name": this._origin.getPlace().name + '-' + this._destination.getPlace().name,
             "cost": 0,
             "times": [-1],
@@ -174,7 +150,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             <Button text='Remove Pickup Time' onClick={this.removeTime}/>
                         </div>
                         <ul ref={(times) => this._times = times}>
-                            
+
                         </ul>
                     </div>
                     <div style={styles.flex}>
@@ -183,7 +159,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                     <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
                     <div style={ styles.enterButtonBox }>
-                        <Button text='Add Route' onClick={this.addRoute}/>
+                        <Button text='Add Route' onClick={this.generateStops}/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
