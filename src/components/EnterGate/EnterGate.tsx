@@ -8,9 +8,10 @@ import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import { Button } from 'office-ui-fabric-react/lib/Button';
+import { Button, IconButton } from 'office-ui-fabric-react/lib/Button';
 import { GoogleMap } from "../GoogleMap/index";
 import { getStyles } from './EnterGate.styles'
+import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 
 const styles = getStyles();
 
@@ -18,12 +19,16 @@ interface IEnterGateState {
   googleURL?: string;
   pickUP?: string;
   dropOFF?: string;
+  stops: PlaceAutocomplete[];
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
+    private _stops: PlaceAutocomplete[];
     constructor(props: IEnterGateProps) {
         super(props);
+        this._stops = [];
         this.state = {
+            stops: []
         }
     }
 
@@ -31,15 +36,41 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     }
 
-    public addRoute(): void{
+    @autobind
+    public addStop(): void{
+        this._stops.push(new PlaceAutocomplete({title: 'Stop ' + (this.state.stops.length + 1)}));
+        this.setState({
+            stops: this._stops
+        })
+    }
+
+    @autobind
+    public removeStop(): void {
+        if(this.state.stops.length > 0) {
+            this._stops.pop();
+            this.setState({
+                stops: this._stops
+            })
+        }
+    }
+
+    public addRoute(): void {
 
     }
 
-
     public render() {
+        console.log("ran")
         return(
           <div style={ styles.root }>
               <div style={styles.form}>
+                <Label> Stops </Label>
+                <PlaceAutocomplete title='Origin' />
+                {this.state.stops.map((item)=>item.render())}
+                <div style={styles.enterButtonBox}>
+                    <IconButton iconProps={{iconName: 'Add'}} onClick={this.addStop}/>
+                    <IconButton iconProps={{iconName: 'SkypeMinus'}} onClick={this.removeStop}/>
+                </div>
+                <PlaceAutocomplete title='Destination'/>
                 <Label> Times </Label>
                 <TextField label='Trip Duration' placeholder= '4:00'/>
                 <TextField label='Pick-Up Time' placeholder= '13:00'/>

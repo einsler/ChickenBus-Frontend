@@ -44,4 +44,7 @@ import { IStyle, ITheme, IRawStyle } from 'office-ui-fabric-react/lib/Styling';
 
  export interface IPlaceAutocompleteStyles {
     input: IRawStyle;
+    root: IRawStyle;
+    labelContainer: IRawStyle;
+    inputContainer: IRawStyle;
  }
