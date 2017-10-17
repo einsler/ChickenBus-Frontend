@@ -13,17 +13,16 @@ import {
         width: '100%'
       },
       root: {
+        margin: '10px',
         display: 'flex'
       },
       labelContainer: {
         width: '25%',
-        margin: '5px',
         justifyContent: 'center',
         alignContent: 'center'
       },
       inputContainer: {
         width: '75%',
-        margin: '5px',
         justifyContent: 'center',
         alignContent: 'center'
       }

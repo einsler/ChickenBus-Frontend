@@ -32,7 +32,7 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
                     <Label> {this.props.title} </Label>
                 </div>
                 <div style={styles.inputContainer}> 
-                    <input ref={ (input) => this._input = input } style={ styles.input } onKeyPress={ this._onRouteEnter }/>
+                    <input ref={ (input) => this._input = input } placeholder="   Input Value" style={ styles.input } onKeyPress={ this._onRouteEnter }/>
                 </div>
             </div>
         )

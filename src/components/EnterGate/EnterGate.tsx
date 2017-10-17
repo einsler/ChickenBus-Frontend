@@ -138,12 +138,20 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     <PlaceAutocomplete componentRef={this._resolveRef("_destination")} title='Destination'/>
                     <div style={styles.times}>
                         <div style={styles.flex}>
-                            <Label> Trip Duration:   </Label>
-                            <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= '90 minutes'/>
+                            <div style={styles.label}>
+                                <Label> Trip Duration</Label>
+                            </div>
+                            <div style={styles.input}>
+                                <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= '90 minutes'/>
+                            </div>
                         </div>
                         <div style={styles.flex}>
-                            <Label> Pick-Up Time:   </Label>
-                            <TextField componentRef = {this._resolveRef('_pickUpTime')} placeholder= '13:00'/>
+                            <div style={styles.label}>
+                                <Label>Pick-Up Time</Label>
+                            </div>
+                            <div style={styles.input}>
+                                <TextField componentRef = {this._resolveRef('_pickUpTime')} placeholder= '13:00'/>
+                            </div>
                         </div>
                         <div style={ styles.enterButtonBox }>
                             <Button text='Add Pickup Time' onClick={this.addTime}/>
@@ -154,8 +162,12 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         </ul>
                     </div>
                     <div style={styles.flex}>
-                        <Label> Cost:   </Label>
-                        <TextField componentRef = {this._resolveRef('_cost')} placeholder= '$'/>
+                        <div style={styles.label}>
+                            <Label>Cost</Label>
+                        </div>
+                        <div style={styles.input}>
+                            <TextField componentRef = {this._resolveRef('_cost')} placeholder= '$'/>
+                        </div>
                     </div>
                     <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
                     <div style={ styles.enterButtonBox }>
