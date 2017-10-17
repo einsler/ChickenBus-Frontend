@@ -11,7 +11,7 @@ import { IStyle, ITheme, IRawStyle } from 'office-ui-fabric-react/lib/Styling';
      /** 
       * Sets the text of the PlaceAutocomplete component
       */
-     getPlace: () => string;
+     getPlace: () => google.maps.places.PlaceResult;
  }
 
  export interface IPlaceAutocompleteProps extends React.HTMLAttributes<HTMLElement | PlaceAutocomplete> {

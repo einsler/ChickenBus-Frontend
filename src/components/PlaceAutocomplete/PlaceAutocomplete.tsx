@@ -51,8 +51,8 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
         }
     }
 
-    public getPlace(): string {
+    public getPlace(): google.maps.places.PlaceResult {
         let place = this._autocomplete.getPlace();
-        return place ? this._autocomplete.getPlace().formatted_address : null;
+        return place ? this._autocomplete.getPlace() : null;
     }
 }

@@ -57,8 +57,8 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         }
         else {
             this.setState({
-                origin: this._originAutocomplete.getPlace(),
-                destination: this._destinationAutocomplete.getPlace()
+                origin: this._originAutocomplete.getPlace().formatted_address,
+                destination: this._destinationAutocomplete.getPlace().formatted_address
             });
         }
     }
