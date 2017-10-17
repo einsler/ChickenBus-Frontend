@@ -22,5 +22,10 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     googleMap: {
       width: '70vw',
       height: '88vh',
+    },
+    form: {
+      margin: '10px',
+      display: 'in-line block',
+      width: '20%'
     }
 }})

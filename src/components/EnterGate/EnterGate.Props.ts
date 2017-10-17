@@ -35,4 +35,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      entryPanel: IStyle;
      enterButtonBox: IStyle;
      googleMap: IStyle;
+     form: IStyle;
   }

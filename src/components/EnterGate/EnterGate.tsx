@@ -27,36 +27,38 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         }
     }
 
+    public addTime():void{
+
+    }
+
+    public addRoute(): void{
+
+    }
+
+
     public render() {
         return(
           <div style={ styles.root }>
-              <div style={ styles.entryPanel }>
-                  <TextField required = {true} placeholder = 'Origin Country' />
-                  <TextField required = {true} placeholder = 'Origin City' />
-                  <TextField placeholder = 'Pick-Up Address' />
-                  <Label required={ true }> Pick-Up Location </Label>
-                  <SearchBox onChange={this.onPickUpSet} style={{ width: '30%', float: 'left'}} />
+              <div style={styles.form}>
+                <Label> Times </Label>
+                <TextField label='Trip Duration' placeholder= '4:00'/>
+                <TextField label='Pick-Up Time' placeholder= '13:00'/>
+                <div style={ styles.enterButtonBox }>
+                  <Button text='Add Pick-Up Time' onClick={this.addTime}/>
+                </div>
 
-                  <TextField placeholder = 'Pick-Up Location Notes' />
-
-                  <TextField required = {true} placeholder = 'Destination Country' />
-                  <TextField required = {true} placeholder = 'Destination City' />
-                  <TextField placeholder = 'Drop-Off Address' />
-                  <Label required={ true }> Drop-Off Location </Label>
-                  <SearchBox onChange={this.onDropOffSet} />
-
-                  <TextField required = {true} placeholder = 'Departure Time' />
-                  <TextField placeholder = 'Estimated Travel Duration' />
-                  <TextField required = {true} placeholder = 'Estimated Arrival Time' />
-                  <TextField placeholder = 'Mode of Transportation' />
-                  <TextField placeholder = 'Type of Service' />
-                  <TextField placeholder = 'Make/Model' />
-                  <div style={ styles.enterButtonBox }>
-                      <Button text='Enter' onClick={this.uploadData}/>
-                  </div>
+              <div>
+                <TextField label='Cost' placeholder= '$'/>
+              </div>
+              <div>
+                <TextField label='Notes' multiline rows={ 4 }/>
+              </div>
+              <div style={ styles.enterButtonBox }>
+                <Button text='Add Route' onClick={this.addRoute}/>
+              </div>
               </div>
               <div style={ styles.googleMap }>
-                  <GoogleMap />
+                  <GoogleMap/>
               </div>
           </div>
         )
