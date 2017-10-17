@@ -18,14 +18,22 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     enterButtonBox: {
       display: 'flex',
       justifyContent: 'center',
+      margin: '25px'
     },
     googleMap: {
-      width: '70vw',
+      width: '80%',
       height: '88vh',
     },
     form: {
       margin: '10px',
       display: 'in-line block',
       width: '20%'
+    },
+    flex: {
+      display: 'flex',
+      margin: '10px'
+    },
+    times: {
+      
     }
 }})

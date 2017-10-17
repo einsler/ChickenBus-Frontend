@@ -18,44 +18,71 @@ interface IEnterGateState {
   googleURL?: string;
   pickUP?: string;
   dropOFF?: string;
+  times?: TextField[];
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
+  private _tripDuration: TextField;
+          _pickUpTime: TextField;
+          _cost: TextField;
+          _notes: TextField;
     constructor(props: IEnterGateProps) {
         super(props);
         this.state = {
+          times: []
         }
     }
 
+    @autobind
     public addTime():void{
+      if (this._pickUpTime != null){
+        this.setState({
+          times: this.state.times.concat(this._pickUpTime)
+        })
+      }
+    }
+
+    @autobind
+    public removeTime(): void{
+      if(this.state.times.length > 0) {
+        this.setState({
+          times: this.state.times.slice(0, this.state.times.length-1)
+        })
+      }
 
     }
 
+    @autobind
     public addRoute(): void{
-
+      
     }
-
 
     public render() {
         return(
           <div style={ styles.root }>
               <div style={styles.form}>
-                <Label> Times </Label>
-                <TextField label='Trip Duration' placeholder= '4:00'/>
-                <TextField label='Pick-Up Time' placeholder= '13:00'/>
-                <div style={ styles.enterButtonBox }>
-                  <Button text='Add Pick-Up Time' onClick={this.addTime}/>
+                <div style={styles.times}>
+                  <div style={styles.flex}>
+                    <Label> Trip Duration:   </Label>
+                    <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= '90 minutes'/>
+                  </div>
+                  <div style={styles.flex}>
+                    <Label> Pick-Up Time:   </Label>
+                    <TextField componentRef = {this._resolveRef('_pickUpTime')} placeholder= '13:00'/>
+                  </div>
+                  <div style={ styles.enterButtonBox }>
+                    <Button text='Add Pickup Time' onClick={this.addTime}/>
+                    <Button text='Remove Pickup Time' onClick={this.removeTime}/>
+                  </div>
                 </div>
-
-              <div>
-                <TextField label='Cost' placeholder= '$'/>
-              </div>
-              <div>
-                <TextField label='Notes' multiline rows={ 4 }/>
-              </div>
-              <div style={ styles.enterButtonBox }>
-                <Button text='Add Route' onClick={this.addRoute}/>
-              </div>
+                <div style={styles.flex}>
+                  <Label> Cost:   </Label>
+                  <TextField componentRef = {this._resolveRef('_cost')} placeholder= '$'/>
+                </div>
+                <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
+                <div style={ styles.enterButtonBox }>
+                  <Button text='Add Route' onClick={this.addRoute}/>
+                </div>
               </div>
               <div style={ styles.googleMap }>
                   <GoogleMap/>
