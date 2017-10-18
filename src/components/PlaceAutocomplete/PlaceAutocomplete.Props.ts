@@ -40,6 +40,11 @@ import { IStyle, ITheme, IRawStyle } from 'office-ui-fabric-react/lib/Styling';
      * Callback to be invoked when enter key is pressed while focusing the html input element.
      */
     onEnterPressed?: () => void;
+
+    /** 
+     * Callback invoked when selecting a google place or when losing focus on the input element
+     */
+    onBlur?: () => void;
  }
 
  export interface IPlaceAutocompleteStyles {
