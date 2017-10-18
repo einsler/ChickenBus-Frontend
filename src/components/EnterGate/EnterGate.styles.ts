@@ -21,7 +21,7 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     },
     googleMap: {
       width: '80%',
-      height: '88vh',
+      height: '90vh',
     },
     form: {
       overflowY: 'scroll',
