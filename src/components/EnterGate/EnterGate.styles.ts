@@ -5,7 +5,6 @@ import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
 export const getStyles = memoizeFunction((): IEnterGateStyles => {
   return {
     root: {
-      margin: 'auto',
       width: '100%',
       height: '100%',
       display: 'flex'
@@ -22,7 +21,7 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     },
     googleMap: {
       width: '80%',
-      height: '88vh',
+      height: '90vh',
     },
     form: {
       overflowY: 'scroll',
@@ -32,9 +31,19 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     },
     flex: {
       display: 'flex',
-      margin: '10px'
     },
     times: {
       
+    },
+    label: {
+      width: '25%',
+      margin: '5px',
+      justifyContent: 'center',
+      alignContent: 'center'
+    },
+    input: {
+      width: '75%',
+      justifyContent: 'center',
+      alignContent: 'center'
     }
 }})

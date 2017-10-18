@@ -18,6 +18,8 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
     private _map: google.maps.Map;
     private _mapCanvas: HTMLDivElement;
     private _geoCoder: google.maps.Geocoder;
+    private _directionRenderer: google.maps.DirectionsRenderer;
+    private _directionService: google.maps.DirectionsService;
 
     constructor(props: IGoogleMapProps) {
         super(props);
@@ -40,6 +42,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 zoom: 7
             }
         );
+        this._directionRenderer = new google.maps.DirectionsRenderer();  
+        this._directionRenderer.setMap(this._map);
+        this._directionService = new google.maps.DirectionsService();      
     }
 
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
@@ -86,12 +91,20 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 fetch('/api/routes/find-near?latOrig='+latOrig+'&lngOrig='+lngOrig+'&lngDest='+ lngDest+'&latDest='+latDest).then((response: any) => {
                                     return response.json();
                                 }).then(function(responseJson){
-                                    let routes: google.maps.Data.Feature[] = that._map.data.addGeoJson(responseJson[0]);
-                                    let lastStopCoords = responseJson[0].geometry.coordinates[responseJson[0].geometry.coordinates.length-1];
-                                    let lastStopLatLng: google.maps.LatLng = new google.maps.LatLng(lastStopCoords[1], lastStopCoords[0]);
+                                    let request: google.maps.DirectionsRequest;
+                                    request = {
+                                        origin: new google.maps.LatLng(responseJson.origin[0], responseJson.origin[1]),
+                                        destination: new google.maps.LatLng(responseJson.destination[0], responseJson.destination[1]),
+                                        travelMode: google.maps.TravelMode.DRIVING
+                                    }
+                                    that._directionService.route(request, (res, status) => {
+                                        if(status.toString() === 'OK') {
+                                            that._directionRenderer.setDirections(res);
+                                        }
+                                    });
                                     that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
-                                        new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
-                                        new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
+                                    new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
+                                    new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
                                 });
                     });                      
         });

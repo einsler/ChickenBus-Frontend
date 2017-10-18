@@ -10,13 +10,13 @@ import {
   export const getStyles = memoizeFunction((): IBasePageStyles => {
     return {
       root: {
-        height: '20vh',
         width: '100vw',
       },
       header: {
         width:'100%',
         display: 'flex',
-        backgroundColor: '#000000'
+        backgroundColor: '#A9A9A9',
+        justifyContent: 'flex-End',
       },
       logo: {
         color: '#ffffff',
@@ -28,10 +28,8 @@ import {
       },
       pivot: {
         margin: '10px',
-        color: '#ffffff',
-        position: 'absolute',
-        left: '41%',
-        background: 'white'
+        background: '#A9A9A9',
+        color: 'white'
       }
     }
   });

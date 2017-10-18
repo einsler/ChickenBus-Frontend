@@ -30,17 +30,11 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         return(
             <div style={ styles.root }>
                 <div style={ styles.header }>
-                    <div style={ styles.logo }>
-                        <h2>Place Holder for logo</h2>
-                    </div>
                     <div style = {styles.pivot}>
                       <Pivot onLinkClick = {this.onLinkClick}>
                         <PivotItem linkText='Search'/>
                         <PivotItem linkText='Route Entry'/>
                       </Pivot>
-                    </div>
-                    <div style={ styles.profile }>
-                        <Persona { ...examplePersona} />
                     </div>
                 </div>
                 <div>

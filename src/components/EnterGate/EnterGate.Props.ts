@@ -38,4 +38,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      form: IStyle;
      flex: IStyle;
      times: IStyle;
+     input: IStyle;
+     label: IStyle;
   }

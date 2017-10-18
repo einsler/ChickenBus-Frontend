@@ -89,15 +89,22 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             let stops: any = []
             let autoCompletes: PlaceAutocomplete[] = [this._origin].concat(this.state.stops.concat(this._destination))
             let counter = 0;
+            console.log(autoCompletes);
             autoCompletes.forEach((p, index) => {
                 if(!p.getPlace()) return null
                 stopRequest = {
                     address: p.getPlace().formatted_address,
                     componentRestrictions: { country: supportedCountries[0] },
                 }
-                geoCoder.geocode(stopRequest, (result)=>{
-                    console.log(result);
-                    stops.push({"coordinates": [result[0].geometry.location.lng, result[0].geometry.location.lat]})
+                geoCoder.geocode(stopRequest, (result)=> {
+                    // Check if location returned by geocode has a specific lat and lng. If not then use the center of its bounds
+                    if(result[0].geometry.location.lng() !== null) {
+                        stops.push({"coordinates": [result[0].geometry.location.lng(), result[0].geometry.location.lat()]})
+                    }else {
+                        let centerOfBounds = result[0].geometry.bounds.getCenter()                        
+                        stops.push({"coordinates": [centerOfBounds.lng(), centerOfBounds.lat()]})   
+                    }
+                    // Count amount of geocodes done. If last one then post result to database
                     counter++;
                     if(counter === autoCompletes.length){
                         this.addRoute(stops);
@@ -119,6 +126,9 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         }
         console.log(JSON.stringify(route))
       fetch('/api/routes/create', {
+        headers: {
+            'Content-Type': 'application/json'
+          },
           method: 'post',
           body: JSON.stringify(route)
       }).then((res)=> res.json())
@@ -138,12 +148,20 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     <PlaceAutocomplete componentRef={this._resolveRef("_destination")} title='Destination'/>
                     <div style={styles.times}>
                         <div style={styles.flex}>
-                            <Label> Trip Duration:   </Label>
-                            <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= '90 minutes'/>
+                            <div style={styles.label}>
+                                <Label> Trip Duration</Label>
+                            </div>
+                            <div style={styles.input}>
+                                <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= '90 minutes'/>
+                            </div>
                         </div>
                         <div style={styles.flex}>
-                            <Label> Pick-Up Time:   </Label>
-                            <TextField componentRef = {this._resolveRef('_pickUpTime')} placeholder= '13:00'/>
+                            <div style={styles.label}>
+                                <Label>Pick-Up Time</Label>
+                            </div>
+                            <div style={styles.input}>
+                                <TextField componentRef = {this._resolveRef('_pickUpTime')} placeholder= '13:00'/>
+                            </div>
                         </div>
                         <div style={ styles.enterButtonBox }>
                             <Button text='Add Pickup Time' onClick={this.addTime}/>
@@ -154,8 +172,12 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         </ul>
                     </div>
                     <div style={styles.flex}>
-                        <Label> Cost:   </Label>
-                        <TextField componentRef = {this._resolveRef('_cost')} placeholder= '$'/>
+                        <div style={styles.label}>
+                            <Label>Cost</Label>
+                        </div>
+                        <div style={styles.input}>
+                            <TextField componentRef = {this._resolveRef('_cost')} placeholder= '$'/>
+                        </div>
                     </div>
                     <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
                     <div style={ styles.enterButtonBox }>

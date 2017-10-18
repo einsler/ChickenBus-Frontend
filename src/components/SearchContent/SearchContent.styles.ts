@@ -26,8 +26,8 @@ import {
         margin: '20px'
       },
       googleMap: {
-        width: '78vw',
-        height: '88vh',
+        width: '80vw',
+        height: '91vh',
       },
       locationInput: {
         width: '100%',
