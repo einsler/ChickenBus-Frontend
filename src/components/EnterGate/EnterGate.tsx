@@ -89,6 +89,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             let stops: any = []
             let autoCompletes: PlaceAutocomplete[] = [this._origin].concat(this.state.stops.concat(this._destination))
             let counter = 0;
+            console.log(autoCompletes);
             autoCompletes.forEach((p, index) => {
                 if(!p.getPlace()) return null
                 stopRequest = {
@@ -96,8 +97,15 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     componentRestrictions: { country: supportedCountries[0] },
                 }
                 geoCoder.geocode(stopRequest, (result)=>{
-                    console.log(result);
-                    stops.push({"coordinates": [result[0].geometry.location.lng, result[0].geometry.location.lat]})
+                    // Check if location returned by geocode has a specific lat and lng. If not then use the center of its bounds
+                    if(result[0].geometry.location.lng() !== null) {
+                        stops.push({"coordinates": [result[0].geometry.location.lng(), result[0].geometry.location.lat()]})
+                    }else {
+                        let centerOfBounds = result[0].geometry.bounds.getCenter()                        
+                        stops.push({"coordinates": [centerOfBounds.lng(), centerOfBounds.lat()]})
+                        
+                    }
+                    // Count amount of geocodes done. If last one then post result to database
                     counter++;
                     if(counter === autoCompletes.length){
                         this.addRoute(stops);
