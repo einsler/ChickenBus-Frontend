@@ -21,11 +21,12 @@ interface IEnterGateState {
   pickUP?: string;
   dropOFF?: string;
   stops: PlaceAutocomplete[];
+  route: PlaceAutocomplete[];
   times?: string[];
+  storeRoute?: boolean;
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
-    private _stops: PlaceAutocomplete[];
     private _origin: PlaceAutocomplete;
     private _destination: PlaceAutocomplete;
     private _tripDuration: TextField;
@@ -33,12 +34,17 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _cost: TextField;
     private _notes: TextField;
     private _times: HTMLUListElement;
+    private _stopCount: number;
+    private _stopElements: JSX.Element[];
+    
     constructor(props: IEnterGateProps) {
         super(props);
-        this._stops = [];
+        this._stopCount= 0;
+        this._stopElements = [];
         this.state = {
             stops: [],
-            times: []
+            times: [],
+            route: [],
         }
     }
 
@@ -66,72 +72,59 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private addStop(): void{
-        this._stops.push(new PlaceAutocomplete({title: 'Stop ' + (this.state.stops.length + 1)}));
+        this._stopCount++;
+        this._stopElements = [];
+        let temp: PlaceAutocomplete[] = this.state.stops;
+        temp.push(new PlaceAutocomplete({title: "Stop "+ this._stopCount}));
+        let ref: PlaceAutocomplete[] = [];
+        temp.forEach((item, index)=>this._stopElements.push(<PlaceAutocomplete ref={(ph)=>ref.push(ph)} {...item.props}/>));
         this.setState({
-            stops: this._stops
+            stops: ref
         })
     }
 
     @autobind
     private removeStop(): void {
         if(this.state.stops.length > 0) {
-            this._stops.pop();
+            this._stopCount--;
+            this._stopElements = [];
+            let temp: PlaceAutocomplete[] = this.state.stops.slice(0,this._stopCount);
+            let ref: PlaceAutocomplete[] = [];
+            temp.forEach((item, index)=>this._stopElements.push(<PlaceAutocomplete ref={(ph)=>ref.push(ph)} {...item.props}/>));
             this.setState({
-                stops: this._stops
-            })
+                stops: ref,
+                storeRoute: false                
+            });
         }
     }
 
     @autobind
-    private  generateStops() {
-            let geoCoder = new google.maps.Geocoder();
-            let stopRequest: google.maps.GeocoderRequest;
-            let stops: any = []
-            let autoCompletes: PlaceAutocomplete[] = [this._origin].concat(this.state.stops.concat(this._destination))
-            let counter = 0;
-            console.log(autoCompletes);
-            autoCompletes.forEach((p, index) => {
-                if(!p.getPlace()) return null
-                stopRequest = {
-                    address: p.getPlace().formatted_address,
-                    componentRestrictions: { country: supportedCountries[0] },
+    private generateStops(storeRoute: boolean, skipCheck?: boolean) {
+            let route: PlaceAutocomplete[] = [this._origin].concat(this.state.stops.concat(this._destination))
+            let hasGoodLocationData: boolean = true;
+            route.forEach((p, index) => {
+                if(!p.getPlace()) {
+                    alert("Check your location value for " + p.props.title);
+                    hasGoodLocationData = false;
+                    return;
                 }
-                geoCoder.geocode(stopRequest, (result)=> {
-                    // Check if location returned by geocode has a specific lat and lng. If not then use the center of its bounds
-                    if(result[0].geometry.location.lng() !== null) {
-                        stops.push({"coordinates": [result[0].geometry.location.lng(), result[0].geometry.location.lat()]})
-                    }else {
-                        let centerOfBounds = result[0].geometry.bounds.getCenter()                        
-                        stops.push({"coordinates": [centerOfBounds.lng(), centerOfBounds.lat()]})   
-                    }
-                    // Count amount of geocodes done. If last one then post result to database
-                    counter++;
-                    if(counter === autoCompletes.length){
-                        this.addRoute(stops);
-                    }
-                });
             });
+            if(hasGoodLocationData) {
+                this.setState({
+                    route: route,
+                    storeRoute: storeRoute,
+                });
+            }
         };
 
-
     @autobind
-    private addRoute(stops: any[]): void{
-        let route = {
-            "stops" : stops,
-            "name": this._origin.getPlace().name + '-' + this._destination.getPlace().name,
-            "cost": 0,
-            "times": [-1],
-            "duration": 72,
-            "notes": "blach blah blach"
-        }
-        console.log(JSON.stringify(route))
-      fetch('/api/routes/create', {
-        headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'post',
-          body: JSON.stringify(route)
-      }).then((res)=> res.json())
+    private _addRoute(): void{
+        this.generateStops(true);
+
+    }
+    @autobind
+    private _previewRoute(): void{
+        this.generateStops(false);
     }
 
     public render() {
@@ -140,7 +133,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 <div style={styles.form}>
                     <Label> Stops </Label>
                     <PlaceAutocomplete componentRef={this._resolveRef("_origin")} title='Origin' />
-                    {this.state.stops.map((item)=>item.render())}
+                    {this._stopElements}
                     <div style={styles.enterButtonBox}>
                         <IconButton iconProps={{iconName: 'Add'}} onClick={this.addStop}/>
                         <IconButton iconProps={{iconName: 'SkypeMinus'}} onClick={this.removeStop}/>
@@ -181,11 +174,12 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                     <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
                     <div style={ styles.enterButtonBox }>
-                        <Button text='Add Route' onClick={this.generateStops}/>
+                        <Button text='Preview Route' onClick={this._previewRoute}/>
+                        <Button text='Add Route' onClick={this._addRoute}/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap/>
+                    <GoogleMap locationAutocompletes={ this.state.route } storeRoute={ this.state.storeRoute }/>
                 </div>
             </div>
         )

@@ -32,12 +32,13 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
                     <Label> {this.props.title} </Label>
                 </div>
                 <div style={styles.inputContainer}> 
-                    <input ref={ (input) => this._input = input } placeholder="Input Value" style={ styles.input } onKeyPress={ this._onRouteEnter }/>
+                    <input ref={ (input) => this._input = input } onBlur={ this.props.onBlur} placeholder="Input Value" style={ styles.input } onKeyPress={ this._onRouteEnter }/>
                 </div>
             </div>
         )
     }
 
+    @autobind
     public componentDidMount() {
         this._autocomplete = new google.maps.places.Autocomplete(this._input ,{componentRestrictions: { country: supportedCountries[0]}});                
     }
@@ -52,7 +53,6 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
     }
 
     public getPlace(): google.maps.places.PlaceResult {
-        let place = this._autocomplete.getPlace();
-        return place ? this._autocomplete.getPlace() : null;
+        return this._autocomplete.getPlace();
     }
 }

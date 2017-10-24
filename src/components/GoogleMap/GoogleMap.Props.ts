@@ -2,6 +2,7 @@ import * as React from 'react';
 import { GoogleMap } from './GoogleMap';
 import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { SearchBox } from "office-ui-fabric-react/lib/components/SearchBox";
+import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 
  export interface IGoogleMap {
 
@@ -20,14 +21,20 @@ import { SearchBox } from "office-ui-fabric-react/lib/components/SearchBox";
     styles?: IGoogleMapStyles;
 
     /**
-     * The searchbox used in the searchContent component for inputing the origin.
+     * Array of names of the locations to place corresponding markers on the map. First index corresponds to origin, middle indexes represent stops,
+     * and last index represents the destination.
      */
-    origin?: string;
+    locationAutocompletes?: PlaceAutocomplete[];
 
     /**
-     * The searchbox used in the searchContent component for inputing the destination.
+     * Should the map make a call to the backend to find a route to map using the first and last marker locations.
      */
-    destination?: string;
+    findRoute?: boolean;
+
+    /**
+     * Should the map make a call to the backend to store the route passed by locationAutocompletes
+     */
+    storeRoute?: boolean;
  }
 
  export interface IGoogleMapStyles {
