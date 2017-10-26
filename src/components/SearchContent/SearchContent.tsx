@@ -38,6 +38,14 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     <div style={ styles.searchButtonBox }>
                         <Button text='Search' onClick={ this._onRoute }/>
                     </div>
+                    <div style={ styles.return }>
+                        <p> This space is reserved for returned route information and ads </p>
+                        <li> Pickup Times </li>
+                        <li> Duration </li>
+                        <li> Cost </li>
+                        <li> Notes </li>
+
+                    </div>
                 </div>
                 <div style={ styles.googleMap }>
                     <GoogleMap locationAutocompletes={this.state.originDestination} findRoute={true}/>
@@ -54,7 +62,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     }
 
     @autobind
-    public _onRoute() {   
+    public _onRoute() {
         if(!this._originAutocomplete.getPlace()) {
             alert("Enter a valid origin");
         }

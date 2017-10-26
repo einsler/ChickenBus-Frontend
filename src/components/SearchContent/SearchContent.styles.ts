@@ -16,7 +16,7 @@ import {
         display: 'flex'
       },
       searchPanel: {
-        width: '20vw',
+        width: '24%',
         height: '80vh',
         margin: '10px',
       },
@@ -25,12 +25,21 @@ import {
         justifyContent: 'center',
         margin: '20px'
       },
+      return: {
+        border: 'solid black',
+        height: '77%',
+        margin: '-10px',
+        padding: '10px',
+        background: '#C3E9F0',
+
+      },
       googleMap: {
-        width: '80vw',
+        width: '76%',
         height: '91vh',
       },
       locationInput: {
         width: '100%',
         height: '30px'
-      }
+      },
+
   }})

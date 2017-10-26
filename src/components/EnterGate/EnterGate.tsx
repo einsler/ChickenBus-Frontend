@@ -36,7 +36,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _times: HTMLUListElement;
     private _stopCount: number;
     private _stopElements: JSX.Element[];
-    
+
     constructor(props: IEnterGateProps) {
         super(props);
         this._stopCount= 0;
@@ -50,7 +50,10 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private addTime():void{
-      if (this._pickUpTime.value != null && this.state.times.indexOf(this._pickUpTime.value) < 0){
+      if (this._pickUpTime.value == null || this.state.times.indexOf(this._pickUpTime.value) == 0){
+
+      }
+      else if (this._pickUpTime.value != null && this.state.times.indexOf(this._pickUpTime.value) < 0){
         let li: HTMLLIElement = document.createElement("li");
         li.appendChild(document.createTextNode(this._pickUpTime.value))
         this._times.appendChild(li)
@@ -93,7 +96,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             temp.forEach((item, index)=>this._stopElements.push(<PlaceAutocomplete ref={(ph)=>ref.push(ph)} {...item.props}/>));
             this.setState({
                 stops: ref,
-                storeRoute: false                
+                storeRoute: false
             });
         }
     }
@@ -134,9 +137,14 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     <Label> Stops </Label>
                     <PlaceAutocomplete componentRef={this._resolveRef("_origin")} title='Origin' />
                     {this._stopElements}
+                    <div style={styles.flex}>
+                    <div style={styles.label}>
+                      <p> Add/Subtract Medial Stop </p>
+                    </div>
                     <div style={styles.enterButtonBox}>
-                        <IconButton iconProps={{iconName: 'Add'}} onClick={this.addStop}/>
-                        <IconButton iconProps={{iconName: 'SkypeMinus'}} onClick={this.removeStop}/>
+                          <IconButton iconProps={{iconName: 'Add'}} frameBorder = 'Intermediate Stops' onClick={this.addStop}/>
+                          <IconButton iconProps={{iconName: 'SkypeMinus'}} onClick={this.removeStop}/>
+                    </div>
                     </div>
                     <PlaceAutocomplete componentRef={this._resolveRef("_destination")} title='Destination'/>
                     <div style={styles.times}>
