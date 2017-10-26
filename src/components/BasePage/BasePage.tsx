@@ -26,7 +26,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
           content: <SearchContent/>
         }
     }
-
+    
     public render() {
         return(
             <div style={ styles.root }>
