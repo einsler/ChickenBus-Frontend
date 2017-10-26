@@ -36,6 +36,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                         <Pivot onLinkClick = {this.onLinkClick}>
                           <PivotItem linkText='Search'/>
                           <PivotItem linkText='Route Entry'/>
+                          <PivotItem linkText='Route Log'/>
                         </Pivot>
                       </TooltipHost>
                     </div>
