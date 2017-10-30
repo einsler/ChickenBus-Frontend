@@ -5,8 +5,12 @@ import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
 export const getStyles = memoizeFunction((): ILogContentStyles => {
   return {
     root: {
-      width: '100%',
+      width: '95%',
       height: '100%',
-      display: 'flex'
+      display: 'flex',
+      border: 'solid',
+      margin: '10px',
+      padding: '10px'
+
     },
 }})

@@ -8,7 +8,7 @@ import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { Persona } from 'office-ui-fabric-react/lib/Persona';
 import * as React from 'react';
-import { HomeContent, SearchContent, EnterGate } from "../index";
+import { HomeContent, SearchContent, EnterGate, LogContent } from "../index";
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/FrontEndConsts";
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
@@ -26,7 +26,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
           content: <SearchContent/>
         }
     }
-    
+
     public render() {
         return(
             <div style={ styles.root }>
@@ -62,6 +62,9 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             break;
           case 'Route Entry':
             content = <EnterGate/>
+            break;
+          case 'Route Log':
+            content = <LogContent/>
             break;
         }
         this.setState({content: content})

@@ -26,7 +26,7 @@ import {
         margin: '20px'
       },
       return: {
-        border: 'solid black',
+
         height: '77%',
         margin: '-10px',
         padding: '10px',

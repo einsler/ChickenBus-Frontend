@@ -46,9 +46,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 zoom: 7
             }
         );
-        this._directionRenderer = new google.maps.DirectionsRenderer();  
+        this._directionRenderer = new google.maps.DirectionsRenderer();
         this._directionRenderer.setMap(this._map);
-        this._directionService = new google.maps.DirectionsService();      
+        this._directionService = new google.maps.DirectionsService();
     }
 
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
@@ -84,6 +84,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         return response.json();
                                     }).then(function(responseJson){
                                         console.log(responseJson);
+                                        //loop through array
                                         originMarker.setMap(that._map);
                                         destinationMarker.setMap(that._map);
                                         that.setState({
