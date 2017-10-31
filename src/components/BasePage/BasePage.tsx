@@ -65,9 +65,12 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             break;
           case 'Route Entry':
             content = this._entryGate
+<<<<<<< HEAD
             break;
           case 'Route Log':
             content = <LogContent/>
+=======
+>>>>>>> master
             break;
         }
         this.setState({content: content})

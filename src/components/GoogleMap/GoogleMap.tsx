@@ -48,10 +48,13 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
             }
         );
 <<<<<<< HEAD
+<<<<<<< HEAD
         this._directionRenderer = new google.maps.DirectionsRenderer();
         this._directionRenderer.setMap(this._map);
         this._directionService = new google.maps.DirectionsService();
 =======
+=======
+>>>>>>> master
         this._directionService = new google.maps.DirectionsService();      
 >>>>>>> master
     }
@@ -95,8 +98,11 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         return response.json();
                                     }).then(function(responseJson){
 <<<<<<< HEAD
+<<<<<<< HEAD
                                         console.log(responseJson);
                                         //loop through array
+=======
+>>>>>>> master
 =======
 >>>>>>> master
                                         originMarker.setMap(that._map);
