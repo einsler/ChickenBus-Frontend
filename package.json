@@ -32,6 +32,8 @@
     "office-ui-fabric-react": "^4.44.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
+    "react-expandable-listview": "^0.6.1",
+    "react-motion": "^0.4.8",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
     "webpack": "^3.5.6"
@@ -41,4 +43,4 @@
     "source-map-loader": "^0.2.1",
     "webpack-dev-server": "^2.7.1"
   }
-} 
+}
