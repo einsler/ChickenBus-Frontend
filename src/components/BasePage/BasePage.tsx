@@ -11,6 +11,7 @@ import * as React from 'react';
 import { HomeContent, SearchContent, EnterGate } from "../index";
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/FrontEndConsts";
+import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 
 interface IBasePageState {
     content: JSX.Element;
@@ -35,10 +36,12 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             <div style={ styles.root }>
                 <div style={ styles.header }>
                     <div style = {styles.pivot}>
-                      <Pivot onLinkClick = {this.onLinkClick}>
-                        <PivotItem linkText='Search'/>
-                        <PivotItem linkText='Route Entry'/>
-                      </Pivot>
+                      <TooltipHost content='Please save before switching tabs!' id='myID' calloutProps={ { gapSpace: 0 } }>
+                        <Pivot onLinkClick = {this.onLinkClick}>
+                          <PivotItem linkText='Search'/>
+                          <PivotItem linkText='Route Entry'/>
+                        </Pivot>
+                      </TooltipHost>
                     </div>
                 </div>
                 <div>

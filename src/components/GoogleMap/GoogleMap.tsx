@@ -100,7 +100,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                             }
                                             that._directionService.route(routeRequest, (res, status) => {
                                                 if(status.toString() === 'OK') {
-     
+                                                    let directionRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
+                                                    directionRenderer.setMap(that._map);
+                                                    directionRenderer.setDirections(res);     
                                                     activeDirectionRenderers.push(directionRenderer);                                               
                                                 }
                                             });

@@ -44,7 +44,10 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private addTime():void{
-      if (this._pickUpTime.value != null && this.state.times.indexOf(this._pickUpTime.value) < 0){
+      if (this._pickUpTime.value == null || this.state.times.indexOf(this._pickUpTime.value) == 0){
+
+      }
+      else if (this._pickUpTime.value != null && this.state.times.indexOf(this._pickUpTime.value) < 0){
         let li: HTMLLIElement = document.createElement("li");
         li.appendChild(document.createTextNode(this._pickUpTime.value))
         this._times.appendChild(li)

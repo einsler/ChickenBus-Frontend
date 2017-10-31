@@ -15,7 +15,7 @@ import {
       header: {
         width:'100%',
         display: 'flex',
-        backgroundColor: '#A9A9A9',
+        backgroundColor: '#DFC650',
         justifyContent: 'flex-End',
       },
       logo: {
@@ -28,7 +28,7 @@ import {
       },
       pivot: {
         margin: '10px',
-        background: '#A9A9A9',
+        background: '#C3E9F0',
         color: 'white'
       }
     }

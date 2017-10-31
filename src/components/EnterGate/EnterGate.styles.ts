@@ -34,6 +34,7 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     },
     times: {
       
+
     },
     label: {
       width: '25%',
