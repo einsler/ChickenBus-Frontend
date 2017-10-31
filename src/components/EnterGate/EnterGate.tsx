@@ -20,31 +20,25 @@ interface IEnterGateState {
   googleURL?: string;
   pickUP?: string;
   dropOFF?: string;
-  stops: PlaceAutocomplete[];
   route: PlaceAutocomplete[];
   times?: string[];
   storeRoute?: boolean;
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
-    private _origin: PlaceAutocomplete;
-    private _destination: PlaceAutocomplete;
     private _tripDuration: TextField;
     private _pickUpTime: TextField;
     private _cost: TextField;
     private _notes: TextField;
     private _times: HTMLUListElement;
     private _stopCount: number;
-    private _stopElements: JSX.Element[];
     
     constructor(props: IEnterGateProps) {
         super(props);
         this._stopCount= 0;
-        this._stopElements = [];
         this.state = {
-            stops: [],
             times: [],
-            route: [],
+            route: [new PlaceAutocomplete({title: "Origin"})],
         }
     }
 
@@ -73,26 +67,20 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     @autobind
     private addStop(): void{
         this._stopCount++;
-        this._stopElements = [];
-        let temp: PlaceAutocomplete[] = this.state.stops;
+        let temp: PlaceAutocomplete[] = this.state.route;
         temp.push(new PlaceAutocomplete({title: "Stop "+ this._stopCount}));
-        let ref: PlaceAutocomplete[] = [];
-        temp.forEach((item, index)=>this._stopElements.push(<PlaceAutocomplete ref={(ph)=>ref.push(ph)} {...item.props}/>));
         this.setState({
-            stops: ref
+            route: temp
         })
     }
 
     @autobind
     private removeStop(): void {
-        if(this.state.stops.length > 0) {
+        if(this.state.route.length > 1) {
             this._stopCount--;
-            this._stopElements = [];
-            let temp: PlaceAutocomplete[] = this.state.stops.slice(0,this._stopCount);
-            let ref: PlaceAutocomplete[] = [];
-            temp.forEach((item, index)=>this._stopElements.push(<PlaceAutocomplete ref={(ph)=>ref.push(ph)} {...item.props}/>));
+            let temp: PlaceAutocomplete[] = this.state.route.slice(0,this.state.route.length-1);
             this.setState({
-                stops: ref,
+                route: temp,
                 storeRoute: false                
             });
         }
@@ -100,20 +88,21 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private generateStops(storeRoute: boolean, skipCheck?: boolean) {
-            let route: PlaceAutocomplete[] = [this._origin].concat(this.state.stops.concat(this._destination))
             let hasGoodLocationData: boolean = true;
-            route.forEach((p, index) => {
+            let invalidInputs: string = '';
+            this.state.route.forEach((p, index) => {
                 if(!p.getPlace()) {
-                    alert("Check your location value for " + p.props.title);
                     hasGoodLocationData = false;
+                    invalidInputs += p.props.title + ' ';
                     return;
                 }
             });
             if(hasGoodLocationData) {
                 this.setState({
-                    route: route,
                     storeRoute: storeRoute,
                 });
+            }else {
+                alert("Check your location value for " + invalidInputs);  
             }
         };
 
@@ -132,13 +121,11 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             <div style={ styles.root }>
                 <div style={styles.form}>
                     <Label> Stops </Label>
-                    <PlaceAutocomplete componentRef={this._resolveRef("_origin")} title='Origin' />
-                    {this._stopElements}
+                    {this.state.route.map((val) => val.render())}
                     <div style={styles.enterButtonBox}>
-                        <IconButton iconProps={{iconName: 'Add'}} onClick={this.addStop}/>
-                        <IconButton iconProps={{iconName: 'SkypeMinus'}} onClick={this.removeStop}/>
+                        <Button iconProps={{iconName: 'Add'}} text={ "Add Stop" } onClick={this.addStop}/>
+                        <Button iconProps={{iconName: 'SkypeMinus'}} text={ "Remove Stop" } onClick={this.removeStop}/>
                     </div>
-                    <PlaceAutocomplete componentRef={this._resolveRef("_destination")} title='Destination'/>
                     <div style={styles.times}>
                         <div style={styles.flex}>
                             <div style={styles.label}>

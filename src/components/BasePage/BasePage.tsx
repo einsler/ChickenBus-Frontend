@@ -19,10 +19,14 @@ interface IBasePageState {
 const styles: IBasePageStyles = getStyles();
 
 export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
+    private _searchContent: JSX.Element;
+    private _entryGate: JSX.Element;
     constructor(props: IBasePageProps) {
         super(props);
+        this._searchContent = <SearchContent/>;
+        this._entryGate = <EnterGate/>;
         this.state = {
-          content: <SearchContent/>
+          content: this._searchContent
         }
     }
 
@@ -44,20 +48,19 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         )
     }
 
-    @autobind
-    private _getTabId(itemKey: string): string {
-        return `NavigationPivot_${itemKey}`;
-    }
-
+    /**
+     * Function called on pivot link clicked. Used to change the content 
+     * @param itemKey pivot item clicked
+     */
     @autobind
     private onLinkClick(itemKey: PivotItem): void {
         let content: JSX.Element;
         switch(itemKey.props.linkText){
           case 'Search':
-            content = <SearchContent/>
+            content = this._searchContent;
             break;
           case 'Route Entry':
-            content = <EnterGate/>
+            content = this._entryGate
             break;
         }
         this.setState({content: content})
