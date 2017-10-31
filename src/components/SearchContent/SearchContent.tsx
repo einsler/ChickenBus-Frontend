@@ -33,8 +33,8 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         return(
             <div style={ styles.root }>
                 <div style={ styles.searchPanel }>
-                    <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onBlur={ this._onAutocompleteBlur } onEnterPressed={ this._onRoute } />
-                    <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onBlur={ this._onAutocompleteBlur } onEnterPressed={ this._onRoute } />
+                    <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
+                    <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                     <div style={ styles.searchButtonBox }>
                         <Button text='Search' onClick={ this._onRoute }/>
                     </div>
@@ -54,13 +54,10 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         )
     }
 
-    @autobind
-    public _onAutocompleteBlur() {
-        /**
-         * TO DO
-         */
-    }
-
+    /**
+     * Callback for when the search button is executed. The function will first  check to see if the autocompletes will return
+     * a valid location. If input is valid, then change the state to trigger a rerender.
+     */
     @autobind
     public _onRoute() {
         if(!this._originAutocomplete.getPlace()) {

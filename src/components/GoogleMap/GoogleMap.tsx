@@ -15,6 +15,7 @@ interface IStopInfo {
 
 interface IGoogleMapState {
     activeMarkers?: google.maps.Marker[];
+    activeDirectionRenderers?: google.maps.DirectionsRenderer[];
 }
 const styles: IGoogleMapStyles = getStyles();
 
@@ -22,13 +23,13 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
     private _map: google.maps.Map;
     private _mapCanvas: HTMLDivElement;
     private _geoCoder: google.maps.Geocoder;
-    private _directionRenderer: google.maps.DirectionsRenderer;
     private _directionService: google.maps.DirectionsService;
 
     constructor(props: IGoogleMapProps) {
         super(props);
         this.state = {
-            activeMarkers: []
+            activeMarkers: [],
+            activeDirectionRenderers: []
         };
         this._geoCoder = new google.maps.Geocoder();
     }
@@ -46,18 +47,28 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 zoom: 7
             }
         );
+<<<<<<< HEAD
         this._directionRenderer = new google.maps.DirectionsRenderer();
         this._directionRenderer.setMap(this._map);
         this._directionService = new google.maps.DirectionsService();
+=======
+        this._directionService = new google.maps.DirectionsService();      
+>>>>>>> master
     }
 
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
         if(newProps.locationAutocompletes) {
-            console.log("in map")
-            console.log(newProps.locationAutocompletes)
             let activeMarkers: google.maps.Marker[] = [];
+            let activeDirectionRenderers: google.maps.DirectionsRenderer[] = [];
             let counter = 0;
             let stops:IStopInfo[] = [];
+
+            /**
+             * Call setMap(null) on all rendered features of the google map to clear them
+             */
+            this.state.activeDirectionRenderers.forEach((directionRenderer)=>directionRenderer.setMap(null));
+            this.state.activeMarkers.forEach((marker)=>marker.setMap(null));
+            //
 
             newProps.locationAutocompletes.forEach((autocomplete, index) => {
                 let request: google.maps.GeocoderRequest = {
@@ -83,27 +94,41 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     fetch('/api/routes/find-near?latOrig='+originMarker.getPosition().lat()+'&lngOrig='+originMarker.getPosition().lng()+'&lngDest='+ destinationMarker.getPosition().lng()+'&latDest='+destinationMarker.getPosition().lat()).then((response: any) => {
                                         return response.json();
                                     }).then(function(responseJson){
+<<<<<<< HEAD
                                         console.log(responseJson);
                                         //loop through array
+=======
+>>>>>>> master
                                         originMarker.setMap(that._map);
                                         destinationMarker.setMap(that._map);
-                                        that.setState({
-                                            activeMarkers: activeMarkers
-                                        });
-                                        let request: google.maps.DirectionsRequest;
-                                        request = {
-                                            origin: new google.maps.LatLng(responseJson.origin[0], responseJson.origin[1]),
-                                            destination: new google.maps.LatLng(responseJson.destination[0], responseJson.destination[1]),
-                                            travelMode: google.maps.TravelMode.DRIVING
-                                        }
-                                        that._directionService.route(request, (res, status) => {
-                                            if(status.toString() === 'OK') {
-                                                that._directionRenderer.setDirections(res);
+                                        console.log(responseJson)
+                                        responseJson.forEach((response: any)=>{
+                                            let routeRequest: google.maps.DirectionsRequest;
+                                            routeRequest = {
+                                                origin: new google.maps.LatLng(response.origin[0], response.origin[1]),
+                                                destination: new google.maps.LatLng(response.destination[0], response.destination[1]),
+                                                travelMode: google.maps.TravelMode.DRIVING
                                             }
+                                            that._directionService.route(routeRequest, (res, status) => {
+                                                if(status.toString() === 'OK') {
+                                                    let directionRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
+                                                    directionRenderer.setMap(that._map);
+                                                    directionRenderer.setDirections(res);     
+                                                    activeDirectionRenderers.push(directionRenderer);                                               
+                                                }
+                                            });
                                         });
+                                        that.setState({
+                                            activeMarkers: activeMarkers,
+                                            activeDirectionRenderers: activeDirectionRenderers
+                                        });
+
                                         that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
                                         new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
                                         new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
+                                    }).catch((err)=>{
+                                        alert("Could not find a route!");
+                                        activeMarkers.forEach((marker)=>marker.setMap(null));
                                     });
                                 }else {
                                     let waypoints: google.maps.DirectionsWaypoint[] = []
@@ -116,7 +141,12 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     }
                                     that._directionService.route(request, (res, status) => {
                                         if(status.toString() === 'OK') {
-                                            that._directionRenderer.setDirections(res);
+                                            let directionRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
+                                            directionRenderer.setMap(that._map);
+                                            directionRenderer.setDirections(res);
+                                            this.setState({
+                                                activeDirectionRenderers: [directionRenderer]
+                                            });
                                         }
                                     });
                                     that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
