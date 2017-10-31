@@ -53,7 +53,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     }
 
     /**
-     * Function called on pivot link clicked. Used to change the content 
+     * Function called on pivot link clicked. Used to change the content
      * @param itemKey pivot item clicked
      */
     @autobind
@@ -65,12 +65,9 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             break;
           case 'Route Entry':
             content = this._entryGate
-<<<<<<< HEAD
             break;
           case 'Route Log':
             content = <LogContent/>
-=======
->>>>>>> master
             break;
         }
         this.setState({content: content})

@@ -47,16 +47,10 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 zoom: 7
             }
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-        this._directionRenderer = new google.maps.DirectionsRenderer();
-        this._directionRenderer.setMap(this._map);
+
+
         this._directionService = new google.maps.DirectionsService();
-=======
-=======
->>>>>>> master
-        this._directionService = new google.maps.DirectionsService();      
->>>>>>> master
+
     }
 
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
@@ -97,14 +91,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     fetch('/api/routes/find-near?latOrig='+originMarker.getPosition().lat()+'&lngOrig='+originMarker.getPosition().lng()+'&lngDest='+ destinationMarker.getPosition().lng()+'&latDest='+destinationMarker.getPosition().lat()).then((response: any) => {
                                         return response.json();
                                     }).then(function(responseJson){
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                        console.log(responseJson);
-                                        //loop through array
-=======
->>>>>>> master
-=======
->>>>>>> master
+
                                         originMarker.setMap(that._map);
                                         destinationMarker.setMap(that._map);
                                         console.log(responseJson)
@@ -119,8 +106,8 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                                 if(status.toString() === 'OK') {
                                                     let directionRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
                                                     directionRenderer.setMap(that._map);
-                                                    directionRenderer.setDirections(res);     
-                                                    activeDirectionRenderers.push(directionRenderer);                                               
+                                                    directionRenderer.setDirections(res);
+                                                    activeDirectionRenderers.push(directionRenderer);
                                                 }
                                             });
                                         });
