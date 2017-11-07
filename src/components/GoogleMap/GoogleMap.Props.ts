@@ -40,7 +40,7 @@ import { IRouteInfoProps } from "../RouteInfo/index";
     /**
      * Callback for when the component renders new locations 
      */
-    onDidRenderNewLocations?: (routes?: IRouteInfoProps[])=>void;
+    onDidRenderNewLocations?: (routes?: any[])=>void;
  }
 
  export interface IGoogleMapStyles {

@@ -73,9 +73,19 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     }
 
     @autobind
-    private _onMapDidRenderNewLocations(routes?: IRouteInfoProps[]) {
-        this.setState({
-            routeInfo: routes            
-        })
+    private _onMapDidRenderNewLocations(routes?: any[]) {
+        if(routes) {
+            let routeInfo = routes.map((route)=>route.properties);
+            console.log(routeInfo)
+            this.setState({
+                routeInfo: routeInfo,
+                originDestination: []       
+            })
+        }else {
+            this.setState({
+                routeInfo: undefined,
+                originDestination: []       
+            })
+        }
     }
 }

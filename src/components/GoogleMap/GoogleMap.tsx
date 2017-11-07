@@ -114,7 +114,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         console.log(responseJson);
                                         originMarker.setMap(that._map);
                                         destinationMarker.setMap(that._map);
-                                        responseJson[0].forEach((response: any)=>{
+                                        responseJson.forEach((response: any)=>{
                                             let routeRequest: google.maps.DirectionsRequest;
                                             routeRequest = {
                                                 origin: new google.maps.LatLng(response.origin[0], response.origin[1]),
@@ -134,13 +134,13 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                             activeMarkers: activeMarkers,
                                             activeDirectionRenderers: activeDirectionRenderers
                                         });
-
+                                        //console.log(responseJson[1])
+                                        //that.props.onDidRenderNewLocations(responseJson[1]);                                        
+                                    }).then(()=>{
                                         that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
                                         new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
                                         new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
-                                        console.log(responseJson[1])
-                                        //that.props.onDidRenderNewLocations(responseJson[1]);                                        
-                                    }).catch(()=>{this.state.activeMarkers.forEach((marker)=>marker.setMap(null)); alert("No route found!");});
+                                    })//.catch(()=>{that.props.onDidRenderNewLocations(); this.state.activeMarkers.forEach((marker)=>marker.setMap(null)); alert("No route found!");});
                                 }else {
                                     let waypoints: google.maps.DirectionsWaypoint[] = []
                                     newProps.locationAutocompletes.slice(1,counter-1).forEach((item)=>{waypoints.push({location: item.getPlace().formatted_address, stopover: false})});
@@ -165,6 +165,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
                                     if(newProps.routeProperties) {
                                         let info = newProps.routeProperties;
+                                        console.log(stops);
                                         let route = {
                                             "stops" : stops,
                                             "name": info.name,
@@ -174,7 +175,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                             "notes": info.notes
                                         }
                                       fetch('/api/routes/create', {
-                                        headers: [['application/json']],
                                           method: 'post',
                                           body: JSON.stringify(route)
                                       }).then((res: any)=> res.json())
