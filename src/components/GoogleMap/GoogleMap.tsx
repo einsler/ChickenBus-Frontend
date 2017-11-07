@@ -47,7 +47,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 zoom: 7
             }
         );
-        this._directionService = new google.maps.DirectionsService();      
+        this._directionService = new google.maps.DirectionsService();
     }
 
     public shouldComponentUpdate(newProps: IGoogleMapProps) {
@@ -79,7 +79,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
             this.state.activeMarkers.forEach((marker)=>marker.setMap(null));
 
             newProps.locationAutocompletes.forEach((autocomplete, index) => {
-                
+
                 let request: google.maps.GeocoderRequest = {
                     address: autocomplete.getPlace().formatted_address,
                     componentRestrictions: { country: supportedCountries[0] },
@@ -87,7 +87,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 this._geoCoder.geocode(request,
                     (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
                         {
-                            console.log("geocode")                            
+                            console.log("geocode")
                             stops.push({"coordinates": [results[0].geometry.location.lng(), results[0].geometry.location.lat()]})
                             let marker = new google.maps.Marker({
                                 // map: this._map,
@@ -107,7 +107,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 console.log(newProps.locationAutocompletes[1].getPlace().name);
                                 console.log(this.props.locationAutocompletes[1].getPlace().name);
                                 if(newProps.findRoute) {
-                                    console.log("before api call")                                    
+                                    console.log("before api call")
                                     fetch('/api/routes/find-near?latOrig='+originMarker.getPosition().lat()+'&lngOrig='+originMarker.getPosition().lng()+'&lngDest='+ destinationMarker.getPosition().lng()+'&latDest='+destinationMarker.getPosition().lat()).then((response: any) => {
                                         return response.json();
                                     }).then(function(responseJson){
@@ -125,8 +125,8 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                                 if(status.toString() === 'OK') {
                                                     let directionRenderer: google.maps.DirectionsRenderer = new google.maps.DirectionsRenderer();
                                                     directionRenderer.setMap(that._map);
-                                                    directionRenderer.setDirections(res);     
-                                                    activeDirectionRenderers.push(directionRenderer);                                               
+                                                    directionRenderer.setDirections(res);
+                                                    activeDirectionRenderers.push(directionRenderer);
                                                 }
                                             });
                                         });
@@ -135,7 +135,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                             activeDirectionRenderers: activeDirectionRenderers
                                         });
                                         //console.log(responseJson[1])
-                                        //that.props.onDidRenderNewLocations(responseJson[1]);                                        
+                                        //that.props.onDidRenderNewLocations(responseJson[1]);
                                     }).then(()=>{
                                         that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
                                         new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
@@ -176,6 +176,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         }
                                       fetch('/api/routes/create', {
                                           method: 'post',
+                                          headers: {
+                                            'Content-Type': 'application/json'
+                                          },
                                           body: JSON.stringify(route)
                                       }).then((res: any)=> res.json())
                                     }
