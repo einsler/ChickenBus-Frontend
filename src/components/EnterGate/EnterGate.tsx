@@ -8,21 +8,19 @@ import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import { Button, IconButton } from 'office-ui-fabric-react/lib/Button';
+import { CommandButton } from 'office-ui-fabric-react/lib/Button';
 import { GoogleMap } from "../GoogleMap/index";
 import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
+import { IRouteInfoProps } from "../RouteInfo/index";
 
 const styles = getStyles();
 
 interface IEnterGateState {
-  googleURL?: string;
-  pickUP?: string;
-  dropOFF?: string;
   route: PlaceAutocomplete[];
   times?: string[];
-  storeRoute?: boolean;
+  routeProperties: IRouteInfoProps;
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
@@ -39,6 +37,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         this.state = {
             times: [],
             route: [new PlaceAutocomplete({title: "Origin"})],
+            routeProperties: undefined
         }
     }
 
@@ -52,7 +51,8 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         li.appendChild(document.createTextNode(this._pickUpTime.value))
         this._times.appendChild(li)
         this.setState({
-          times: this.state.times.concat(this._pickUpTime.value)
+          times: this.state.times.concat(this._pickUpTime.value),
+          routeProperties: undefined
         })
       }
     }
@@ -62,7 +62,8 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         if (this._pickUpTime.value != null){
             this._times.removeChild(this._times.lastChild)
             this.setState({
-              times: this.state.times.slice(0, this.state.times.length-1)
+              times: this.state.times.slice(0, this.state.times.length-1),
+              routeProperties: undefined
             })
           }
     }
@@ -73,7 +74,8 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         let temp: PlaceAutocomplete[] = this.state.route;
         temp.push(new PlaceAutocomplete({title: "Stop "+ this._stopCount}));
         this.setState({
-            route: temp
+            route: temp,
+            routeProperties: undefined
         })
     }
 
@@ -84,13 +86,13 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             let temp: PlaceAutocomplete[] = this.state.route.slice(0,this.state.route.length-1);
             this.setState({
                 route: temp,
-                storeRoute: false                
+                routeProperties: undefined
             });
         }
     }
 
     @autobind
-    private generateStops(storeRoute: boolean, skipCheck?: boolean) {
+    private generateStops(storeRoute: boolean) {
             let hasGoodLocationData: boolean = true;
             let invalidInputs: string = '';
             this.state.route.forEach((p, index) => {
@@ -100,10 +102,18 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     return;
                 }
             });
-            if(hasGoodLocationData) {
+            if(hasGoodLocationData && this.state.route.length > 1) {
+                console.log("ran")
                 this.setState({
-                    storeRoute: storeRoute,
+                    routeProperties: storeRoute ? {
+                        name: this.state.route[0].getPlace().name+'-'+this.state.route[this.state.route.length-1].getPlace().name,
+                        cost: new Number(this._cost.value).valueOf(),
+                        duration: new Number(this._tripDuration.value).valueOf(),
+                        notes: this._notes.value
+                    }: undefined,
                 });
+            }else if(this.state.route.length <= 1){
+                alert("Only one stop was added! Add more to create a valid route!");
             }else {
                 alert("Check your location value for " + invalidInputs);  
             }
@@ -126,8 +136,8 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     <Label> Stops </Label>
                     {this.state.route.map((val) => val.render())}
                     <div style={styles.enterButtonBox}>
-                        <Button iconProps={{iconName: 'Add'}} text={ "Add Stop" } onClick={this.addStop}/>
-                        <Button iconProps={{iconName: 'SkypeMinus'}} text={ "Remove Stop" } onClick={this.removeStop}/>
+                        <CommandButton iconProps={{iconName: 'Add'}} text={ "Add Stop" } onClick={this.addStop}/>
+                        <CommandButton iconProps={{iconName: 'SkypeMinus'}} text={ "Remove Stop" } onClick={this.removeStop}/>
                     </div>
                     <div style={styles.times}>
                         <div style={styles.flex}>
@@ -135,10 +145,34 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                                 <Label> Trip Duration</Label>
                             </div>
                             <div style={styles.input}>
-                                <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= '90 minutes'/>
+                                <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
                             </div>
                         </div>
-                        <div style={styles.flex}>
+                    </div>
+                    <div style={styles.flex}>
+                        <div style={styles.label}>
+                            <Label>Cost</Label>
+                        </div>
+                        <div style={styles.input}>
+                            <TextField componentRef = {this._resolveRef('_cost')} placeholder= 'Enter cost in dollars'/>
+                        </div>
+                    </div>
+                    <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
+                    <div style={ styles.enterButtonBox }>
+                        <CommandButton text='Preview Route' onClick={this._previewRoute}/>
+                        <CommandButton text='Add Route' onClick={this._addRoute}/>
+                    </div>
+                </div>
+                <div style={ styles.googleMap }>
+                    <GoogleMap locationAutocompletes={ this.state.route } routeProperties={ this.state.routeProperties }/>
+                </div>
+            </div>
+        )
+    }
+}
+
+/**
+ *                         <div style={styles.flex}>
                             <div style={styles.label}>
                                 <Label>Pick-Up Time</Label>
                             </div>
@@ -147,31 +181,10 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             </div>
                         </div>
                         <div style={ styles.enterButtonBox }>
-                            <Button text='Add Pickup Time' onClick={this.addTime}/>
-                            <Button text='Remove Pickup Time' onClick={this.removeTime}/>
+                            <CommandButton text='Add Pickup Time' onClick={this.addTime}/>
+                            <CommandButton text='Remove Pickup Time' onClick={this.removeTime}/>
                         </div>
                         <ul ref={(times) => this._times = times}>
 
                         </ul>
-                    </div>
-                    <div style={styles.flex}>
-                        <div style={styles.label}>
-                            <Label>Cost</Label>
-                        </div>
-                        <div style={styles.input}>
-                            <TextField componentRef = {this._resolveRef('_cost')} placeholder= '$'/>
-                        </div>
-                    </div>
-                    <TextField componentRef = {this._resolveRef('_notes')} label='Notes' multiline rows={ 5 }/>
-                    <div style={ styles.enterButtonBox }>
-                        <Button text='Preview Route' onClick={this._previewRoute}/>
-                        <Button text='Add Route' onClick={this._addRoute}/>
-                    </div>
-                </div>
-                <div style={ styles.googleMap }>
-                    <GoogleMap locationAutocompletes={ this.state.route } storeRoute={ this.state.storeRoute }/>
-                </div>
-            </div>
-        )
-    }
-}
+ */

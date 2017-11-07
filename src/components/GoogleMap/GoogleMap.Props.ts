@@ -3,6 +3,7 @@ import { GoogleMap } from './GoogleMap';
 import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { SearchBox } from "office-ui-fabric-react/lib/components/SearchBox";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
+import { IRouteInfoProps } from "../RouteInfo/index";
 
  export interface IGoogleMap {
 
@@ -32,9 +33,14 @@ import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
     findRoute?: boolean;
 
     /**
-     * Should the map make a call to the backend to store the route passed by locationAutocompletes
+     * Info to be passed to the map on route creation.
      */
-    storeRoute?: boolean;
+    routeProperties?: IRouteInfoProps;
+
+    /**
+     * Callback for when the component renders new locations 
+     */
+    onDidRenderNewLocations?: (routes?: IRouteInfoProps[])=>void;
  }
 
  export interface IGoogleMapStyles {

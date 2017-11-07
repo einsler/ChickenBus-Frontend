@@ -36,12 +36,10 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             <div style={ styles.root }>
                 <div style={ styles.header }>
                     <div style = {styles.pivot}>
-                      <TooltipHost content='Please save before switching tabs!' id='myID' calloutProps={ { gapSpace: 0 } }>
                         <Pivot onLinkClick = {this.onLinkClick}>
                           <PivotItem linkText='Search'/>
                           <PivotItem linkText='Route Entry'/>
                         </Pivot>
-                      </TooltipHost>
                     </div>
                 </div>
                 <div>

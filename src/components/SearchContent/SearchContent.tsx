@@ -7,17 +7,19 @@ import { BaseComponent, autobind, KeyCodes } from "office-ui-fabric-react/lib/Ut
 import{ SearchBox } from 'office-ui-fabric-react/lib/components/SearchBox';
 import{ DatePicker } from 'office-ui-fabric-react/lib/components/DatePicker';
 import * as React from "react";
-import { Button } from "office-ui-fabric-react/lib/components/Button";
+import { CommandButton } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
 import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
+import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
 
 const styles = getStyles();
 
 interface ISearchContentState {
     originDestination?: PlaceAutocomplete[];
+    routeInfo?: IRouteInfoProps[];
 }
 
 export class SearchContent extends BaseComponent<ISearchContentProps, ISearchContentState> {
@@ -26,7 +28,8 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
 
     constructor(props: ISearchContentProps) {
         super(props);
-        this.state = {}
+        this.state = {
+        }
     }
 
     public render() {
@@ -36,19 +39,15 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                     <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                     <div style={ styles.searchButtonBox }>
-                        <Button text='Search' onClick={ this._onRoute }/>
+                        <CommandButton text='Search' onClick={ this._onRoute }/>
                     </div>
-                    <div style={ styles.return }>
-                        <p> This space is reserved for returned route information and ads </p>
-                        <li> Pickup Times </li>
-                        <li> Duration </li>
-                        <li> Cost </li>
-                        <li> Notes </li>
-
+                    <div>
+                        { this.state.routeInfo ? <h3> Displaying {this.state.routeInfo.length} route(s)</h3> : null}
+                        { this.state.routeInfo ? <RouteInfo {...this.state.routeInfo[0]}/>: null }
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationAutocompletes={this.state.originDestination} findRoute={true}/>
+                    <GoogleMap locationAutocompletes={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />
                 </div>
             </div>
         )
@@ -59,7 +58,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
      * a valid location. If input is valid, then change the state to trigger a rerender.
      */
     @autobind
-    public _onRoute() {
+    private _onRoute() {
         if(!this._originAutocomplete.getPlace()) {
             alert("Enter a valid origin");
         }
@@ -68,8 +67,15 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         }
         else {
             this.setState({
-                originDestination: [this._originAutocomplete, this._destinationAutocomplete]
+                originDestination: [this._originAutocomplete, this._destinationAutocomplete],
             });
         }
+    }
+
+    @autobind
+    private _onMapDidRenderNewLocations(routes?: IRouteInfoProps[]) {
+        this.setState({
+            routeInfo: routes            
+        })
     }
 }

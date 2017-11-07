@@ -25,14 +25,6 @@ import {
         justifyContent: 'center',
         margin: '20px'
       },
-      return: {
-        border: 'solid black',
-        height: '77%',
-        margin: '-10px',
-        padding: '10px',
-        background: '#C3E9F0',
-
-      },
       googleMap: {
         width: '76%',
         height: '91vh',

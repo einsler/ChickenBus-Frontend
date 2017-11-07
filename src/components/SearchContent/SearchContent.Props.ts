@@ -35,5 +35,4 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     root: IStyle;
     searchButtonBox: IStyle;
     locationInput: IStyle;
-    return: IStyle;
  }

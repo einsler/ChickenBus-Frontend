@@ -50,8 +50,23 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
         this._directionService = new google.maps.DirectionsService();      
     }
 
+    public shouldComponentUpdate(newProps: IGoogleMapProps) {
+        return newProps.locationAutocompletes !== this.props.locationAutocompletes
+    }
+
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
-        if(newProps.locationAutocompletes) {
+    if(newProps.locationAutocompletes.length > 0) {
+        let hasBadData = false;
+        newProps.locationAutocompletes.forEach((ac)=>{
+            try{
+                if(ac.getPlace() === undefined) {
+                    hasBadData = true;
+                }
+            }catch(err){
+                hasBadData = true;
+             }
+        });
+        if(hasBadData) return;
             let activeMarkers: google.maps.Marker[] = [];
             let activeDirectionRenderers: google.maps.DirectionsRenderer[] = [];
             let counter = 0;
@@ -62,9 +77,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
              */
             this.state.activeDirectionRenderers.forEach((directionRenderer)=>directionRenderer.setMap(null));
             this.state.activeMarkers.forEach((marker)=>marker.setMap(null));
-            //
 
             newProps.locationAutocompletes.forEach((autocomplete, index) => {
+                
                 let request: google.maps.GeocoderRequest = {
                     address: autocomplete.getPlace().formatted_address,
                     componentRestrictions: { country: supportedCountries[0] },
@@ -72,6 +87,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 this._geoCoder.geocode(request,
                     (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) =>
                         {
+                            console.log("geocode")                            
                             stops.push({"coordinates": [results[0].geometry.location.lng(), results[0].geometry.location.lat()]})
                             let marker = new google.maps.Marker({
                                 // map: this._map,
@@ -81,17 +97,24 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                             activeMarkers.push(marker);
                             counter++;
                             if(counter == newProps.locationAutocompletes.length) {
+                                console.log("in counter")
                                 let that = this;
                                 let originMarker = activeMarkers[0];
                                 let destinationMarker = activeMarkers[activeMarkers.length-1];
+                                console.log(newProps.findRoute);
+                                console.log(newProps.locationAutocompletes[0].getPlace().name);
+                                console.log(this.props.locationAutocompletes[0].getPlace().name);
+                                console.log(newProps.locationAutocompletes[1].getPlace().name);
+                                console.log(this.props.locationAutocompletes[1].getPlace().name);
                                 if(newProps.findRoute) {
+                                    console.log("before api call")                                    
                                     fetch('/api/routes/find-near?latOrig='+originMarker.getPosition().lat()+'&lngOrig='+originMarker.getPosition().lng()+'&lngDest='+ destinationMarker.getPosition().lng()+'&latDest='+destinationMarker.getPosition().lat()).then((response: any) => {
                                         return response.json();
                                     }).then(function(responseJson){
+                                        console.log(responseJson);
                                         originMarker.setMap(that._map);
                                         destinationMarker.setMap(that._map);
-                                        console.log(responseJson)
-                                        responseJson.forEach((response: any)=>{
+                                        responseJson[0].forEach((response: any)=>{
                                             let routeRequest: google.maps.DirectionsRequest;
                                             routeRequest = {
                                                 origin: new google.maps.LatLng(response.origin[0], response.origin[1]),
@@ -115,10 +138,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
                                         new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
                                         new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
-                                    }).catch((err)=>{
-                                        alert("Could not find a route!");
-                                        activeMarkers.forEach((marker)=>marker.setMap(null));
-                                    });
+                                        console.log(responseJson[1])
+                                        //that.props.onDidRenderNewLocations(responseJson[1]);                                        
+                                    }).catch(()=>{this.state.activeMarkers.forEach((marker)=>marker.setMap(null)); alert("No route found!");});
                                 }else {
                                     let waypoints: google.maps.DirectionsWaypoint[] = []
                                     newProps.locationAutocompletes.slice(1,counter-1).forEach((item)=>{waypoints.push({location: item.getPlace().formatted_address, stopover: false})});
@@ -141,22 +163,21 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                     that._map.fitBounds(originMarker.getPosition().lng() < destinationMarker.getPosition().lng() ?
                                     new google.maps.LatLngBounds(originMarker.getPosition(), destinationMarker.getPosition()) :
                                     new google.maps.LatLngBounds(destinationMarker.getPosition(), originMarker.getPosition()));
-                                    if(newProps.storeRoute) {
+                                    if(newProps.routeProperties) {
+                                        let info = newProps.routeProperties;
                                         let route = {
                                             "stops" : stops,
-                                            "name": newProps.locationAutocompletes[0].getPlace().name + '-' + newProps.locationAutocompletes[0].getPlace().name,
-                                            "cost": 0,
+                                            "name": info.name,
+                                            "cost": info.cost,
                                             "times": [-1],
-                                            "duration": 72,
-                                            "notes": "blach blah blach"
+                                            "duration": info.duration,
+                                            "notes": info.notes
                                         }
                                       fetch('/api/routes/create', {
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                          },
+                                        headers: [['application/json']],
                                           method: 'post',
                                           body: JSON.stringify(route)
-                                      }).then((res)=> res.json())
+                                      }).then((res: any)=> res.json())
                                     }
                                 }
                             }

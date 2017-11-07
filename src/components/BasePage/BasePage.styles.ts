@@ -28,8 +28,6 @@ import {
       },
       pivot: {
         margin: '10px',
-        background: '#C3E9F0',
-        color: 'white'
       }
     }
   });
