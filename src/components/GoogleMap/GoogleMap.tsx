@@ -176,9 +176,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         }
                                       fetch('/api/routes/create', {
                                           method: 'post',
-                                          headers: {
+                                          headers: new Headers({
                                               'Content-Type': 'application/json'
-                                          },
+                                          }),
                                           body: JSON.stringify(route)
                                       }).then((res: any)=> res.json())
                                     }
