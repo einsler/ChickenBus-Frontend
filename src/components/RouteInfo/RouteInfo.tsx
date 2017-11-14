@@ -31,4 +31,8 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
             </div>
         )
     }
+
+    public componentWillReceiveProps() {
+        this.forceUpdate();
+    }
 }
