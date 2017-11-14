@@ -52,6 +52,18 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
         return newProps.locationCoords !== this.props.locationCoords;
     }
 
+    public componentDidUpdate() {
+        if(this.state.activeMarkers && this.state.activeMarkers[0] && this.state.activeMarkers[this.state.activeMarkers.length-1]) {
+            // Update map on refresh to make sure it uses the correct viewport for the routes.
+            let originMarker = this.state.activeMarkers[0].getPosition();
+            let destinationMarker = this.state.activeMarkers[this.state.activeMarkers.length-1].getPosition();
+            let NECorner = new google.maps.LatLng((originMarker.lat() > destinationMarker.lat() ? originMarker.lat() : destinationMarker.lat()), (originMarker.lng() < destinationMarker.lng() ? originMarker.lng() : destinationMarker.lng()));
+            let SWCorner = new google.maps.LatLng((originMarker.lat() < destinationMarker.lat() ? originMarker.lat() : destinationMarker.lat()), (originMarker.lng() > destinationMarker.lng() ? originMarker.lng() : destinationMarker.lng()));            
+            this._map.fitBounds(new google.maps.LatLngBounds(SWCorner, NECorner));
+            console.log("ran did update")
+        }
+    }
+
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
         if(newProps.locationCoords && newProps.locationCoords.length > 1) {
             let activeMarkers: google.maps.Marker[] = [];
@@ -99,13 +111,20 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     /**
                      * Use the response to create as many drawable routes on the google map as passed back in the response.
                      */
+                    console.log("here")
                     responseJson.directions.forEach((response: any)=>{
                         let routeRequest: google.maps.DirectionsRequest;
-                        console.log(response.stops)
+                        let midStops = response.stops;
+                        console.log(midStops);
+                        let waypoints: google.maps.DirectionsWaypoint[] = [];
+                        midStops.forEach((item: any)=>{
+                            waypoints.push({location: new google.maps.LatLng(item.geometry.coordinates[0], item.geometry.coordinates[1]), stopover: false})
+                        });
+                        console.log(waypoints);
                         routeRequest = {
                             origin: new google.maps.LatLng(response.orig[0], response.orig[1]),
                             destination: new google.maps.LatLng(response.dest[0], response.dest[1]),
-                            waypoints: response.stops.slice(1,response.stops.length-1).map((stop: any)=>new google.maps.LatLng(stop.geometry.coordinates[0], stop.geometry.coordinates[1])),
+                            waypoints: waypoints,
                             travelMode: google.maps.TravelMode.DRIVING
                         }
                         that._directionService.route(routeRequest, (res, status) => {
@@ -130,14 +149,20 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     that.state.activeMarkers.forEach((marker)=> {
                         marker.setMap(null);
                     });
+                    that.props.onDidRenderNewLocations();
+                    that._map.setOptions({
+                        center: new google.maps.LatLng(12.4150, -85.2362),
+                        zoom: 7
+                    });
                     alert("No route found!");
                 });
             }else {
                 /**
                  * Following deals with if the map should instead display a route entered on the route entry page.
                  */
-                let waypoints: google.maps.DirectionsWaypoint[] = []
-                newProps.locationCoords.slice(1,newProps.locationCoords.length-1).forEach((item)=>{
+                let midStops = newProps.locationCoords.slice(0,newProps.locationCoords.length-1);
+                let waypoints: google.maps.DirectionsWaypoint[] = [];
+                midStops.forEach((item)=>{
                     waypoints.push({location: new google.maps.LatLng(item.lat(), item.lng()), stopover: false})
                 });
                 let request: google.maps.DirectionsRequest = {

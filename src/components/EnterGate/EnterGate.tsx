@@ -110,10 +110,16 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     duration: new Number(this._tripDuration.value).valueOf(),
                     notes: this._notes.value
                 }
-                this.setState({
-                    routeProperties: storeRoute ? routeToAdd : undefined,
-                });
-                alert(routeToAdd);
+                if(storeRoute) {
+                    this.setState({
+                        routeProperties: routeToAdd,
+                    });
+                    alert("Added Route!");                    
+                } else {
+                    this.setState({
+                        routeProperties: undefined,
+                    });
+                }
             }else if(this.state.route.length <= 1){
                 alert("Only one stop was added! Add more to create a valid route!");
             }else {
@@ -174,21 +180,3 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         )
     }
 }
-
-/**
- *                         <div style={styles.flex}>
-                            <div style={styles.label}>
-                                <Label>Pick-Up Time</Label>
-                            </div>
-                            <div style={styles.input}>
-                                <TextField componentRef = {this._resolveRef('_pickUpTime')} placeholder= '13:00'/>
-                            </div>
-                        </div>
-                        <div style={ styles.enterButtonBox }>
-                            <CommandButton text='Add Pickup Time' onClick={this.addTime}/>
-                            <CommandButton text='Remove Pickup Time' onClick={this.removeTime}/>
-                        </div>
-                        <ul ref={(times) => this._times = times}>
-
-                        </ul>
- */
