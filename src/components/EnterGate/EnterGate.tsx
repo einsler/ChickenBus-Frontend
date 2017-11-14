@@ -30,6 +30,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _notes: TextField;
     private _times: HTMLUListElement;
     private _stopCount: number;
+    private _name: TextField;
     
     constructor(props: IEnterGateProps) {
         super(props);
@@ -103,15 +104,16 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 }
             });
             if(hasGoodLocationData && this.state.route.length > 1) {
-                console.log("ran")
+                let routeToAdd = {
+                    name: this._name.value,
+                    cost: new Number(this._cost.value).valueOf(),
+                    duration: new Number(this._tripDuration.value).valueOf(),
+                    notes: this._notes.value
+                }
                 this.setState({
-                    routeProperties: storeRoute ? {
-                        name: this.state.route[0].getPlace().name+'-'+this.state.route[this.state.route.length-1].getPlace().name,
-                        cost: new Number(this._cost.value).valueOf(),
-                        duration: new Number(this._tripDuration.value).valueOf(),
-                        notes: this._notes.value
-                    }: undefined,
+                    routeProperties: storeRoute ? routeToAdd : undefined,
                 });
+                alert(routeToAdd);
             }else if(this.state.route.length <= 1){
                 alert("Only one stop was added! Add more to create a valid route!");
             }else {
@@ -133,6 +135,8 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         return(
             <div style={ styles.root }>
                 <div style={styles.form}>
+                    <Label> Name </Label>
+                    <TextField componentRef= { this._resolveRef('_name')} placeholder= 'Enter name of Route here'/>
                     <Label> Stops </Label>
                     {this.state.route.map((val) => val.render())}
                     <div style={styles.enterButtonBox}>
@@ -164,7 +168,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationAutocompletes={ this.state.route } routeProperties={ this.state.routeProperties }/>
+                    <GoogleMap locationCoords={ this.state.route.map((place)=>place.getCoords()) } routeProperties={ this.state.routeProperties }/>
                 </div>
             </div>
         )

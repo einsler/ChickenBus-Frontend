@@ -30,7 +30,7 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      * Sets the aria-labelledby attribute. Used for accessibility.
      */
     ariaLabelledBy?: string;
-  
+
     /**
      * Sets the aria-describedby attribute. Used for accessibility.
      */
@@ -43,7 +43,7 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      */
     name: string;
 
-    /** 
+    /**
      * The duration of the route to be displayed
      */
     duration?: number;
@@ -57,6 +57,19 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      * Any additional notes about the route that should be shown.
      */
     notes?: string;
+
+    /**
+     * All times associated with the route.
+     */
+     departureTimes?: {
+         sunday: number[],
+         monday: number[],
+         tuesday: number[],
+         wednesday: number[],
+         thursday: number[],
+         friday: number[],
+         saturday: number[]
+     }
  }
 
  export interface IRouteInfoStyles {

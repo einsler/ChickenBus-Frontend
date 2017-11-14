@@ -59,6 +59,17 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
     }
 
     /**
+     * Public method called to return the coordinates of the autocomplete's result.
+     */
+    public getCoords(): google.maps.LatLng {
+        try{
+            return this._autocomplete.getPlace().geometry.location;
+        }catch(e) {
+            return undefined;
+        }
+    }
+
+    /**
      * Method for initializing the google maps autocomplete with the html input element
      * @param input 
      */
