@@ -9,9 +9,13 @@ import { IStyle, ITheme, IRawStyle } from 'office-ui-fabric-react/lib/Styling';
 
  export interface IPlaceAutocomplete {
      /** 
-      * Sets the text of the PlaceAutocomplete component
+      * Gets the result of the GoogleAutocomplete.
       */
      getPlace: () => google.maps.places.PlaceResult;
+     /** 
+      * Gets the coords of the GoogleAutocomplete.
+      */
+      getCoords: () => google.maps.LatLng;
  }
 
  export interface IPlaceAutocompleteProps extends React.HTMLAttributes<HTMLElement | PlaceAutocomplete> {
@@ -40,11 +44,6 @@ import { IStyle, ITheme, IRawStyle } from 'office-ui-fabric-react/lib/Styling';
      * Callback to be invoked when enter key is pressed while focusing the html input element.
      */
     onEnterPressed?: () => void;
-
-    /** 
-     * Callback invoked when selecting a google place or when losing focus on the input element
-     */
-    onBlur?: () => void;
  }
 
  export interface IPlaceAutocompleteStyles {
