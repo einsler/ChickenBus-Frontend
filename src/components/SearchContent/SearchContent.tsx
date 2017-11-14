@@ -43,7 +43,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     </div>
                     <div>
                         { this.state.routeInfo ? <h3> Displaying {this.state.routeInfo.length} route(s)</h3> : null}
-                        { this.state.routeInfo ? <RouteInfo {...this.state.routeInfo[0]}/>: null }
+                        { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
@@ -76,7 +76,6 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     private _onMapDidRenderNewLocations(routes?: any) {
         if(routes) {
             let routeInfo = routes.routesInfo.map((routesInfo: any)=>routesInfo.properties);
-            console.log(routeInfo)
             this.setState({
                 routeInfo: routeInfo,
                 originDestination: []
