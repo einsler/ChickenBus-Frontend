@@ -25,7 +25,7 @@ import { IRouteInfoProps } from "../RouteInfo/index";
      * Array of names of the locations to place corresponding markers on the map. First index corresponds to origin, middle indexes represent stops,
      * and last index represents the destination.
      */
-    locationAutocompletes?: PlaceAutocomplete[];
+    locationCoords?: google.maps.LatLng[];
 
     /**
      * Should the map make a call to the backend to find a route to map using the first and last marker locations.

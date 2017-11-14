@@ -15,7 +15,7 @@ import {
       header: {
         width:'100%',
         display: 'flex',
-        backgroundColor: '#696969',
+        backgroundColor: '#a9a9a9',
         justifyContent: 'flex-End',
       },
       logo: {

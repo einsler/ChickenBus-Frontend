@@ -18,7 +18,7 @@ import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
 const styles = getStyles();
 
 interface ISearchContentState {
-    originDestination?: PlaceAutocomplete[];
+    originDestination?: google.maps.LatLng[];
     routeInfo?: IRouteInfoProps[];
 }
 
@@ -47,7 +47,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationAutocompletes={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />
+                    <GoogleMap locationCoords={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />
                 </div>
             </div>
         )
@@ -67,24 +67,24 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         }
         else {
             this.setState({
-                originDestination: [this._originAutocomplete, this._destinationAutocomplete],
+                originDestination: [this._originAutocomplete.getCoords(), this._destinationAutocomplete.getCoords()],
             });
         }
     }
 
     @autobind
-    private _onMapDidRenderNewLocations(routes?: any[]) {
+    private _onMapDidRenderNewLocations(routes?: any) {
         if(routes) {
-            let routeInfo = routes.map((route)=>route.properties);
+            let routeInfo = routes.routesInfo.map((routesInfo: any)=>routesInfo.properties);
             console.log(routeInfo)
             this.setState({
                 routeInfo: routeInfo,
-                originDestination: []       
+                originDestination: []
             })
         }else {
             this.setState({
                 routeInfo: undefined,
-                originDestination: []       
+                originDestination: []
             })
         }
     }

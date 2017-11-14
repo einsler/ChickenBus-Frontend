@@ -164,7 +164,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationAutocompletes={ this.state.route } routeProperties={ this.state.routeProperties }/>
+                    <GoogleMap locationCoords={ this.state.route.map((place)=>place.getCoords()) } routeProperties={ this.state.routeProperties }/>
                 </div>
             </div>
         )
