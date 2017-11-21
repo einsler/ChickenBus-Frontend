@@ -56,7 +56,7 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
             }),
             body: JSON.stringify(registerDetails)
         }).then((res: any) => {
-            res.json()
+            return res.json()
         }).then(responseJson => {
             console.log(responseJson);
         }).catch(err => {

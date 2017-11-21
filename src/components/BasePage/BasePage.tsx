@@ -12,9 +12,11 @@ import { HomeContent, SearchContent, EnterGate, Login, Register} from "../index"
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/FrontEndConsts";
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
+import Auth from '../../modules/Auth';
 
 interface IBasePageState {
     content: JSX.Element;
+    pivots?: JSX.Element[];
 }
 
 const styles: IBasePageStyles = getStyles();
@@ -29,11 +31,15 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         super(props);
         this._searchContent = <SearchContent/>;
         this._entryGate = <EnterGate/>;
-        this._login = <Login/>;
+        this._login = <Login onLogin={this.updatePivots}/>;
         this._register = <Register/>
         this.state = {
           content: this._searchContent
         }
+    }
+
+    public componentWillMount() {
+        this.updatePivots();
     }
 
     public render() {
@@ -42,10 +48,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                 <div style={ styles.header }>
                     <div style = {styles.pivot}>
                         <Pivot onLinkClick = {this.onLinkClick}>
-                          <PivotItem linkText='Search'/>
-                          <PivotItem linkText='Register'/>
-                          <PivotItem linkText='Login'/>
-                          <PivotItem linkText='Route Entry'/>
+                            {this.state.pivots}
                         </Pivot>
                     </div>
                 </div>
@@ -78,5 +81,22 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             break;
         }
         this.setState({content: content})
+    }
+
+    @autobind
+    private updatePivots(){
+        let PivotItems: JSX.Element[] = [];
+        if(Auth.isUserAuthenticated()){
+            PivotItems[0] = <PivotItem linkText='Search'/>;
+            PivotItems[1] = <PivotItem linkText='Route Entry'/>;
+        }else{
+            PivotItems[0] = <PivotItem linkText='Search'/>;
+            PivotItems[1] = <PivotItem linkText='Register'/>;
+            PivotItems[2] = <PivotItem linkText='Login'/>;
+        }
+        this.setState({
+            pivots: PivotItems,
+            content: this._searchContent
+        })
     }
 }

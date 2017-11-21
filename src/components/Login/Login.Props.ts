@@ -29,6 +29,11 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      * The optional custom styling to be applied to the Login component.
      */
     styles?: ILoginStyles;
+
+    /**
+    *   Callback for when login button is executed.
+    */
+    onLogin: ()=>void;
  }
 
  export interface ILoginStyles {

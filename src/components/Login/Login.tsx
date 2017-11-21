@@ -3,7 +3,7 @@ import {
     ILoginProps,
     ILoginStyles
 } from './Login.Props';
-import { BaseComponent, getRTL } from "office-ui-fabric-react/lib/Utilities";
+import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Utilities";
 import { List } from "office-ui-fabric-react/lib/List";
 import { SearchBox } from "office-ui-fabric-react/lib/SearchBox";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
@@ -14,12 +14,17 @@ import { getStyles } from "./Login.styles";
 import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import * as React from "react";
+import Auth from "../../modules/Auth";
 
 interface ILoginState {
 }
 const styles: ILoginStyles = getStyles();
 
 export class Login extends BaseComponent<ILoginProps, ILoginState> {
+    private _username: TextField;
+    private _email: TextField;
+    private _password: TextField;
+
     constructor(props: ILoginProps) {
         super(props);
         this.state = {
@@ -29,7 +34,35 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     public render() {
         return(
           <div style={ styles.root }>
+                Username: <TextField componentRef={this._resolveRef("_username")}/>
+                Email: <TextField componentRef={this._resolveRef("_email")}/>
+                Password: <TextField componentRef={this._resolveRef("_password")}/>
+                <button onClick={this._onLogin}> Login </button>
           </div>
         )
+    }
+
+    @autobind
+    private _onLogin() {
+        let loginDetails = {
+            username: this._username.value,
+            email: this._email.value,
+            password: this._password.value
+        };
+
+        fetch('/api/login', {
+            method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify(loginDetails)
+        }).then((res: any) => {
+            return res.json();
+        }).then(responseJson => {
+            Auth.authenticateUser(responseJson.token);
+            this.props.onLogin();
+        }).catch(err => {
+            console.log(err);
+        });
     }
 }
