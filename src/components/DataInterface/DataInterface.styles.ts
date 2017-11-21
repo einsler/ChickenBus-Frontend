@@ -10,7 +10,23 @@ import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
 export const getStyles = memoizeFunction((): IDataInterfaceStyles => {
   return {
     root: {
-      width: '100vw',
+      margin: 'auto',
+      width: '100%',
+      height: '100%',
+      display: 'flex'
+    },
+    index: {
+      width: '24%',
+      height: '80vh',
+      margin: '10px',
+    },
+    manageRoute: {
+      width: '76%',
+      height: '91vh',
+    },
+    routeInfo: {
+    },
+    buttonContainer: {
     },
   }
 });

@@ -41,18 +41,10 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
  }
 
  export interface IDataInterfaceStyles {
-     /**
-      * Style for the root element that will contain the title and text.
-      */
+
       root?: IStyle;
-
-      /**
-       * Style for the title of the DataInterface component.
-       */
-      title?: IStyle;
-
-      /**
-       * Style for the text of the DataInterface component.
-       */
-      text?: IStyle;
+      index?: IStyle;
+      manageRoute?: IStyle;
+      routeInfo?: IStyle;
+      buttonContainer?: IStyle;
  }

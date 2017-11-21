@@ -7,7 +7,6 @@ import { BaseComponent } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
 
 interface IProfileState {
-
 }
 
 export class Profile extends BaseComponent<IProfileProps, IProfileState> {
