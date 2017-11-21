@@ -20,7 +20,7 @@ import {
         marginRight: '10px'
       },
       text: { 
-        
+        color: 'pink'
       }
     }
 })

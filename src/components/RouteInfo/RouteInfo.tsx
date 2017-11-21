@@ -25,7 +25,7 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
             <div style={styles.root}>
                 <div style={styles.infoContainer}>
                     <h4 style={styles.title}> Route </h4>
-                    <p> { this.props.name } </p>
+                    <p style={styles.text}> { this.props.name } </p>
                 </div>
                 <div style={styles.infoContainer}>
                     <h4 style={styles.title} > Duration </h4>
