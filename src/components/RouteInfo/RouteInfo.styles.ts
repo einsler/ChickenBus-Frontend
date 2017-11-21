@@ -19,7 +19,7 @@ import {
         marginLeft: '10px',
         marginRight: '10px'
       },
-      text: {
+      text: { 
         
       }
     }
