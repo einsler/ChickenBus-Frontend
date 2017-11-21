@@ -90,7 +90,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     /**
                      * Use the response to create as many drawable routes on the google map as passed back in the response's direstions property.
                      */
-                    console.log(responseJson);
                     responseJson.directions.forEach((directions: any, index: number)=>{
                             // This is the initial location of the origin and destination of each route passed back
                             let pos1 = new google.maps.LatLng(directions.orig[0], directions.orig[1]);
@@ -190,6 +189,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     alert("No route found!");
                 });
             }else {
+                console.log(markerCoords);
                 /**
                  * Following deals with when the map should instead display a route entered on the route entry page.
                  */
@@ -213,13 +213,8 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     map: map
                    });
                    activeMarkers.push(marker);
-                   console.log("adding item")
-                   console.log(item.lat());
-                   console.log(item.lng());
                    bounds.extend(item);
-                });
-                console.log(bounds.getNorthEast());   
-                console.log(bounds.getSouthWest());                                
+                });                               
 
                 if(newProps.routeProperties) {
                     let info = newProps.routeProperties;

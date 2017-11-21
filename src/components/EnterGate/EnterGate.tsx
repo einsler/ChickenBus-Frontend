@@ -31,6 +31,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _times: HTMLUListElement;
     private _stopCount: number;
     private _name: TextField;
+    private _coords: google.maps.LatLng[];
     
     constructor(props: IEnterGateProps) {
         super(props);
@@ -74,6 +75,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         this._stopCount++;
         let temp: PlaceAutocomplete[] = this.state.route;
         temp.push(new PlaceAutocomplete({title: "Stop "+ this._stopCount}));
+        this._coords = [];
         this.setState({
             route: temp,
             routeProperties: undefined
@@ -85,6 +87,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         if(this.state.route.length > 1) {
             this._stopCount--;
             let temp: PlaceAutocomplete[] = this.state.route.slice(0,this.state.route.length-1);
+            this._coords = [];
             this.setState({
                 route: temp,
                 routeProperties: undefined
@@ -96,12 +99,15 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private generateStops(storeRoute: boolean) {
             let hasGoodLocationData: boolean = true;
             let invalidInputs: string = '';
+            this._coords = [];
             this.state.route.forEach((p, index) => {
-                if(!p.getPlace()) {
+                if(!p.getCoords()) {
                     hasGoodLocationData = false;
                     invalidInputs += p.props.title + ' ';
+                    this._coords = [];
                     return;
                 }
+                this._coords.push(p.getCoords());
             });
             if(hasGoodLocationData && this.state.route.length > 1) {
                 let routeToAdd = {
@@ -132,6 +138,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         this.generateStops(true);
 
     }
+
     @autobind
     private _previewRoute(): void{
         this.generateStops(false);
@@ -174,7 +181,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationCoords={ this.state.route.map((place)=>place.getCoords()) } routeProperties={ this.state.routeProperties }/>
+                    <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties }/>
                 </div>
             </div>
         )

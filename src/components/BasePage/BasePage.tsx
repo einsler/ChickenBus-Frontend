@@ -66,4 +66,6 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         }
         this.setState({content: content})
     }
+
+    
 }
