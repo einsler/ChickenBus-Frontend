@@ -6,7 +6,7 @@ const proxy = require('http-proxy-middleware');
 const app = express();
 
 //proxy api requests to backend server
-app.use("/api", proxy({target: "http://chickenbus-backend-einsler.cloudapps.unc.edu", changeOrigin: true}));
+app.use("/api", proxy({target: "http://backend-einsler.cloudapps.unc.edu", changeOrigin: true}));
 
 app.use(bodyParser.json());//body-parser
 app.use(bodyParser.urlencoded({extended: true}));
