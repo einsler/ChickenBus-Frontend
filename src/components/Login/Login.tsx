@@ -42,7 +42,6 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
         return(
           <div style={ styles.root }>
                 Username: <TextField componentRef={this._resolveRef("_username")}/>
-                Email: <TextField componentRef={this._resolveRef("_email")}/>
                 Password: <TextField componentRef={this._resolveRef("_password")}/>
                 <button onClick={this._onLoginPress}> Login </button>
           </div>
@@ -65,12 +64,14 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
             body: JSON.stringify(loginDetails)
         }).then((res: any) => {
             if(!res.ok){
-                this.setState({res});
+                this.setState({errors: res});
+                alert("Could not log you in successfully. Please check login credentials");
                 throw Error(res.statusText);
             }else{
                 return res.json();
             }
         }).then(responseJson => {
+            this.setState({user: responseJson.user});
             Auth.authenticateUser(responseJson.token);
             this.props.onLogin();
         }).catch(err => {
