@@ -87,12 +87,12 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     private updatePivots(){
         let PivotItems: JSX.Element[] = [];
         if(Auth.isUserAuthenticated()){
-            PivotItems[0] = <PivotItem linkText='Search'/>;
-            PivotItems[1] = <PivotItem linkText='Route Entry'/>;
+            PivotItems.push(<PivotItem linkText='Search'/>);
+            PivotItems.push(<PivotItem linkText='Route Entry'/>);
         }else{
-            PivotItems[0] = <PivotItem linkText='Search'/>;
-            PivotItems[1] = <PivotItem linkText='Register'/>;
-            PivotItems[2] = <PivotItem linkText='Login'/>;
+            PivotItems.push(<PivotItem linkText='Search'/>);
+            PivotItems.push(<PivotItem linkText='Register'/>);
+            PivotItems.push(<PivotItem linkText='Login'/>);
         }
         this.setState({
             pivots: PivotItems,

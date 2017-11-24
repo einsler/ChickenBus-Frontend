@@ -28,6 +28,13 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     constructor(props: ILoginProps) {
         super(props);
         this.state = {
+            errors: {},
+            user: {
+                username: '',
+                email: '',
+                password: '',
+                permissionLevel: null
+          }
         }
     }
 
@@ -37,27 +44,32 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
                 Username: <TextField componentRef={this._resolveRef("_username")}/>
                 Email: <TextField componentRef={this._resolveRef("_email")}/>
                 Password: <TextField componentRef={this._resolveRef("_password")}/>
-                <button onClick={this._onLogin}> Login </button>
+                <button onClick={this._onLoginPress}> Login </button>
           </div>
         )
     }
 
     @autobind
-    private _onLogin() {
+    private _onLoginPress() {
         let loginDetails = {
             username: this._username.value,
             email: this._email.value,
             password: this._password.value
         };
 
-        fetch('/api/login', {
+        fetch('/auth/login', {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
             body: JSON.stringify(loginDetails)
         }).then((res: any) => {
-            return res.json();
+            if(!res.ok){
+                this.setState({res});
+                throw Error(res.statusText);
+            }else{
+                return res.json();
+            }
         }).then(responseJson => {
             Auth.authenticateUser(responseJson.token);
             this.props.onLogin();

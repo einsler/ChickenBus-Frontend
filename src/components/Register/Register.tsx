@@ -49,14 +49,18 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
             password: this._password.value
         };
 
-        fetch('/api/register', {
+        fetch('/auth/register', {
             method: 'post',
             headers: new Headers({
                 'Content-Type': 'application/json'
             }),
             body: JSON.stringify(registerDetails)
         }).then((res: any) => {
-            return res.json()
+            if(!res.ok){
+                throw Error(res.statusText);
+            }else{
+                return res.json()
+            }
         }).then(responseJson => {
             console.log(responseJson);
         }).catch(err => {

@@ -18,7 +18,8 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, "dist"),
         proxy: {
-            "/api": "http://localhost:3000"
+            "/api": "http://localhost:3000",
+            "/auth": "http://localhost:3000"
         }
     },
 
