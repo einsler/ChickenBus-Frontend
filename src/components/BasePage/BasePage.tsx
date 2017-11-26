@@ -25,7 +25,6 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     private _searchContent: JSX.Element;
     private _entryGate: JSX.Element;
     private _dataInterface: JSX.Element;
-    private _profile: JSX.Element;
     private _login: JSX.Element;
     private _register: JSX.Element;
 
@@ -52,10 +51,8 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                 <div style={ styles.header }>
                     <div style = {styles.pivot}>
                         <Pivot onLinkClick = {this.onLinkClick}>
-                          <PivotItem linkText='Search'/>
-                          <PivotItem linkText='Route Entry'/>
+                          {this.state.pivots}
                           <PivotItem linkText='Data Interface'/>
-                           {this.state.pivots}
                         </Pivot>
                     </div>
                 </div>
@@ -83,8 +80,6 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
           case 'Data Interface':
             content = this._dataInterface
             break;
-          case 'Profile':
-            content = this._profile
           case 'Login':
             content = this._login
             break;
@@ -101,10 +96,8 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         if(Auth.isUserAuthenticated()){
             PivotItems.push(<PivotItem linkText='Search'/>);
             PivotItems.push(<PivotItem linkText='Route Entry'/>);
-            PivotItems.push(<PivotItem linkText='Data Interface'/>);
         }else{
             PivotItems.push(<PivotItem linkText='Search'/>);
-            PivotItems.push(<PivotItem linkText='DataInterface'/>);
             PivotItems.push(<PivotItem linkText='Register'/>);
             PivotItems.push(<PivotItem linkText='Login'/>);
         }
