@@ -27,13 +27,13 @@ const styles: IBasePageStyles = getStyles();
 export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     private _searchContent: JSX.Element;
     private _entryGate: JSX.Element;
-    private _dataInterFace: JSX.Element;
+    private _dataInterface: JSX.Element;
     private _profile: JSX.Element;
     constructor(props: IBasePageProps) {
         super(props);
         this._searchContent = <SearchContent/>;
         this._entryGate = <EnterGate/>;
-        this._dataInterFace = <DataInterface/>;
+        this._dataInterface = <DataInterface/>;
         this._profile = <Profile/>;
         this.state = {
           content: this._searchContent
@@ -75,10 +75,10 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             content = this._entryGate
             break;
           case 'Data Interface':
-            content = this._dataInterFace
+            content = this._dataInterface
             break;
           case 'Profile':
-            content = this._dataInterFace
+            content = this._profile
             break;
         }
         this.setState({content: content})
