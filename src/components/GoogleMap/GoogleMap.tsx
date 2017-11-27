@@ -115,10 +115,12 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 zIndex: 1,
                                 map: map
                             });
-                            that.state.activeMarkers.push(markerP1);
-                            that.state.activeMarkers.push(markerP2);
 
                             let curveMarker: google.maps.Marker;
+
+                            activeMarkers.push(markerP1);
+                            activeMarkers.push(markerP2);
+                            activeMarkers.push(curveMarker);
                             
                                 function updateCurveMarker() {
                                     var pos1 = markerP1.getPosition(), // latlng
