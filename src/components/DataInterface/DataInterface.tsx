@@ -126,14 +126,14 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
           rows = that.createUserRows(info);
           that.setState({
             rows: rows,
-            columns: routeColumns
+            columns: userColumns
           });
         }
         }).catch(err => {
           console.log(err)
           that.setState({
             rows: undefined,
-            columns: routeColumns
+            columns: userColumns
           });
         });
   }
@@ -149,14 +149,14 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
           rows = that.createStopRows(info);
           that.setState({
             rows: rows,
-            columns: routeColumns
+            columns: stopColumns
           });
         }
         }).catch(err => {
           console.log(err)
           that.setState({
             rows: undefined,
-            columns: routeColumns
+            columns: stopColumns
           });
         });
   }
