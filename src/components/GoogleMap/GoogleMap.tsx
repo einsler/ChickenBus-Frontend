@@ -12,6 +12,7 @@ import { Feature, LineString } from "geojson";
 interface IGoogleMapState {
     activeMarkers?: google.maps.Marker[];
     activePolyLines?: google.maps.Polyline[];
+    bounds?: google.maps.LatLngBounds;
 }
 const styles: IGoogleMapStyles = getStyles();
 
@@ -49,11 +50,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
     public componentDidUpdate() {
         if(this.state.activeMarkers && this.state.activeMarkers[0] && this.state.activeMarkers[this.state.activeMarkers.length-1]) {
             // Update map on refresh to make sure it uses the correct viewport for the routes.
-            let originMarker = this.state.activeMarkers[0].getPosition();
-            let destinationMarker = this.state.activeMarkers[this.state.activeMarkers.length-1].getPosition();
-            let NECorner = new google.maps.LatLng((originMarker.lat() > destinationMarker.lat() ? originMarker.lat() : destinationMarker.lat()), (originMarker.lng() < destinationMarker.lng() ? originMarker.lng() : destinationMarker.lng()));
-            let SWCorner = new google.maps.LatLng((originMarker.lat() < destinationMarker.lat() ? originMarker.lat() : destinationMarker.lat()), (originMarker.lng() > destinationMarker.lng() ? originMarker.lng() : destinationMarker.lng()));            
-            this._map.fitBounds(new google.maps.LatLngBounds(SWCorner, NECorner));
         }
     }
 
@@ -96,12 +92,8 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                             let pos2 = new google.maps.LatLng(directions.dest[0], directions.dest[1]);
 
                             // Store bounds
-                            if( index == 0) {
-                                bounds.extend(pos1);
-                            }
-                            if ( index == responseJson.directions.length - 1) {
-                                bounds.extend(pos2);
-                            }
+                            bounds.extend(pos1);
+                            bounds.extend(pos2);
                             // Create markers for the routes
                             let markerP1 = new google.maps.Marker({
                                 position: pos1,
@@ -120,7 +112,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
 
                             activeMarkers.push(markerP1);
                             activeMarkers.push(markerP2);
-                            activeMarkers.push(curveMarker);
                             
                                 function updateCurveMarker() {
                                     var pos1 = markerP1.getPosition(), // latlng
@@ -160,6 +151,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                             zIndex: 0, // behind the other markers
                                             map: map
                                         });
+                                        activeMarkers.push(curveMarker);
                                     } else {
                                         curveMarker.setOptions({
                                             position: pos1,
@@ -191,7 +183,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     alert("No route found!");
                 });
             }else {
-                console.log(markerCoords);
                 /**
                  * Following deals with when the map should instead display a route entered on the route entry page.
                  */
@@ -234,13 +225,15 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                             'Content-Type': 'application/json'
                         }),
                         body: JSON.stringify(route)
-                    }).then((res: any)=> res.json())
+                    }).then((res: any)=> {
+                        res.json();
+                        alert("Added Route!"); 
+                    })
                 }
                 this.setState({
                     activeMarkers: activeMarkers,
                     activePolyLines: activePolyLines
                 });
-                console.log(bounds);
                 map.fitBounds(bounds);
             }
         }

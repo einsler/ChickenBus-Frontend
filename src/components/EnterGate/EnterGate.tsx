@@ -119,8 +119,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 if(storeRoute) {
                     this.setState({
                         routeProperties: routeToAdd,
-                    });
-                    alert("Added Route!");                    
+                    });                   
                 } else {
                     this.setState({
                         routeProperties: undefined,
