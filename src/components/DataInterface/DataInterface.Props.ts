@@ -43,7 +43,7 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
  export interface IDataInterfaceStyles {
 
       root?: IStyle;
-      index?: IStyle;
+      header?: IStyle;
       manageRoute?: IStyle;
       routeInfo?: IStyle;
       buttonContainer?: IStyle;

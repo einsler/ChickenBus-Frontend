@@ -15,7 +15,7 @@ export const getStyles = memoizeFunction((): IDataInterfaceStyles => {
       height: '100%',
       display: 'flex'
     },
-    index: {
+    header: {
       width: '24%',
       height: '80vh',
       margin: '10px',
