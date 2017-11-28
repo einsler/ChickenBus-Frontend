@@ -102,6 +102,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
         let info = result.data
         if (info.length) {
           rows = that.createRouteRows(info);
+          console.log('routes',info)
           that.setState({
             rows: rows,
             columns: routeColumns
@@ -124,6 +125,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
         let info = result.data
         if (info.length) {
           rows = that.createUserRows(info);
+          console.log('users',info)
           that.setState({
             rows: rows,
             columns: userColumns
@@ -147,6 +149,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
         let info = result.data
         if (info.length) {
           rows = that.createStopRows(info);
+          console.log('stops',info)
           that.setState({
             rows: rows,
             columns: stopColumns
@@ -164,7 +167,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
   @autobind
   public createRouteRows(routes) {
     let _routeRows = [];
-    for (let i = 1; i < routes.length; i++) {
+    for (let i = 0; i < routes.length; i++) {
       _routeRows.push({
           id: routes[i]._id,
           routename: routes[i].properties.name,
@@ -181,7 +184,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
   @autobind
   public createUserRows(users) {
     let _userRows = [];
-    for (let i = 1; i < users.length; i++) {
+    for (let i = 0; i < users.length; i++) {
       _userRows.push({
           id: users[i]._id,
           username: users[i].username,
@@ -195,7 +198,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
   @autobind
   public createStopRows(stops) {
     let _stopRows = [];
-    for (let i = 1; i < stops.length; i++) {
+    for (let i = 0; i < stops.length; i++) {
       _stopRows.push({
           id: stops[i]._id,
           title: stops[i].title,
