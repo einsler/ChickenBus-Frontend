@@ -156,6 +156,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         }),
                         body: JSON.stringify(output)
                     }).then((res: any)=> res.json())
+                    alert("Routes added.");
                 }
             })
         }
