@@ -47,12 +47,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
         return newProps.locationCoords !== this.props.locationCoords;
     }
 
-    public componentDidUpdate() {
-        if(this.state.activeMarkers && this.state.activeMarkers[0] && this.state.activeMarkers[this.state.activeMarkers.length-1]) {
-            // Update map on refresh to make sure it uses the correct viewport for the routes.
-        }
-    }
-
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
         if(newProps.locationCoords && newProps.locationCoords.length > 1) {
             let activeMarkers: google.maps.Marker[] = [];

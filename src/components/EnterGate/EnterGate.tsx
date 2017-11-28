@@ -150,7 +150,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         let csv: string = '';
         reader.onload = (e) => {
             csv = reader.result;
-            csvParse(csv, {columns: true}, function(err, output){
+            csvParse(csv, {columns: true}, function(err: any, output: any){
                 if(err){
                     console.log(err);
                 }else if(output){
