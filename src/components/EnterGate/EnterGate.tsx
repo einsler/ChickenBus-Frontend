@@ -14,6 +14,7 @@ import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
 import { IRouteInfoProps } from "../RouteInfo/index";
+import * as csvParse from 'csv-parse';
 
 const styles = getStyles();
 
@@ -136,6 +137,30 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _previewRoute(): void{
         this.generateStops(false);
     }
+    @autobind
+    private _parseCSV(): void{
+        let file = (document.getElementById('csv') as HTMLInputElement).files[0];
+        let reader = new FileReader();
+        let csv: string = '';
+        reader.onload = (e) => {
+            csv = reader.result;
+            csvParse(csv, {columns: true}, function(err, output){
+                if(err){
+                    console.log(err);
+                }else if(output){
+                    // console.log(JSON.stringify(output));
+                    fetch('/api/routes/csv', {
+                        method: 'post',
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        }),
+                        body: JSON.stringify(output)
+                    }).then((res: any)=> res.json())
+                }
+            })
+        }
+        reader.readAsBinaryString(file);
+    }   
 
     public render() {
         return(
@@ -171,6 +196,10 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     <div style={ styles.enterButtonBox }>
                         <CommandButton text='Preview Route' onClick={this._previewRoute}/>
                         <CommandButton text='Add Route' onClick={this._addRoute}/>
+                    </div>
+                    <div>
+                        <input id='csv' type='file' accept='.csv'/>
+                        <CommandButton text='Submit' onClick={this._parseCSV}/>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
