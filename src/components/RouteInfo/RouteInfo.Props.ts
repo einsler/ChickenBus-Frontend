@@ -78,6 +78,11 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
       */
       root?: IStyle;
 
+    /**
+     * Containing div for displayed information.
+     */
+    infoContainer?: IStyle;
+
       /**
        * Style for the title of the RouteInfo component.
        */

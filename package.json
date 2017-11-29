@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/KyleMartin95/ChickenBus#readme",
   "dependencies": {
+    "@types/csv-parse": "^1.1.11",
     "@types/geojson": "^1.0.4",
     "@types/googlemaps": "^3.29.0",
     "@types/prop-types": "^15.5.1",
@@ -27,6 +28,7 @@
     "@types/react-data-grid": "^2.0.7",
     "@types/react-dom": "15.5.4",
     "body-parser": "^1.18.0",
+    "csv-parse": "^2.0.0",
     "express": "^4.15.4",
     "google-maps-react": "^1.1.0",
     "http-proxy-middleware": "^0.17.4",
