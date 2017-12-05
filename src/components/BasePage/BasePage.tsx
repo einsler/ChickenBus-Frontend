@@ -96,6 +96,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         if(Auth.isUserAuthenticated()){
             PivotItems.push(<PivotItem linkText='Search'/>);
             PivotItems.push(<PivotItem linkText='Route Entry'/>);
+            PivotItems.push(<PivotItem linkText='Data Interface'/>);
         }else{
             PivotItems.push(<PivotItem linkText='Search'/>);
             PivotItems.push(<PivotItem linkText='Register'/>);

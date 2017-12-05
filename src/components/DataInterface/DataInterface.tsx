@@ -5,16 +5,21 @@ import {
     IDataInterfaceProps,
     IDataInterfaceStyles
 } from './DataInterface.Props';
+import * as ReactModal from 'react-modal';
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { CommandButton } from "office-ui-fabric-react/lib/components/Button";
 import { getStyles } from "./DataInterface.styles";
+
 
 const styles = getStyles();
 
 interface IDataInterfaceState {
   routes: any[], users: any[], stops: any [],
   rows: any[], columns: any[],
+
+  showModal: any,
+  currID: string
 }
 
 export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInterfaceState> {
@@ -26,9 +31,27 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
     this.state = {
       routes: [], users: [], stops: [],
       rows: [], columns: [],
-    }
+      showModal: false,
+      currID: null
+    };
+    //this.handleOpenModal = this.handleOpenModal.bind(this);
+    //this.handleCloseModal = this.handleCloseModal.bind(this);
+  }
+  @autobind
+  public handleOpenModal() {
+    this.setState({
+      showModal: true,
+      currID: this.state.routes[0]._id,
+      //set state of selected id information
+    });
+  }
+  @autobind
+  public handleCloseModal () {
+    this.setState({ showModal: false });
   }
 
+ //Modal grid or select screen
+ //header is immutable
   public render() {
     return (
       <div style={ styles.root }>
@@ -38,8 +61,7 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
             <CommandButton text='Users' onClick={() => this.loadTable('users')}/>
             <CommandButton text='Stops' onClick={() => this.loadTable('stops')}/>
             <div>
-              <CommandButton text='Edit'/>
-              <CommandButton text='Delete'/>
+              <CommandButton text = 'Modal' onClick={this.handleOpenModal} />
             </div>
           </div>
           <ReactDataGrid
@@ -47,10 +69,45 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
             columns = {this.state.columns}
             rowGetter={this.rowGetter.bind(this)}
             rowsCount={this.state.rows? this.state.rows.length: 0}
+            minColumnWidth={100}
+            enableCellSelect={true}
           />
+          <ReactModal
+            isOpen={this.state.showModal}
+            contentLabel="Select Screen"
+            onRequestClose={this.handleCloseModal}
+          >
+            <Label>Select Screen</Label>
+            <Label>Info from selected row, will have to build a function / edit backend to render based on type</Label>
+            <Label>Logged ID and name, can call edits and deletes from here</Label>
+            <CommandButton text='Edit' onClick={() => this.editEntry('current row id')}/>
+            <CommandButton text='Delete' onClick={() => this.deleteEntry(this.state.currID, 'route')}/>
+            <CommandButton text='Close' onClick={this.handleCloseModal} />
+          </ReactModal>
       </div>
     );
   }
+  public routeColumns = [
+    /*
+      table-columns structure for routes
+    */
+    { key: 'id', name: 'ID' },
+    { key: 'routename', name: 'route name', resizable: true,
+    events: {
+          onDoubleClick: function(ev, args) {
+            console.log('Displaying info for row' + args.rowIdx);
+            alert('you double clicked row ' + args.rowIdx)
+            //this.handleOpenModal(ev, args);
+          }
+
+    },
+  },
+    { key: 'duration', name: 'Duration', resizable: true},
+    { key: 'departuretimes', name: 'Departure Times', sortable: true, resizable: true},
+    { key: 'cost', name: 'Cost', sortable: true, resizable: true},
+    { key: 'notes', name: 'Notes', resizable: true},
+    { key: 'approved', name: 'Approved', sortable: true, resizable: true},
+  ];
 
   @autobind
   public loadTable(lever) {
@@ -67,16 +124,26 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
         let info = result.data
         if (info.length) {
           if( lever == 'routes' ){
+            that.setState({
+              routes: info,
+            });
             rows = that.createRouteRows(info);
-            columns = routeColumns;
+            columns = this.routeColumns;
           }
           else if( lever == 'users' ){
+            that.setState({
+              users: info,
+            });
             rows = that.createUserRows(info);
             columns = userColumns
           }
           else if( lever == 'stops' ){
+            that.setState({
+              stops: info,
+            });
             rows = that.createStopRows(info);
             columns = stopColumns
+
           }
           else{}
           that.setState({
@@ -88,8 +155,38 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
         console.log(err)
         that.setState({
           rows: undefined,
-          columns: routeColumns
+          columns: this.routeColumns
         });
+      });
+  }
+
+  @autobind
+  public loadSample(lever) {
+    /*
+      Sample code for local development on page infrastructure
+      modeled after loadTable
+      will combine into load Table
+    */
+    let that = this
+    let rows = null
+    let columns = null
+    let info = null
+    if( lever == 'routes' ){
+      rows = that.createRouteRows(info);
+      columns = this.routeColumns;
+    }
+    else if( lever == 'users' ){
+            rows = that.createUserRows(info);
+            columns = userColumns
+    }
+    else if( lever == 'stops' ){
+      rows = that.createStopRows(info);
+      columns = stopColumns
+    }
+    else{}
+    that.setState({
+      rows: rows,
+      columns: columns
       });
   }
 
@@ -99,8 +196,26 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
       conditional row build function for routes called by loadTable
     */
     let _routeRows = [];
-    for (let i = 0; i < routes.length; i++) {
-      _routeRows.push({
+    if(routes == null){
+      //dev case
+      console.log('testing case -- npm run dev')
+      for (let i = 0; i < 27; i++) {
+        _routeRows.push({
+          id: i,
+          routename: 'route '+i,
+          duration: 10,
+          departuretimes: 12,
+          cost: 10,
+          notes: 'sample notes',
+          approved: 'false',
+        });
+      }
+    }
+    else{
+      //production case
+      console.log('production case -- npm start')
+      for (let i = 0; i < routes.length; i++) {
+        _routeRows.push({
           id: routes[i]._id,
           routename: routes[i].properties.name,
           duration: routes[i].properties.duration,
@@ -108,8 +223,10 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
           cost: routes[i].properties.cost,
           notes: routes[i].properties.notes,
           approved: routes[i].properties.approved.toString(),
-      });
+        });
+      }
     }
+    console.log(' ')
     return _routeRows;
   }
 
@@ -119,14 +236,27 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
       conditional row build function for users called by loadTable
     */
     let _userRows = [];
-    for (let i = 0; i < users.length; i++) {
-      _userRows.push({
+    if(users == null){ //run dev case
+      for (let i = 0; i < 5; i++) {
+        _userRows.push({
+          id: i,
+          username: 'user ' + i,
+          email: 'email '+ i,
+          permission: 1,
+        });
+      }
+    }
+    else{ //production case
+      for (let i = 0; i < users.length; i++) {
+        _userRows.push({
           id: users[i]._id,
           username: users[i].username,
           email: users[i].email,
           permission: users[i].permissionLevel,
-      });
+        });
+      }
     }
+    console.log(' ')
     return _userRows;
   }
 
@@ -136,12 +266,24 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
       conditional row build function for stops called by loadTable
     */
     let _stopRows = [];
-    for (let i = 0; i < stops.length; i++) {
-      _stopRows.push({
+    if (stops == null){
+      alert('no stops in db, sample dev values');
+      for (let i = 0; i < stops.length; i++) {
+        _stopRows.push({
           id: stops[i]._id,
           longitude: stops[i].geometry.coordinates[0],
           latitude: stops[i].geometry.coordinates[1],
-      });
+        });
+      }
+    }
+    else{
+      for (let i = 0; i < 5; i++) {
+        _stopRows.push({
+          id: i,
+          longitude: 'longitude ' + i,
+          latitude: 'latitude ' + i,
+        });
+      }
     }
     return _stopRows;
   }
@@ -156,17 +298,49 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
   }
 
   @autobind
-  public edit(){
+  public editEntry(id){
     /*
       TO BE BUILT EDIT FUNCTION
     */
+    fetch('/api/routes/:id').then((result: any) => {
+      return result.json(); }).then(result => {
+        let res = result
+        console.log(res.success)
+        console.log(res.message.toString())
+        if (res.success == false) {
+          alert('route not found');
+        }
+        else{
+          alert('route' + id + 'was successfully updated')
+          //grid component should to be updated, probably not here though
+        }
+      }).catch(err => {
+        console.log(err)
+        alert('error')
+      });
   }
 
   @autobind
-  public delete(){
-    /*
-      TO BE BUILT DELETE FUNCTION
-    */
+  public deleteEntry(id, type){
+    //if for type
+    let currID = id
+    fetch('/api/routes/:id', {
+        method: 'delete',
+        headers: new Headers({
+            'Content-Type': 'application/json'
+        }),
+        body: JSON.stringify(currID)
+      }).then((res: any) => {
+          if(!res.ok){
+              throw Error(res.statusText);
+          }else{
+              return res.json()
+          }
+      }).then(responseJson => {
+          console.log(responseJson);
+      }).catch(err => {
+          console.log(err);
+      });
   }
 
   @autobind
@@ -179,24 +353,15 @@ export class DataInterface extends BaseComponent<IDataInterfaceProps, IDataInter
 
   public componentWillMount(){
     /*
-      React initializer: sets default to route table manager
+      React initializer: sets default to route table manager or sample
     */
+    //this.loadSample('routes');
     this.loadTable('routes');
-  }
-}
 
-const routeColumns = [
-  /*
-    table-columns structure for routes
-  */
-  { key: 'id', name: 'ID' },
-  { key: 'routename', name: 'route name', sortable: true },
-  { key: 'duration', name: 'Duration', sortable: true},
-  { key: 'departuretimes', name: 'Departure Times', sortable: true},
-  { key: 'cost', name: 'Cost', sortable: true},
-  { key: 'notes', name: 'Notes' },
-  { key: 'approved', name: 'Approved', sortable: true},
-];
+    ReactModal.setAppElement('body'); //necessary for modal view library
+  }
+
+}
 
 const userColumns = [
   /*

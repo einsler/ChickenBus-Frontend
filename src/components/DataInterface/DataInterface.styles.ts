@@ -16,13 +16,13 @@ export const getStyles = memoizeFunction((): IDataInterfaceStyles => {
       display: 'flex'
     },
     header: {
-      width: '24%',
-      height: '80vh',
+      width: '20%',
+      height: '100%',
       margin: '10px',
     },
     manageRoute: {
-      width: '76%',
-      height: '91vh',
+      width: '80%',
+      height: '100%',
     },
     routeInfo: {
     },
