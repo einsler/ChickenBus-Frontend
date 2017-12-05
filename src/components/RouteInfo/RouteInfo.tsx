@@ -5,10 +5,13 @@ import {
 } from './RouteInfo.Props';
 import { BaseComponent } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
+import { getStyles } from "./RouteInfo.styles";
 
 interface IRouteInfoState {
 
 }
+
+const styles = getStyles();
 
 export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
     constructor(props: IRouteInfoProps) {
@@ -19,15 +22,23 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
 
     public render() {
         return(
-            <div>
-                <h4> Route </h4>
-                <p> { this.props.name } </p>
-                <h4> Duration </h4>
-                <p> { this.props.duration } Minutes </p>
-                <h4> Cost </h4>
-                <p> ${ this.props.cost } </p>
-                <h4> Notes </h4>
-                <p> { this.props.notes } </p>
+            <div style={styles.root}>
+                <div style={styles.infoContainer}>
+                    <h4 style={styles.title}> Route </h4>
+                    <p> { this.props.name } </p>
+                </div>
+                <div style={styles.infoContainer}>
+                    <h4 style={styles.title} > Duration </h4>
+                    <p> { this.props.duration } Minutes </p>
+                </div>
+                <div style={styles.infoContainer}>
+                    <h4 style={styles.title}> Cost </h4>
+                    <p> ${ this.props.cost } </p>
+                </div>
+                <div style={styles.infoContainer}>
+                    <h4 style={styles.title}> Notes </h4>
+                    <p> { this.props.notes } </p>
+                </div>
             </div>
         )
     }

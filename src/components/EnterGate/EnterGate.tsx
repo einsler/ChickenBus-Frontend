@@ -14,6 +14,7 @@ import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
 import { IRouteInfoProps } from "../RouteInfo/index";
+import * as csvParse from 'csv-parse';
 
 const styles = getStyles();
 
@@ -31,6 +32,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _times: HTMLUListElement;
     private _stopCount: number;
     private _name: TextField;
+    private _coords: google.maps.LatLng[];
     
     constructor(props: IEnterGateProps) {
         super(props);
@@ -74,6 +76,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         this._stopCount++;
         let temp: PlaceAutocomplete[] = this.state.route;
         temp.push(new PlaceAutocomplete({title: "Stop "+ this._stopCount}));
+        this._coords = [];
         this.setState({
             route: temp,
             routeProperties: undefined
@@ -85,6 +88,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         if(this.state.route.length > 1) {
             this._stopCount--;
             let temp: PlaceAutocomplete[] = this.state.route.slice(0,this.state.route.length-1);
+            this._coords = [];
             this.setState({
                 route: temp,
                 routeProperties: undefined
@@ -96,12 +100,15 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private generateStops(storeRoute: boolean) {
             let hasGoodLocationData: boolean = true;
             let invalidInputs: string = '';
+            this._coords = [];
             this.state.route.forEach((p, index) => {
-                if(!p.getPlace()) {
+                if(!p.getCoords()) {
                     hasGoodLocationData = false;
                     invalidInputs += p.props.title + ' ';
+                    this._coords = [];
                     return;
                 }
+                this._coords.push(p.getCoords());
             });
             if(hasGoodLocationData && this.state.route.length > 1) {
                 let routeToAdd = {
@@ -113,8 +120,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 if(storeRoute) {
                     this.setState({
                         routeProperties: routeToAdd,
-                    });
-                    alert("Added Route!");                    
+                    });                   
                 } else {
                     this.setState({
                         routeProperties: undefined,
@@ -132,10 +138,36 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         this.generateStops(true);
 
     }
+
     @autobind
     private _previewRoute(): void{
         this.generateStops(false);
     }
+    @autobind
+    private _parseCSV(): void{
+        let file = (document.getElementById('csv') as HTMLInputElement).files[0];
+        let reader = new FileReader();
+        let csv: string = '';
+        reader.onload = (e) => {
+            csv = reader.result;
+            csvParse(csv, {columns: true}, function(err: any, output: any){
+                if(err){
+                    console.log(err);
+                }else if(output){
+                    // console.log(JSON.stringify(output));
+                    fetch('/api/routes/csv', {
+                        method: 'post',
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        }),
+                        body: JSON.stringify(output)
+                    }).then((res: any)=> res.json())
+                    alert("Routes added.");
+                }
+            })
+        }
+        reader.readAsBinaryString(file);
+    }   
 
     public render() {
         return(
@@ -172,9 +204,13 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         <CommandButton text='Preview Route' onClick={this._previewRoute}/>
                         <CommandButton text='Add Route' onClick={this._addRoute}/>
                     </div>
+                    <div>
+                        <input id='csv' type='file' accept='.csv'/>
+                        <CommandButton text='Submit' onClick={this._parseCSV}/>
+                    </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationCoords={ this.state.route.map((place)=>place.getCoords()) } routeProperties={ this.state.routeProperties }/>
+                    <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties }/>
                 </div>
             </div>
         )

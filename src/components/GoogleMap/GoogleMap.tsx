@@ -12,6 +12,7 @@ import { Feature, LineString } from "geojson";
 interface IGoogleMapState {
     activeMarkers?: google.maps.Marker[];
     activePolyLines?: google.maps.Polyline[];
+    bounds?: google.maps.LatLngBounds;
 }
 const styles: IGoogleMapStyles = getStyles();
 
@@ -44,17 +45,6 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
 
     public shouldComponentUpdate(newProps: IGoogleMapProps) {
         return newProps.locationCoords !== this.props.locationCoords;
-    }
-
-    public componentDidUpdate() {
-        if(this.state.activeMarkers && this.state.activeMarkers[0] && this.state.activeMarkers[this.state.activeMarkers.length-1]) {
-            // Update map on refresh to make sure it uses the correct viewport for the routes.
-            let originMarker = this.state.activeMarkers[0].getPosition();
-            let destinationMarker = this.state.activeMarkers[this.state.activeMarkers.length-1].getPosition();
-            let NECorner = new google.maps.LatLng((originMarker.lat() > destinationMarker.lat() ? originMarker.lat() : destinationMarker.lat()), (originMarker.lng() < destinationMarker.lng() ? originMarker.lng() : destinationMarker.lng()));
-            let SWCorner = new google.maps.LatLng((originMarker.lat() < destinationMarker.lat() ? originMarker.lat() : destinationMarker.lat()), (originMarker.lng() > destinationMarker.lng() ? originMarker.lng() : destinationMarker.lng()));            
-            this._map.fitBounds(new google.maps.LatLngBounds(SWCorner, NECorner));
-        }
     }
 
     public componentWillReceiveProps(newProps: IGoogleMapProps): void {
@@ -90,19 +80,14 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     /**
                      * Use the response to create as many drawable routes on the google map as passed back in the response's direstions property.
                      */
-                    console.log(responseJson);
                     responseJson.directions.forEach((directions: any, index: number)=>{
                             // This is the initial location of the origin and destination of each route passed back
                             let pos1 = new google.maps.LatLng(directions.orig[0], directions.orig[1]);
                             let pos2 = new google.maps.LatLng(directions.dest[0], directions.dest[1]);
 
                             // Store bounds
-                            if( index == 0) {
-                                bounds.extend(pos1);
-                            }
-                            if ( index == responseJson.directions.length - 1) {
-                                bounds.extend(pos2);
-                            }
+                            bounds.extend(pos1);
+                            bounds.extend(pos2);
                             // Create markers for the routes
                             let markerP1 = new google.maps.Marker({
                                 position: pos1,
@@ -116,10 +101,11 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                 zIndex: 1,
                                 map: map
                             });
-                            that.state.activeMarkers.push(markerP1);
-                            that.state.activeMarkers.push(markerP2);
 
                             let curveMarker: google.maps.Marker;
+
+                            activeMarkers.push(markerP1);
+                            activeMarkers.push(markerP2);
                             
                                 function updateCurveMarker() {
                                     var pos1 = markerP1.getPosition(), // latlng
@@ -159,6 +145,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                             zIndex: 0, // behind the other markers
                                             map: map
                                         });
+                                        activeMarkers.push(curveMarker);
                                     } else {
                                         curveMarker.setOptions({
                                             position: pos1,
@@ -213,13 +200,8 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     map: map
                    });
                    activeMarkers.push(marker);
-                   console.log("adding item")
-                   console.log(item.lat());
-                   console.log(item.lng());
                    bounds.extend(item);
-                });
-                console.log(bounds.getNorthEast());   
-                console.log(bounds.getSouthWest());                                
+                });                               
 
                 if(newProps.routeProperties) {
                     let info = newProps.routeProperties;
@@ -237,13 +219,15 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                             'Content-Type': 'application/json'
                         }),
                         body: JSON.stringify(route)
-                    }).then((res: any)=> res.json())
+                    }).then((res: any)=> {
+                        res.json();
+                        alert("Added Route!"); 
+                    })
                 }
                 this.setState({
                     activeMarkers: activeMarkers,
                     activePolyLines: activePolyLines
                 });
-                console.log(bounds);
                 map.fitBounds(bounds);
             }
         }
