@@ -10,7 +10,12 @@ import {
   export const getStyles = memoizeFunction((): IRegisterStyles => {
     return {
       root: {
-        margin: 'auto',
+        margin: '0 auto',
+        width: '800px'
+      },
+      registerButton: {
+          margin: '0 auto',
+          textAlign: 'center'
       }
     }
     });

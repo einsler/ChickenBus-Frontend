@@ -10,7 +10,12 @@ import {
   export const getStyles = memoizeFunction((): ILoginStyles => {
     return {
       root: {
-        margin: 'auto',
+        margin: '0 auto',
+        width: '800px'
+      },
+      loginButton: {
+          margin: '0 auto',
+          textAlign: 'center'
       }
     }
     });

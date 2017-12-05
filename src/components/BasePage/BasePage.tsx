@@ -86,6 +86,9 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
           case 'Register':
             content = this._register
             break;
+        case 'Logout':
+            Auth.deauthenticateUser()
+            window.location.reload()
         }
         this.setState({content: content})
     }
@@ -97,6 +100,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             PivotItems.push(<PivotItem linkText='Search'/>);
             PivotItems.push(<PivotItem linkText='Route Entry'/>);
             PivotItems.push(<PivotItem linkText='Data Interface'/>);
+            PivotItems.push(<PivotItem linkText='Logout'/>);
         }else{
             PivotItems.push(<PivotItem linkText='Search'/>);
             PivotItems.push(<PivotItem linkText='Register'/>);

@@ -7,6 +7,7 @@ import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Util
 import { List } from "office-ui-fabric-react/lib/List";
 import { SearchBox } from "office-ui-fabric-react/lib/SearchBox";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
+import { Button } from "office-ui-fabric-react/lib/Button";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { PrimaryButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
 import { getStyles } from "./Login.styles";
@@ -31,7 +32,6 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
             errors: {},
             user: {
                 username: '',
-                email: '',
                 password: '',
                 permissionLevel: null
           }
@@ -41,10 +41,13 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     public render() {
         return(
           <div style={ styles.root }>
-                Username: <TextField componentRef={this._resolveRef("_username")}/>
-                Email: <TextField componentRef={this._resolveRef("_email")}/>
-                Password: <TextField componentRef={this._resolveRef("_password")}/>
-                <button onClick={this._onLoginPress}> Login </button>
+                <Label> Username </Label>
+                    <TextField componentRef={this._resolveRef("_username")}/>
+                <Label> Password </Label>
+                    <TextField type="password" componentRef={this._resolveRef("_password")}/>
+                <div style={styles.loginButton}>
+                    <Button style={ styles.loginButton } onClick={this._onLoginPress}> Login </Button>
+                </div>
           </div>
         )
     }
@@ -53,7 +56,6 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     private _onLoginPress() {
         let loginDetails = {
             username: this._username.value,
-            email: this._email.value,
             password: this._password.value
         };
 
@@ -65,12 +67,14 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
             body: JSON.stringify(loginDetails)
         }).then((res: any) => {
             if(!res.ok){
-                this.setState({res});
+                this.setState({errors: res});
+                alert("Could not log you in successfully. Please check login credentials");
                 throw Error(res.statusText);
             }else{
                 return res.json();
             }
         }).then(responseJson => {
+            this.setState({user: responseJson.user});
             Auth.authenticateUser(responseJson.token);
             this.props.onLogin();
         }).catch(err => {

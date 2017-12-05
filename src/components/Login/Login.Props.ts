@@ -38,4 +38,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
  export interface ILoginStyles {
    root: IStyle;
+   loginButton: IStyle;
  }
