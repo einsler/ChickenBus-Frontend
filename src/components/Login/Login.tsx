@@ -7,6 +7,7 @@ import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Util
 import { List } from "office-ui-fabric-react/lib/List";
 import { SearchBox } from "office-ui-fabric-react/lib/SearchBox";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
+import { Button } from "office-ui-fabric-react/lib/Button";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { PrimaryButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
 import { getStyles } from "./Login.styles";
@@ -40,9 +41,13 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     public render() {
         return(
           <div style={ styles.root }>
-                Username: <TextField componentRef={this._resolveRef("_username")}/>
-                Password: <TextField type="password" componentRef={this._resolveRef("_password")}/>
-                <button onClick={this._onLoginPress}> Login </button>
+                <Label> Username </Label>
+                    <TextField componentRef={this._resolveRef("_username")}/>
+                <Label> Password </Label>
+                    <TextField type="password" componentRef={this._resolveRef("_password")}/>
+                <div style={styles.loginButton}>
+                    <Button style={ styles.loginButton } onClick={this._onLoginPress}> Login </Button>
+                </div>
           </div>
         )
     }

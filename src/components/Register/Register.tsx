@@ -13,6 +13,8 @@ import { getStyles } from "./Register.styles";
 //import { exampleBlogItem } from "../../MockData/FrontEndConsts";
 import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
+import { Button } from "office-ui-fabric-react/lib/Button";
+
 import * as React from "react";
 
 interface IRegisterState {
@@ -33,10 +35,15 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
     public render() {
         return(
           <div style={ styles.root }>
-                Username: <TextField componentRef={this._resolveRef("_username")}/>
-                Email: <TextField componentRef={this._resolveRef("_email")}/>
-                Password: <TextField componentRef={this._resolveRef("_password")}/>
-                <button onClick={this._onRegister}> Register </button>
+                <Label> Username </Label>
+                    <TextField componentRef={this._resolveRef("_username")}/>
+                <Label> Email </Label>
+                    <TextField componentRef={this._resolveRef("_email")}/>
+                <Label> Password </Label>
+                    <TextField type="password" componentRef={this._resolveRef("_password")}/>
+                <div style={styles.registerButton}>
+                    <Button onClick={this._onRegister}> Register </Button>
+                </div>
           </div>
         )
     }
