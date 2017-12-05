@@ -31,7 +31,6 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
             errors: {},
             user: {
                 username: '',
-                email: '',
                 password: '',
                 permissionLevel: null
           }
@@ -42,7 +41,7 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
         return(
           <div style={ styles.root }>
                 Username: <TextField componentRef={this._resolveRef("_username")}/>
-                Password: <TextField componentRef={this._resolveRef("_password")}/>
+                Password: <TextField type="password" componentRef={this._resolveRef("_password")}/>
                 <button onClick={this._onLoginPress}> Login </button>
           </div>
         )
@@ -52,7 +51,6 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     private _onLoginPress() {
         let loginDetails = {
             username: this._username.value,
-            email: this._email.value,
             password: this._password.value
         };
 
