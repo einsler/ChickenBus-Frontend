@@ -25,8 +25,9 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     },
     form: {
       overflowY: 'scroll',
-      margin: '10px',
+      margin: '20px',
       width: '30vw',
+      minWidth: '414',
       height: '88vh'
     },
     flex: {

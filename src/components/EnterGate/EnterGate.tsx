@@ -4,11 +4,12 @@ import {
     IEnterGateProps,
     IEnterGateStyles
 } from './EnterGate.Props';
-import { BaseComponent, autobind } from 'office-ui-fabric-react/lib/Utilities';
+import { BaseComponent, autobind, IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import { CommandButton } from 'office-ui-fabric-react/lib/Button';
+import { CommandButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { GoogleMap } from "../GoogleMap/index";
 import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
@@ -20,55 +21,39 @@ const styles = getStyles();
 
 interface IEnterGateState {
   route: PlaceAutocomplete[];
-  times?: string[];
+  timeInfo?: TimeInfo[];
   routeProperties: IRouteInfoProps;
+  showModal?: boolean;
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _tripDuration: TextField;
-    private _pickUpTime: TextField;
     private _cost: TextField;
     private _notes: TextField;
-    private _times: HTMLUListElement;
     private _stopCount: number;
     private _name: TextField;
     private _coords: google.maps.LatLng[];
-    
+    private _origin: PlaceAutocomplete;
+    private _destination: PlaceAutocomplete;
+
     constructor(props: IEnterGateProps) {
         super(props);
         this._stopCount= 0;
+        this._origin = new PlaceAutocomplete({title: "Origin"});
+        this._destination = new PlaceAutocomplete({title: "Destination"})
         this.state = {
-            times: [],
-            route: [new PlaceAutocomplete({title: "Origin"})],
+            timeInfo: [{}],
+            route: [],
             routeProperties: undefined
         }
     }
 
     @autobind
-    private addTime():void{
-      if (this._pickUpTime.value == null || this.state.times.indexOf(this._pickUpTime.value) == 0){
+    private onTimesUpdated(index: number, info: TimeInfo) {
+        let temp = this.state.timeInfo;
+        temp[index] = info;
+        this.setState({timeInfo: temp});
 
-      }
-      else if (this._pickUpTime.value != null && this.state.times.indexOf(this._pickUpTime.value) < 0){
-        let li: HTMLLIElement = document.createElement("li");
-        li.appendChild(document.createTextNode(this._pickUpTime.value))
-        this._times.appendChild(li)
-        this.setState({
-          times: this.state.times.concat(this._pickUpTime.value),
-          routeProperties: undefined
-        })
-      }
-    }
-
-    @autobind
-    private removeTime(): void {
-        if (this._pickUpTime.value != null){
-            this._times.removeChild(this._times.lastChild)
-            this.setState({
-              times: this.state.times.slice(0, this.state.times.length-1),
-              routeProperties: undefined
-            })
-          }
     }
 
     @autobind
@@ -85,7 +70,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private removeStop(): void {
-        if(this.state.route.length > 1) {
+        if(this.state.route.length > 0) {
             this._stopCount--;
             let temp: PlaceAutocomplete[] = this.state.route.slice(0,this.state.route.length-1);
             this._coords = [];
@@ -97,11 +82,54 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     }
 
     @autobind
+    private _createTimesObject() {
+        let monday: string[] = [];
+        let tuesday: string[] = [];
+        let wednesday: string[] = [];
+        let thursday: string[] = [];
+        let friday: string[] = [];
+        let saturday: string[] = [];
+        let sunday: string[] = [];
+        this.state.timeInfo.map((info)=>{
+            if(info.monday) {
+                monday.push(info.time);
+            }
+            if(info.tuesday) {
+                tuesday.push(info.time);
+            }
+            if(info.wednesday) {
+                wednesday.push(info.time);
+            }
+            if(info.thursday) {
+                thursday.push(info.time);
+            }
+            if(info.friday) {
+                friday.push(info.time);
+            }
+            if(info.saturday) {
+                saturday.push(info.time);
+            }
+            if(info.sunday) {
+                sunday.push(info.time);
+            }
+        })
+        return {
+            monday: monday,
+            tuesday: tuesday,
+            wednesday: wednesday,
+            thursday: thursday,
+            friday: friday,
+            saturday: saturday,
+            sunday: sunday,
+        }
+    }
+
+    @autobind
     private generateStops(storeRoute: boolean) {
             let hasGoodLocationData: boolean = true;
             let invalidInputs: string = '';
             this._coords = [];
-            this.state.route.forEach((p, index) => {
+            [this._origin].concat(this.state.route).concat([this._destination]).forEach((p, index) => {
                 if(!p.getCoords()) {
                     hasGoodLocationData = false;
                     invalidInputs += p.props.title + ' ';
@@ -110,26 +138,25 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 }
                 this._coords.push(p.getCoords());
             });
-            if(hasGoodLocationData && this.state.route.length > 1) {
+            if(hasGoodLocationData) {
                 let routeToAdd = {
                     name: this._name.value,
                     cost: new Number(this._cost.value).valueOf(),
                     duration: new Number(this._tripDuration.value).valueOf(),
-                    notes: this._notes.value
+                    notes: this._notes.value,
+                    departureTimes: this._createTimesObject()
                 }
                 if(storeRoute) {
                     this.setState({
                         routeProperties: routeToAdd,
-                    });                   
+                    });
                 } else {
                     this.setState({
                         routeProperties: undefined,
                     });
                 }
-            }else if(this.state.route.length <= 1){
-                alert("Only one stop was added! Add more to create a valid route!");
             }else {
-                alert("Check your location value for " + invalidInputs);  
+                alert("Check your location value for " + invalidInputs);
             }
         };
 
@@ -167,7 +194,14 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             })
         }
         reader.readAsBinaryString(file);
-    }   
+    }
+
+    @autobind
+    private _onMapRenderedMarkers() {
+        this.setState({
+            routeProperties: undefined,
+        });
+    }
 
     public render() {
         return(
@@ -176,7 +210,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     <Label> Name </Label>
                     <TextField componentRef= { this._resolveRef('_name')} placeholder= 'Enter name of Route here'/>
                     <Label> Stops </Label>
-                    {this.state.route.map((val) => val.render())}
+                    {[this._origin].concat(this.state.route).concat([this._destination]).map((val) => val.render())}
                     <div style={styles.enterButtonBox}>
                         <CommandButton iconProps={{iconName: 'Add'}} text={ "Add Stop" } onClick={this.addStop}/>
                         <CommandButton iconProps={{iconName: 'SkypeMinus'}} text={ "Remove Stop" } onClick={this.removeStop}/>
@@ -190,6 +224,18 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                                 <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
                             </div>
                         </div>
+                    </div>
+                    <div style={{...styles.flex, justifyContent: 'center'}}>
+                        <CommandButton text={"Add Pickup Times"} onClick={()=>this.setState({showModal: true})}/>
+                        <Modal isOpen={this.state.showModal} onDismiss={(() => {this.setState({showModal: false})})}>
+                            <div style={{justifyContent: 'center'}}>
+                                {this.state.timeInfo.map((info, index)=><TimePicker {...info} index={index} onInfoChange={this.onTimesUpdated}/>)}
+                            </div>
+                            <div style={{display: "flex", margin: "10px"}}>
+                                <DefaultButton text={"Add Time"} onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}/>
+                                <DefaultButton text={"Remove Time"} onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}/>
+                            </div>
+                        </Modal>
                     </div>
                     <div style={styles.flex}>
                         <div style={styles.label}>
@@ -210,9 +256,59 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties }/>
+                    <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties } onDidRenderNewLocations={this._onMapRenderedMarkers}/>
                 </div>
             </div>
         )
     }
+}
+
+interface TimeInfo {
+    time?: any;
+    monday?: boolean;
+    tuesday?: boolean;
+    wednesday?: boolean;
+    thursday?: boolean;
+    friday?: boolean;
+    saturday?: boolean;
+    sunday?: boolean;
+}
+
+interface ITimePickerProps extends IBaseProps, TimeInfo {
+    index: number;
+    onInfoChange: (index: number, newState:TimeInfo) => void;
+}
+
+const TimePicker: React.StatelessComponent<ITimePickerProps> = (props: ITimePickerProps) => {
+    let _time: HTMLInputElement;
+    let _info: TimeInfo = {
+        time: props.time,
+        monday: props.monday,
+        tuesday: props.tuesday,
+        wednesday: props.wednesday,
+        thursday: props.thursday,
+        friday: props.friday,
+        saturday: props.saturday,
+        sunday: props.sunday
+    }
+    let _monday: HTMLInputElement;
+    let _tuesday: HTMLInputElement;
+    let _wednesday: HTMLInputElement;
+    let _thursday: HTMLInputElement;
+    let _friday: HTMLInputElement;
+    let _saturday: HTMLInputElement;
+    let _sunday: HTMLInputElement;
+
+    return(
+        <div style={{display: "flex", margin: "5px", alignContent: "center"}} >
+            <input style={{margin: "5px"}} type="time" defaultValue={_info.time} ref={(input) => _time = input} onChangeCapture={() => {_info.time = _time.value;props.onInfoChange(props.index, _info);}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.monday} ref={(input) => _monday = input} onClick={() => { _info.monday = !_info.monday;_monday.checked = _info.monday; props.onInfoChange(props.index, _info)}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.tuesday} ref={(input) => _tuesday = input} onClick={() => {_info.tuesday = !_info.tuesday;_tuesday.checked = _info.tuesday;props.onInfoChange(props.index, _info)}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.wednesday} ref={(input) => _wednesday = input} onClick={() => {_info.wednesday = !_info.wednesday;_wednesday.checked = _info.wednesday;props.onInfoChange(props.index, _info)}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.thursday} ref={(input) => _thursday = input} onClick={() => {_info.thursday = !_info.thursday;_thursday.checked = _info.thursday;props.onInfoChange(props.index, _info)}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.friday} ref={(input) => _friday = input} onClick={() => {_info.friday = !_info.friday;_friday.checked = _info.friday;props.onInfoChange(props.index, _info)}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.saturday} ref={(input) => _saturday = input} onClick={() => {_info.saturday = !_info.saturday;_saturday.checked = _info.saturday;props.onInfoChange(props.index, _info)}}/>
+                <input style={{margin: "5px"}} type="radio" defaultChecked={props.sunday} ref={(input) => _sunday = input} onClick={() => {_info.sunday = !_info.sunday;_sunday.checked = _info.sunday;props.onInfoChange(props.index, _info)}}/>
+            </div>
+        )
 }
