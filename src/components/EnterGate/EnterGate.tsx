@@ -129,7 +129,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             let hasGoodLocationData: boolean = true;
             let invalidInputs: string = '';
             this._coords = [];
-            this.state.route.forEach((p, index) => {
+            [this._origin].concat(this.state.route).concat([this._destination]).forEach((p, index) => {
                 if(!p.getCoords()) {
                     hasGoodLocationData = false;
                     invalidInputs += p.props.title + ' ';
@@ -138,7 +138,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 }
                 this._coords.push(p.getCoords());
             });
-            if(hasGoodLocationData && this.state.route.length > 1) {
+            if(hasGoodLocationData) {
                 let routeToAdd = {
                     name: this._name.value,
                     cost: new Number(this._cost.value).valueOf(),
@@ -155,8 +155,6 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         routeProperties: undefined,
                     });
                 }
-            }else if(this.state.route.length <= 1){
-                alert("Only one stop was added! Add more to create a valid route!");
             }else {
                 alert("Check your location value for " + invalidInputs);  
             }
