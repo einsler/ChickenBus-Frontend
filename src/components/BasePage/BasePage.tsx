@@ -52,7 +52,6 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                     <div style = {styles.pivot}>
                         <Pivot onLinkClick = {this.onLinkClick}>
                           {this.state.pivots}
-                          <PivotItem linkText='Data Interface'/>
                         </Pivot>
                     </div>
                 </div>
