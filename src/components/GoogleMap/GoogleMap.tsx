@@ -201,7 +201,9 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                    });
                    activeMarkers.push(marker);
                    bounds.extend(item);
-                });                               
+                });
+                // Callback for after successful rendering of new markers and routes.
+                that.props.onDidRenderNewLocations();                               
 
                 if(newProps.routeProperties) {
                     let info = newProps.routeProperties;

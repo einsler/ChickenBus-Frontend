@@ -194,7 +194,14 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             })
         }
         reader.readAsBinaryString(file);
-    }   
+    }
+
+    @autobind
+    private _onMapRenderedMarkers() {
+        this.setState({
+            routeProperties: undefined,
+        });
+    }
 
     public render() {
         return(
@@ -249,7 +256,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
-                    <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties }/>
+                    <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties } onDidRenderNewLocations={this._onMapRenderedMarkers}/>
                 </div>
             </div>
         )
