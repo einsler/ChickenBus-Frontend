@@ -20,11 +20,11 @@ export const getStyles = memoizeFunction((): IDataInterfaceStyles => {
       height: '100%',
       margin: '10px',
     },
-    manageRoute: {
-      width: '80%',
-      height: '100%',
+    table: {
+      width: '100%',
+      height: '120%',
     },
-    routeInfo: {
+    modal: {
     },
     buttonContainer: {
     },

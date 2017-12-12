@@ -44,7 +44,7 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
       root?: IStyle;
       header?: IStyle;
-      manageRoute?: IStyle;
-      routeInfo?: IStyle;
+      table?: IStyle;
+      modal?: IStyle;
       buttonContainer?: IStyle;
  }
