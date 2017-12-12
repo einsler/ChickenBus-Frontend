@@ -74,7 +74,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                     return response.json();
                 }).then(function(responseJson){
                     let map = that._map;
-                    
+
                     let curvature: number = 0.4; // how curvy to make the arc
                     let bounds: google.maps.LatLngBounds = new google.maps.LatLngBounds();
                     /**
@@ -106,16 +106,16 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
 
                             activeMarkers.push(markerP1);
                             activeMarkers.push(markerP2);
-                            
+
                                 function updateCurveMarker() {
                                     var pos1 = markerP1.getPosition(), // latlng
                                         pos2 = markerP2.getPosition(),
                                         projection = map.getProjection(),
                                         p1 = projection.fromLatLngToPoint(pos1), // xy
                                         p2 = projection.fromLatLngToPoint(pos2);
-                            
+
                                     // Calculate the arc.
-                                    // To simplify the math, these points 
+                                    // To simplify the math, these points
                                     // are all relative to p1:
                                     var e = new google.maps.Point(p2.x - p1.x, p2.y - p1.y), // endpoint (p2 relative to p1)
                                         m = new google.maps.Point(e.x / 2, e.y / 2), // midpoint
@@ -123,20 +123,20 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         c = new google.maps.Point( // curve control point
                                             m.x + curvature * o.x,
                                             m.y + curvature * o.y);
-                            
+
                                     var pathDef = 'M 0,0 ' +
                                         'q ' + c.x + ',' + c.y + ' ' + e.x + ',' + e.y;
-                            
+
                                     var zoom = map.getZoom(),
                                         scale = 1 / (Math.pow(2, -zoom));
-                            
+
                                     var symbol = {
                                         path: pathDef,
                                         scale: scale,
                                         strokeWeight: 2,
                                         fillColor: 'none'
                                     };
-                            
+
                                     if (!curveMarker) {
                                         curveMarker = new google.maps.Marker({
                                             position: pos1,
@@ -153,7 +153,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                                         });
                                     }
                                 }
-                            
+
                                 google.maps.event.addListener(map, 'projection_changed', updateCurveMarker);
                                 google.maps.event.addListener(map, 'zoom_changed', updateCurveMarker);
                     });
@@ -181,7 +181,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                  * Following deals with when the map should instead display a route entered on the route entry page.
                  */
                 let map = that._map;
-                
+
                 let poly = new google.maps.Polyline({
                     strokeColor: '#000000',
                     strokeOpacity: 1.0,
@@ -201,7 +201,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                    });
                    activeMarkers.push(marker);
                    bounds.extend(item);
-                });                               
+                });
 
                 if(newProps.routeProperties) {
                     let info = newProps.routeProperties;
@@ -209,7 +209,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                         "stops" : newProps.locationCoords.map((coords)=> {return {"coordinates": [coords.lng(), coords.lat()]}}),
                         "name": info.name,
                         "cost": info.cost,
-                        "times": [-1],
+                        "times": info.departureTimes,
                         "duration": info.duration,
                         "notes": info.notes
                     }
@@ -221,7 +221,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                         body: JSON.stringify(route)
                     }).then((res: any)=> {
                         res.json();
-                        alert("Added Route!"); 
+                        alert("Added Route!");
                     })
                 }
                 this.setState({

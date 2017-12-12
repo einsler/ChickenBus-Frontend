@@ -35,7 +35,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     private _coords: google.maps.LatLng[];
     private _origin: PlaceAutocomplete;
     private _destination: PlaceAutocomplete;
-    
+
     constructor(props: IEnterGateProps) {
         super(props);
         this._stopCount= 0;
@@ -53,7 +53,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         let temp = this.state.timeInfo;
         temp[index] = info;
         this.setState({timeInfo: temp});
-        
+
     }
 
     @autobind
@@ -83,13 +83,13 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
 
     @autobind
     private _createTimesObject() {
-        let monday: number[] = [];
-        let tuesday: number[] = [];
-        let wednesday: number[] = [];
-        let thursday: number[] = [];
-        let friday: number[] = [];
-        let saturday: number[] = [];
-        let sunday: number[] = [];
+        let monday: string[] = [];
+        let tuesday: string[] = [];
+        let wednesday: string[] = [];
+        let thursday: string[] = [];
+        let friday: string[] = [];
+        let saturday: string[] = [];
+        let sunday: string[] = [];
         this.state.timeInfo.map((info)=>{
             if(info.monday) {
                 monday.push(info.time);
@@ -144,19 +144,19 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     cost: new Number(this._cost.value).valueOf(),
                     duration: new Number(this._tripDuration.value).valueOf(),
                     notes: this._notes.value,
-                    times: this._createTimesObject()
+                    departureTimes: this._createTimesObject()
                 }
                 if(storeRoute) {
                     this.setState({
                         routeProperties: routeToAdd,
-                    });                   
+                    });
                 } else {
                     this.setState({
                         routeProperties: undefined,
                     });
                 }
             }else {
-                alert("Check your location value for " + invalidInputs);  
+                alert("Check your location value for " + invalidInputs);
             }
         };
 
@@ -194,7 +194,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
             })
         }
         reader.readAsBinaryString(file);
-    }   
+    }
 
     public render() {
         return(
@@ -228,7 +228,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                                 <DefaultButton text={"Add Time"} onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}/>
                                 <DefaultButton text={"Remove Time"} onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}/>
                             </div>
-                        </Modal> 
+                        </Modal>
                     </div>
                     <div style={styles.flex}>
                         <div style={styles.label}>

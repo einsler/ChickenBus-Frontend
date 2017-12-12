@@ -62,13 +62,13 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      * All times associated with the route.
      */
      departureTimes?: {
-         sunday: number[],
-         monday: number[],
-         tuesday: number[],
-         wednesday: number[],
-         thursday: number[],
-         friday: number[],
-         saturday: number[]
+         sunday: string[],
+         monday: string[],
+         tuesday: string[],
+         wednesday: string[],
+         thursday: string[],
+         friday: string[],
+         saturday: string[]
      }
  }
 
