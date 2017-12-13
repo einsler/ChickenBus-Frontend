@@ -10,7 +10,7 @@ import {
     return {
       input: {
         height: '30px',
-        width: '75%',
+        width: '72%',
         paddingLeft: '12px',
         paddingRight: '12px',
         paddingTop: '0px',
@@ -19,12 +19,13 @@ import {
         marginBottom: '0px'
       },
       root: {
-        margin: '10px',
-        display: 'flex'
+        display: 'flex',
+        marginTop: '10px'
       },
       labelContainer: {
-        width: '25%',
+        width: '28%',
         justifyContent: 'center',
+        marginLeft: '5px',
         alignContent: 'center'
       },
       inputContainer: {
