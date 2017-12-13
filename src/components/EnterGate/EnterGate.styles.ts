@@ -13,6 +13,7 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
       width: '28vw',
       height: '80vh',
       margin: '10px',
+      marginRight: '0px'
     },
     enterButtonBox: {
       display: 'flex',
@@ -21,21 +22,17 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     },
     googleMap: {
       width: '80%',
-      height: '90vh',
     },
     form: {
       overflowY: 'scroll',
       margin: '20px',
+      marginRight: '0px',
       width: '30vw',
       minWidth: '414',
       height: '88vh'
     },
     flex: {
       display: 'flex',
-    },
-    times: {
-      
-
     },
     label: {
       width: '25%',
@@ -44,7 +41,7 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
       alignContent: 'center'
     },
     input: {
-      width: '75%',
+      width: '60%',
       justifyContent: 'center',
       alignContent: 'center'
     }

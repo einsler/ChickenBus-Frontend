@@ -37,7 +37,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      googleMap: IStyle;
      form: IStyle;
      flex: IStyle;
-     times: IStyle;
      input: IStyle;
      label: IStyle;
   }

@@ -10,7 +10,13 @@ import {
     return {
       input: {
         height: '30px',
-        width: '100%'
+        width: '75%',
+        paddingLeft: '12px',
+        paddingRight: '12px',
+        paddingTop: '0px',
+        paddingBottom: '0px',
+        marginTop: '0px',
+        marginBottom: '0px'
       },
       root: {
         margin: '10px',
