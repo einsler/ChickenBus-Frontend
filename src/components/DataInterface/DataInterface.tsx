@@ -43,6 +43,7 @@ let stopColumns: IColumn[] = [
   { key: 'column2', name: 'Stop Name', fieldName: 'stopname', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for stopname'},
   { key: 'column3', name: 'Longitude', fieldName: 'longitude', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for longitide'},
   { key: 'column4', name: 'Latitude', fieldName: 'latitude', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for latitude'},
+  { key: 'column5', name: 'Approved', fieldName: 'approved', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for approved'},
 ];
 
 interface IDataInterfaceState {
@@ -377,9 +378,9 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
           }
         }
       }
-      else{
+      else if(type == 'stops'){
         let stopProp = this.state.stops[key].properties
-        let stmt = {
+        stmt = {
           properties:{
             routes: stopProp.routes,
             approved: true
@@ -401,16 +402,17 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
         }).then(responseJson => {
             console.log(responseJson);
             if(responseJson.success == false){
-              alert('approve failed... backen error')
+              alert('approve failed... backend error')
             }
             else{
-              this.handleCloseModal
+              alert(type+ ': approve on ' + id)
+              this.handleCloseModal()
             }
         }).catch(err => {
             console.log(err);
         });
 
-      alert(type+ ': approve on ' + id)
+
 
     }
   }
