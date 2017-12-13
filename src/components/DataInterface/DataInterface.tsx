@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDataGrid from 'react-data-grid';
 import {
     IDataInterface,
     IDataInterfaceProps,
