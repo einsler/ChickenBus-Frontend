@@ -16,7 +16,7 @@ import {
         display: 'flex'
       },
       searchPanel: {
-        width: '24%',
+        minWidth: '323px',
         height: '80vh',
         margin: '10px',
       },

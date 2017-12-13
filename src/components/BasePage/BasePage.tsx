@@ -52,7 +52,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
                         </Pivot>
                     </div>
                 </div>
-                <div>
+                <div style={styles.content}>
                   {this.state.content}
                 </div>
             </div>

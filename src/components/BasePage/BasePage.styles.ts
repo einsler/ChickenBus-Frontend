@@ -15,8 +15,13 @@ import {
       header: {
         width:'100%',
         display: 'flex',
+        height: '10%',
         backgroundColor: '#a9a9a9',
         justifyContent: 'flex-End',
+      },
+      content: {
+        height: '90%',
+        backgroundColor: '#ffffff'
       },
       logo: {
         color: '#ffffff',
