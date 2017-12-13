@@ -251,14 +251,18 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
   }
   @autobind
   private _onChanged(text: any): void {
+
     if(this.state.screen == 'routes'){
-      this.setState({ rows: text ? this.state.rows.filter(i => i.routename.toLowerCase().indexOf(text) > -1) : this.state.rows });
+      let dummy = this.createRouteRows(this.state.routes)
+      this.setState({ rows: text ? dummy.filter(i => i.routename.toLowerCase().indexOf(text) > -1) : dummy });
     }
     else if(this.state.screen == 'users'){
-      this.setState({ rows: text ? this.state.rows.filter(i => i.username.toLowerCase().indexOf(text) > -1) : this.state.rows });
+      let dummy = this.createUserRows(this.state.users)
+      this.setState({ rows: text ? dummy.filter(i => i.username.toLowerCase().indexOf(text) > -1) : dummy });
     }
     else if(this.state.screen == 'stops'){
-      this.setState({ rows: text ? this.state.rows.filter(i => i.stopname.toLowerCase().indexOf(text) > -1) : this.state.rows });
+      let dummy = this.createStopRows(this.state.stops)
+      this.setState({ rows: text ? dummy.filter(i => i.stopname.toLowerCase().indexOf(text) > -1) : dummy });
     }
   }
 /*--Modal-Screen-Helper-Functions---------------------------------------------*/
