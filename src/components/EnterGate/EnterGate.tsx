@@ -235,7 +235,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         </div>
                     </div>
                     <div style={{...styles.flex, justifyContent: 'center'}}>
-                    <div style={{margin: "10px"}}>
+                    <div style={{margin: "10 px"}}>
                         <Button text={"Add Pickup Times"} onClick={()=>this.setState({showModal: true})}/>
                     </div>
                         <Modal isOpen={this.state.showModal} onDismiss={(() => {this.setState({showModal: false})})}>

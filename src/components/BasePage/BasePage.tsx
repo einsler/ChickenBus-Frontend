@@ -69,6 +69,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     @autobind
     private onLinkClick(itemKey: PivotItem): void {
         let content: JSX.Element;
+        document.body.style.overflow = "hidden";        
         switch(itemKey.props.linkText){
           case 'Search':
             content = this._searchContent;
@@ -77,6 +78,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             content = this._entryGate
             break;
           case 'Data Interface':
+          document.body.style.overflow = "scroll";                  
             content = this._dataInterface
             break;
           case 'Login':
