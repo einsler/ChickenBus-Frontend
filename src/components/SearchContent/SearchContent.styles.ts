@@ -16,22 +16,23 @@ import {
         display: 'flex'
       },
       searchPanel: {
-        minWidth: '323px',
-        height: '80vh',
+        minWidth: '333px',
+        maxHeight: '60 vh',
         margin: '10px',
       },
       searchButtonBox: {
         display: 'flex',
         justifyContent: 'center',
-        margin: '20px'
+        margin: '20px',
+        height: '5%'
       },
       googleMap: {
         width: '80%',
-        height: '92vh',
+        height: '100%',
       },
       locationInput: {
         width: '100%',
-        height: '30px'
+        height: '10%'
       },
 
   }})

@@ -15,12 +15,12 @@ import {
       header: {
         width:'100%',
         display: 'flex',
-        height: '10%',
+        height: '10vh',
         backgroundColor: '#a9a9a9',
         justifyContent: 'flex-End',
       },
       content: {
-        height: '90%',
+        height: '90vh',
         backgroundColor: '#ffffff'
       },
       logo: {

@@ -7,7 +7,7 @@ import { BaseComponent, autobind, KeyCodes } from "office-ui-fabric-react/lib/Ut
 import{ SearchBox } from 'office-ui-fabric-react/lib/components/SearchBox';
 import{ DatePicker } from 'office-ui-fabric-react/lib/components/DatePicker';
 import * as React from "react";
-import { CommandButton } from "office-ui-fabric-react/lib/components/Button";
+import { CommandButton, Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
 import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
@@ -39,9 +39,9 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                     <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                     <div style={ styles.searchButtonBox }>
-                        <CommandButton text='Search' onClick={ this._onRoute }/>
+                        <Button text='Search' onClick={ this._onRoute }/>
                     </div>
-                    <div>
+                    <div style={{height: '70%', overflowY: 'auto'}}>
                         { this.state.routeInfo ? <h3> Displaying {this.state.routeInfo.length} route(s)</h3> : null}
                         { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                     </div>

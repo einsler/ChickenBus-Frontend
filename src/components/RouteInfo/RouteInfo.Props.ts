@@ -92,4 +92,9 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
        * Style for the text of the RouteInfo component.
        */
       text?: IStyle;
+
+      /**
+       * Style for the displaying container of the times
+       */
+      timeContainer?: IStyle;
  }
