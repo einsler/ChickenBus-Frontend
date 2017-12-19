@@ -13,7 +13,8 @@ import { getStyles } from "./Register.styles";
 //import { exampleBlogItem } from "../../MockData/FrontEndConsts";
 import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { Button } from "office-ui-fabric-react/lib/Button";
+
+import { Container, Navbar, NavItem, Button } from 'react-materialize';
 
 import * as React from "react";
 

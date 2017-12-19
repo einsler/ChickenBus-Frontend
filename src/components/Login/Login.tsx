@@ -7,7 +7,6 @@ import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Util
 import { List } from "office-ui-fabric-react/lib/List";
 import { SearchBox } from "office-ui-fabric-react/lib/SearchBox";
 import { TextField } from "office-ui-fabric-react/lib/TextField";
-import { Button } from "office-ui-fabric-react/lib/Button";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { PrimaryButton, IButtonProps } from "office-ui-fabric-react/lib/Button";
 import { getStyles } from "./Login.styles";
@@ -15,6 +14,10 @@ import { getStyles } from "./Login.styles";
 import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
 import { Icon } from "office-ui-fabric-react/lib/Icon";
 import * as React from "react";
+
+import { Container, Navbar, NavItem, Button } from 'react-materialize';
+import { Redirect } from 'react-router-dom';
+
 import Auth from "../../modules/Auth";
 
 interface ILoginState {
@@ -74,9 +77,9 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
                 return res.json();
             }
         }).then(responseJson => {
-            this.setState({user: responseJson.user});
             Auth.authenticateUser(responseJson.token);
-            this.props.onLogin();
+            this.setState({user: responseJson.user});
+            window.location.href = "/"
         }).catch(err => {
             console.log(err);
         });

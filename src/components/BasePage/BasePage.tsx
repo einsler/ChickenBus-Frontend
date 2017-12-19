@@ -13,14 +13,14 @@ import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/FrontEndConsts";
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 
-import { Container, Navbar, NavItem } from 'react-materialize';
+import { Container, Navbar, NavItem, Button } from 'react-materialize';
 import { Switch, Route, NavLink } from 'react-router-dom'
 
 import Auth from '../../modules/Auth';
 
 interface IBasePageState {
     content: JSX.Element;
-    pivots?: JSX.Element[];
+    navItems?: JSX.Element[];
 }
 
 const styles: IBasePageStyles = getStyles();
@@ -38,7 +38,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
         this._searchContent = <SearchContent/>;
         this._entryGate = <EnterGate/>;
         this._dataInterface = <DataInterface/>;
-        this._login = <Login onLogin={this.updatePivots}/>;
+        this._login = <Login onLogin={this.updateNavLinks}/>;
         this._register = <Register/>
         this.state = {
           content: this._searchContent
@@ -46,74 +46,48 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     }
 
     public componentWillMount() {
-        this.updatePivots();
+        this.updateNavLinks();
     }
 
     public render() {
         return(
             <div>
                 <Navbar brand="ChickenBus" right>
-                    <li><NavLink to="/">Search</NavLink></li>
-                    <li><NavLink to="/register">Register</NavLink></li>
-                    <li><NavLink to="/login">Login</NavLink></li>
+                    {this.state.navItems}
                 </Navbar>
                 <div style={styles.content}>
                     <Route path="/" exact component={SearchContent} />
                     <Route path="/register" component={Register} />
-                    <Route path="/login" component={Login} />
+                    <Route path="/login" component={Login}/>
+                    <Route path="/route-entry" component={EnterGate} />
+                    <Route path="/data-interface" component={DataInterface}/>
                 </div>
             </div>
         )
     }
 
-    /**
-     * Function called on pivot link clicked. Used to change the content
-     * @param itemKey pivot item clicked
-     */
     @autobind
-    private onLinkClick(itemKey: PivotItem): void {
-        let content: JSX.Element;
-        document.body.style.overflow = "hidden";
-        switch(itemKey.props.linkText){
-          case 'Search':
-            content = this._searchContent;
-            break;
-          case 'Route Entry':
-            content = this._entryGate
-            break;
-          case 'Data Interface':
-          document.body.style.overflow = "scroll";
-            content = this._dataInterface
-            break;
-          case 'Login':
-            content = this._login
-            break;
-          case 'Register':
-            content = this._register
-            break;
-        case 'Logout':
-            Auth.deauthenticateUser()
-            window.location.reload()
+    private updateNavLinks(){
+        let NavLinks: JSX.Element[] = [];
+        console.log('update navlinks called');
+        if(Auth.isUserAuthenticated()){
+            NavLinks.push(<li><NavLink to="/">Search</NavLink></li>);
+            NavLinks.push(<li><NavLink to="/route-entry">Route Entry</NavLink></li>);
+            NavLinks.push(<li><NavLink to="/data-interface">Data Interface</NavLink></li>);
+            NavLinks.push(<li><Button flat onClick={this.logout}>Logout</Button></li>);
+        }else{
+            NavLinks.push(<li><NavLink to="/">Search</NavLink></li>);
+            NavLinks.push(<li><NavLink to="/register">Register</NavLink></li>);
+            NavLinks.push(<li><NavLink to="/login">Login</NavLink></li>);
         }
-        this.setState({content: content})
+        this.setState({
+            navItems: NavLinks
+        });
     }
 
     @autobind
-    private updatePivots(){
-        let PivotItems: JSX.Element[] = [];
-        if(Auth.isUserAuthenticated()){
-            PivotItems.push(<PivotItem linkText='Search'/>);
-            PivotItems.push(<PivotItem linkText='Route Entry'/>);
-            PivotItems.push(<PivotItem linkText='Data Interface'/>);
-            PivotItems.push(<PivotItem linkText='Logout'/>);
-        }else{
-            PivotItems.push(<PivotItem linkText='Search'/>);
-            PivotItems.push(<PivotItem linkText='Register'/>);
-            PivotItems.push(<PivotItem linkText='Login'/>);
-        }
-        this.setState({
-            pivots: PivotItems,
-            content: this._searchContent
-        })
+    private logout(){
+        Auth.deauthenticateUser();
+        window.location.href = "/";
     }
 }
