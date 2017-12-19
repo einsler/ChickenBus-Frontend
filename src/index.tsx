@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { Fabric, } from 'office-ui-fabric-react/lib/Fabric';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { BasePage } from "./components/index";
+import { BrowserRouter } from 'react-router-dom'
 
 const fabricStyle = {
     root: {
@@ -10,6 +11,6 @@ const fabricStyle = {
     }
 }
 
-const MyPage = () => (<div style={ fabricStyle.root }><Fabric title="ChickenBus" ><BasePage/></Fabric></div>);
+const MyPage = () => (<BrowserRouter><BasePage/></BrowserRouter>);
 
 ReactDOM.render(<MyPage />, document.body);

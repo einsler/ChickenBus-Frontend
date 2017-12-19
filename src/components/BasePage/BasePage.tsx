@@ -12,6 +12,10 @@ import { HomeContent, SearchContent, DataInterface, EnterGate, Login, Register} 
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/FrontEndConsts";
 import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
+
+import { Container, Navbar, NavItem } from 'react-materialize';
+import { Switch, Route, NavLink } from 'react-router-dom'
+
 import Auth from '../../modules/Auth';
 
 interface IBasePageState {
@@ -47,16 +51,16 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
 
     public render() {
         return(
-            <div style={ styles.root }>
-                <div style={ styles.header }>
-                    <div style = {styles.pivot}>
-                        <Pivot onLinkClick = {this.onLinkClick}>
-                          {this.state.pivots}
-                        </Pivot>
-                    </div>
-                </div>
+            <div>
+                <Navbar brand="ChickenBus" right>
+                    <li><NavLink to="/">Search</NavLink></li>
+                    <li><NavLink to="/register">Register</NavLink></li>
+                    <li><NavLink to="/login">Login</NavLink></li>
+                </Navbar>
                 <div style={styles.content}>
-                  {this.state.content}
+                    <Route path="/" exact component={SearchContent} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/login" component={Login} />
                 </div>
             </div>
         )
@@ -69,7 +73,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     @autobind
     private onLinkClick(itemKey: PivotItem): void {
         let content: JSX.Element;
-        document.body.style.overflow = "hidden";        
+        document.body.style.overflow = "hidden";
         switch(itemKey.props.linkText){
           case 'Search':
             content = this._searchContent;
@@ -78,7 +82,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
             content = this._entryGate
             break;
           case 'Data Interface':
-          document.body.style.overflow = "scroll";                  
+          document.body.style.overflow = "scroll";
             content = this._dataInterface
             break;
           case 'Login':

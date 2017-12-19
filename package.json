@@ -23,6 +23,7 @@
     "@types/csv-parse": "^1.1.11",
     "@types/geojson": "^1.0.4",
     "@types/googlemaps": "^3.29.0",
+    "@types/materialize-css": "^1.0.0",
     "@types/prop-types": "^15.5.1",
     "@types/react": "16.0.5",
     "@types/react-dom": "15.5.4",
@@ -34,7 +35,9 @@
     "office-ui-fabric-react": "^4.44.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
+    "react-materialize": "^1.1.1",
     "react-modal": "^3.1.7",
+    "react-router-dom": "^4.2.2",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
     "webpack": "^3.5.6"
