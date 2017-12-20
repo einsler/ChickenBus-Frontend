@@ -3,17 +3,15 @@ import {
     ISearchContentProps,
     ISearchContentStyles
 } from './SearchContent.Props';
-import { BaseComponent, autobind, KeyCodes } from "office-ui-fabric-react/lib/Utilities";
-import{ SearchBox } from 'office-ui-fabric-react/lib/components/SearchBox';
-import{ DatePicker } from 'office-ui-fabric-react/lib/components/DatePicker';
+import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
-import { CommandButton, Button } from "office-ui-fabric-react/lib/components/Button";
 import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
 import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
+import { Button } from 'react-materialize';
 
 const styles = getStyles();
 
@@ -39,7 +37,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                     <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                     <div style={ styles.searchButtonBox }>
-                        <Button text='Search' onClick={ this._onRoute }/>
+                        <Button onClick={ this._onRoute }>Search</Button>
                     </div>
                     <div style={{height: '70%', overflowY: 'auto'}}>
                         { this.state.routeInfo ? <h3> Displaying {this.state.routeInfo.length} route(s)</h3> : null}

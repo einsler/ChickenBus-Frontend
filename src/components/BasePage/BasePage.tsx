@@ -11,7 +11,6 @@ import * as React from 'react';
 import { HomeContent, SearchContent, DataInterface, EnterGate, Login, Register} from "../index";
 import { getStyles } from "./BasePage.styles";
 import { examplePersona } from "../../MockData/FrontEndConsts";
-import { TooltipHost } from 'office-ui-fabric-react/lib/Tooltip';
 
 import { Container, Navbar, NavItem, Button } from 'react-materialize';
 import { Switch, Route, NavLink } from 'react-router-dom'

@@ -5,16 +5,15 @@ import {
     IEnterGateStyles
 } from './EnterGate.Props';
 import { BaseComponent, autobind, IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
-import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
-import { CommandButton, DefaultButton, Button } from 'office-ui-fabric-react/lib/Button';
 import { GoogleMap } from "../GoogleMap/index";
 import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
 import { IRouteInfoProps } from "../RouteInfo/index";
+import { Button } from 'react-materialize';
 import * as csvParse from 'csv-parse';
 
 const styles = getStyles();
@@ -27,11 +26,11 @@ interface IEnterGateState {
 }
 
 export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
-    private _tripDuration: TextField;
-    private _cost: TextField;
-    private _notes: TextField;
+    private _tripDuration: HTMLInputElement;
+    private _cost: HTMLInputElement;
+    private _notes: HTMLInputElement;
     private _stopCount: number;
-    private _name: TextField;
+    private _name: HTMLInputElement;
     private _coords: google.maps.LatLng[];
     private _origin: PlaceAutocomplete;
     private _destination: PlaceAutocomplete;
@@ -212,16 +211,16 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             <Label> Name </Label>
                         </div>
                         <div style={styles.input}>
-                            <TextField componentRef= { this._resolveRef('_name')} placeholder= 'Enter name of Route here'/>
+                            <input ref= { this._resolveRef('_name')} placeholder= 'Enter name of Route here'/>
                         </div>
                     </div>
                     {[this._origin].concat(this.state.route).concat([this._destination]).map((val) => val.render())}
                     <div style={styles.enterButtonBox}>
                     <div style={{margin: "5px"}}>
-                        <Button iconProps={{iconName: 'Add'}} text={ "Add Stop" } onClick={this.addStop}/>
+                        <Button onClick={this.addStop}>Add Stop</Button>
                     </div>
                     <div style={{margin: "5px"}}>
-                        <Button iconProps={{iconName: 'SkypeMinus'}} text={ "Remove Stop" } onClick={this.removeStop}/>
+                        <Button onClick={this.removeStop}>Remove Stop</Button>
                     </div>
                     </div>
                     <div>
@@ -230,13 +229,13 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                                 <Label> Trip Duration</Label>
                             </div>
                             <div style={styles.input}>
-                                <TextField componentRef = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
+                                <input ref = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
                             </div>
                         </div>
                     </div>
                     <div style={{...styles.flex, justifyContent: 'center'}}>
                     <div style={{margin: "10 px"}}>
-                        <Button text={"Add Pickup Times"} onClick={()=>this.setState({showModal: true})}/>
+                        <Button onClick={()=>this.setState({showModal: true})}>Add Pickup Times</Button>
                     </div>
                         <Modal isOpen={this.state.showModal} onDismiss={(() => {this.setState({showModal: false})})}>
                             <div style={{...styles.flex, height: "25px"}}>
@@ -254,14 +253,11 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             </div>
                             <div style={{display: "flex", margin: "10px"}}>
                                 <div style={{margin: "5px"}}>
-                                    <DefaultButton 
-                                        text={"Add Time"} 
-                                        onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}/>
+                                    <Button onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}>Add Time</Button>
                                 </div>
                                 <div style={{margin: "5px"}}>
-                                    <DefaultButton 
-                                        text={"Remove Time"} 
-                                        onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}/>
+                                    <Button onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}>Remove Time</Button>
+                                
                                 </div>
                             </div>
                         </Modal>
@@ -271,7 +267,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             <Label>Cost</Label>
                         </div>
                         <div style={styles.input}>
-                            <TextField componentRef = {this._resolveRef('_cost')} placeholder= 'Enter cost in dollars'/>
+                            <input ref = {this._resolveRef('_cost')} placeholder= 'Enter cost in Cordobas'/>
                         </div>
                     </div>
                     <div style={styles.flex}>
@@ -279,20 +275,20 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             <Label>Notes</Label>
                         </div>
                         <div style={styles.input}>
-                            <TextField componentRef = {this._resolveRef('_notes')} multiline rows={ 3 }/>
+                            <input ref = {this._resolveRef('_notes')}/>
                         </div>
                     </div>
                     <div style={ styles.enterButtonBox }>
                         <div style={{margin: "5px"}}>
-                            <Button text='Preview Route' onClick={this._previewRoute}/>
+                            <Button onClick={this._previewRoute}>Preview Route</Button>
                         </div>
                         <div style={{margin: "5px"}}>
-                            <Button text='Add Route' onClick={this._addRoute}/>
+                            <Button onClick={this._addRoute}>Add Route</Button>
                         </div>
                     </div>
                     <div>
                         <input id='csv' type='file' accept='.csv'/>
-                        <Button text='Bulk Submit' onClick={this._parseCSV}/>
+                        <Button onClick={this._parseCSV}>Bulk Submit</Button>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>
@@ -341,7 +337,8 @@ const TimePicker: React.StatelessComponent<ITimePickerProps> = (props: ITimePick
 
     return(
         <div style={{display: "flex", margin: "5px", alignContent: "center"}} >
-            <input style={{margin: "5px", width: '150px'}} type="time" defaultValue={_info.time} ref={(input) => _time = input} onChangeCapture={() => {_info.time = _time.value;props.onInfoChange(props.index, _info);}}/>
+            <form>
+                <input style={{margin: "5px", width: '150px'}} type="time" defaultValue={_info.time} ref={(input) => _time = input} onChangeCapture={() => {_info.time = _time.value;props.onInfoChange(props.index, _info);}}/>
                 <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.monday} ref={(input) => _monday = input} onClick={() => { _info.monday = !_info.monday;_monday.checked = _info.monday; props.onInfoChange(props.index, _info)}}/>
                 <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.tuesday} ref={(input) => _tuesday = input} onClick={() => {_info.tuesday = !_info.tuesday;_tuesday.checked = _info.tuesday;props.onInfoChange(props.index, _info)}}/>
                 <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.wednesday} ref={(input) => _wednesday = input} onClick={() => {_info.wednesday = !_info.wednesday;_wednesday.checked = _info.wednesday;props.onInfoChange(props.index, _info)}}/>
@@ -349,6 +346,7 @@ const TimePicker: React.StatelessComponent<ITimePickerProps> = (props: ITimePick
                 <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.friday} ref={(input) => _friday = input} onClick={() => {_info.friday = !_info.friday;_friday.checked = _info.friday;props.onInfoChange(props.index, _info)}}/>
                 <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.saturday} ref={(input) => _saturday = input} onClick={() => {_info.saturday = !_info.saturday;_saturday.checked = _info.saturday;props.onInfoChange(props.index, _info)}}/>
                 <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.sunday} ref={(input) => _sunday = input} onClick={() => {_info.sunday = !_info.sunday;_sunday.checked = _info.sunday;props.onInfoChange(props.index, _info)}}/>
-            </div>
+            </form>
+        </div>
         )
 }

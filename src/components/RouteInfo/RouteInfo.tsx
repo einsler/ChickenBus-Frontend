@@ -35,7 +35,7 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
                 </div>
                 <div style={styles.infoContainer}>
                     <h4 style={styles.title}> Cost </h4>
-                    <p> c${ this.props.cost } </p>
+                    <p> C${ this.props.cost } </p>
                 </div>
                 <div style={{...styles.infoContainer, height: '50px'}}>
                     <h4 style={styles.title}> Notes </h4>
