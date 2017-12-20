@@ -7,7 +7,7 @@ import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Util
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { getStyles } from "./Login.styles";
 import * as React from "react";
-import { Container, Navbar, NavItem, Button } from 'react-materialize';
+import { Container, Navbar, NavItem, Button, Input } from 'react-materialize';
 
 import Auth from "../../modules/Auth";
 
@@ -34,13 +34,11 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     public render() {
         return(
           <div style={ styles.root }>
-                <Label> Username </Label>
-                    <input ref={this._resolveRef("_username")}/>
-                <Label> Password </Label>
-                    <input type="password" ref={this._resolveRef("_password")}/>
-                <div style={styles.loginButton}>
-                    <Button style={ styles.loginButton } onClick={this._onLoginPress}> Login </Button>
-                </div>
+              <Input placeholder="Username" validate ref={this._resolveRef("_username")}/>
+              <Input placeholder="Password" type="password" validate ref={this._resolveRef("_password")}/>
+              <div style={styles.loginButton}>
+                  <Button onClick={this._onLoginPress}> Login </Button>
+              </div>
           </div>
         )
     }

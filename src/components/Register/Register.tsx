@@ -6,7 +6,7 @@ import {
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { getStyles } from "./Register.styles";
-import { Container, Navbar, NavItem, Button } from 'react-materialize';
+import { Container, Navbar, NavItem, Button, Input } from 'react-materialize';
 
 import * as React from "react";
 
@@ -28,12 +28,9 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
     public render() {
         return(
           <div style={ styles.root }>
-                <Label> Username </Label>
-                    <input ref={this._resolveRef("_username")}/>
-                <Label> Email </Label>
-                    <input ref={this._resolveRef("_email")}/>
-                <Label> Password </Label>
-                    <input type="password" ref={this._resolveRef("_password")}/>
+                <Input placeholder="Username" validate ref={this._resolveRef("_username")}/>
+                <Input placeholder="Email" type="email" validate ref={this._resolveRef("_email")}/>
+                <Input placeholder="Password" type="password" validate ref={this._resolveRef("_password")}/>
                 <div style={styles.registerButton}>
                     <Button onClick={this._onRegister}> Register </Button>
                 </div>

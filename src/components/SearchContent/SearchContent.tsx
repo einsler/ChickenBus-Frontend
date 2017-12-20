@@ -11,7 +11,7 @@ import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
-import { Button } from 'react-materialize';
+import { Button, Input} from 'react-materialize';
 
 const styles = getStyles();
 
