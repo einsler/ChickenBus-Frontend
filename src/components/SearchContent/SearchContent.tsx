@@ -33,7 +33,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     public render() {
         return(
             <div style={ styles.root }>
-                <div style={ styles.searchPanel }>
+                <div style={ styles.searchPanel } className="z-depth-5">
                     <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                     <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                     <div style={ styles.searchButtonBox }>
@@ -44,7 +44,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                         { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                     </div>
                 </div>
-                <div style={ styles.googleMap }>
+                <div style={ styles.googleMap } className="z-depth-0">
                     <GoogleMap locationCoords={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />
                 </div>
             </div>

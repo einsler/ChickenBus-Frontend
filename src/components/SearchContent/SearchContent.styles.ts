@@ -18,7 +18,7 @@ import {
       searchPanel: {
         minWidth: '333px',
         maxHeight: '60 vh',
-        margin: '10px',
+        marginRight:'3px'
       },
       searchButtonBox: {
         display: 'flex',
@@ -27,7 +27,7 @@ import {
         height: '5%'
       },
       googleMap: {
-        width: '80%',
+        width: '100%',
         height: '100%',
       },
       locationInput: {

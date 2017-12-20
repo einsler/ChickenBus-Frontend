@@ -34,8 +34,8 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     public render() {
         return(
           <div style={ styles.root }>
-              <Input placeholder="Username" validate ref={this._resolveRef("_username")}/>
-              <Input placeholder="Password" type="password" validate ref={this._resolveRef("_password")}/>
+              <input placeholder="Username" ref={this._resolveRef("_username")}/>
+              <input placeholder="Password" type="password" ref={this._resolveRef("_password")}/>
               <div style={styles.loginButton}>
                   <Button onClick={this._onLoginPress}> Login </Button>
               </div>
@@ -49,6 +49,8 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
             username: this._username.value,
             password: this._password.value
         };
+
+        console.log(loginDetails);
 
         fetch('/auth/login', {
             method: 'post',

@@ -28,9 +28,9 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
     public render() {
         return(
           <div style={ styles.root }>
-                <Input placeholder="Username" validate ref={this._resolveRef("_username")}/>
-                <Input placeholder="Email" type="email" validate ref={this._resolveRef("_email")}/>
-                <Input placeholder="Password" type="password" validate ref={this._resolveRef("_password")}/>
+                <input placeholder="Username" ref={this._resolveRef("_username")}/>
+                <input placeholder="Email" type="email" ref={this._resolveRef("_email")}/>
+                <input placeholder="Password" type="password" ref={this._resolveRef("_password")}/>
                 <div style={styles.registerButton}>
                     <Button onClick={this._onRegister}> Register </Button>
                 </div>
