@@ -20,7 +20,7 @@ import {
         justifyContent: 'flex-End',
       },
       content: {
-        height: '90vh',
+        height: '92vh',
         backgroundColor: '#ffffff'
       },
       logo: {
