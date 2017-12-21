@@ -17,8 +17,10 @@ import {
       },
       searchPanel: {
         minWidth: '333px',
-        maxHeight: '60 vh',
-        marginRight:'3px'
+        maxHeight: '60 vh'
+      },
+      searchBox: {
+          padding: '10px'
       },
       searchButtonBox: {
         display: 'flex',

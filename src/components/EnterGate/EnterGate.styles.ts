@@ -12,37 +12,33 @@ export const getStyles = memoizeFunction((): IEnterGateStyles => {
     entryPanel: {
       width: '28vw',
       height: '80vh',
-      margin: '10px',
       marginRight: '0px'
     },
     enterButtonBox: {
       display: 'flex',
       justifyContent: 'center',
-      margin: '25px'
+      margin: '10px'
     },
     googleMap: {
       width: '80%',
     },
     form: {
       overflowY: 'auto',
-      margin: '20px',
       marginRight: '0px',
       width: '30vw',
       minWidth: '414',
       height: '88vh'
     },
     flex: {
-      display: 'flex',
+      marginTop: '10px',
+      backgroundColor: 'white'
     },
     label: {
-      width: '25%',
-      margin: '5px',
-      justifyContent: 'center',
-      alignContent: 'center'
+        paddingLeft: '5px'
     },
     input: {
-      width: '60%',
       justifyContent: 'center',
-      alignContent: 'center'
+      alignContent: 'center',
+      padding:'5px'
     }
 }})

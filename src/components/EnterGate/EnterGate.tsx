@@ -12,7 +12,7 @@ import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
 import { IRouteInfoProps } from "../RouteInfo/index";
-import { Button } from 'react-materialize';
+import { Button, Row, Card } from 'react-materialize';
 import * as csvParse from 'csv-parse';
 
 const styles = getStyles();
@@ -204,38 +204,41 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
     public render() {
         return(
             <div style={ styles.root }>
-                <div style={styles.form}>
-                    <div style={styles.flex}>
+                <div className="teal lighten-5" style={styles.form}>
+                    <div className="z-depth-1" style={styles.flex}>
                         <div style={styles.label}>
-                            <label> Name </label>
+                            <label>Route Name</label>
                         </div>
                         <div style={styles.input}>
-                            <input ref={ this._resolveRef('_name')} placeholder='Enter name of Route here'/>
+                            <input ref={ this._resolveRef('_name')} placeholder='Route Name'/>
                         </div>
                     </div>
-                    {[this._origin].concat(this.state.route).concat([this._destination]).map((val) => val.render())}
-                    <div style={styles.enterButtonBox}>
-                    <div style={{margin: "5px"}}>
-                        <Button flat onClick={this.addStop}>Add Stop</Button>
-                    </div>
-                    <div style={{margin: "5px"}}>
-                        <Button flat onClick={this.removeStop}>Remove Stop</Button>
-                    </div>
-                    </div>
+                    <Card>
+                        {[this._origin].concat(this.state.route).concat([this._destination]).map((val) => val.render())}
+                        <div style={styles.enterButtonBox}>
+                            <div style={{margin: "5px"}}>
+                                <Button floating icon="add" onClick={this.addStop}>Add Stop</Button>
+                            </div>
+                            <div style={{margin: "5px"}}>
+                                <Button floating className="red" icon="remove" onClick={this.removeStop}>Remove Stop</Button>
+                            </div>
+                        </div>
+                    </Card>
+
                     <div>
-                        <div style={styles.flex}>
+                        <div className="z-depth-1" style={styles.flex}>
                             <div style={styles.label}>
-                                <label> Trip Duration</label>
+                                <label> Trip Duration & Pickup Times</label>
                             </div>
                             <div style={styles.input}>
                                 <input ref = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
                             </div>
+                            <div style={styles.enterButtonBox}>
+                                <Button flat onClick={()=>this.setState({showModal: true})}>Add Pickup Times</Button>
+                            </div>
                         </div>
                     </div>
                     <div style={{...styles.flex, justifyContent: 'center'}}>
-                    <div style={{margin: "10 px"}}>
-                        <Button flat onClick={()=>this.setState({showModal: true})}>Add Pickup Times</Button>
-                    </div>
                         <Modal isOpen={this.state.showModal} onDismiss={(() => {this.setState({showModal: false})})}>
                             <div style={{...styles.flex, height: "25px"}}>
                                 <div style={{display: "flex", width: "38%", alignContent: "center", justifyContent:'center'}}><h6 >Time</h6></div>
@@ -261,7 +264,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             </div>
                         </Modal>
                     </div>
-                    <div style={styles.flex}>
+                    <div className="z-depth-1" style={styles.flex}>
                         <div style={styles.label}>
                             <label>Cost</label>
                         </div>
@@ -269,7 +272,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             <input ref = {this._resolveRef('_cost')} placeholder= 'Enter cost in Cordobas'/>
                         </div>
                     </div>
-                    <div style={styles.flex}>
+                    <div className="z-depth-1" style={styles.flex}>
                         <div style={styles.label}>
                             <label>Notes</label>
                         </div>
@@ -278,17 +281,17 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         </div>
                     </div>
                     <div style={ styles.enterButtonBox }>
-                        <div style={{margin: "5px"}}>
+                        <div className="white z-depth-1" style={{margin: "5px"}}>
                             <Button flat onClick={this._previewRoute}>Preview Route</Button>
                         </div>
-                        <div style={{margin: "5px"}}>
+                        <div className="white z-depth-1" style={{margin: "5px"}}>
                             <Button flat onClick={this._addRoute}>Add Route</Button>
                         </div>
                     </div>
-                    <div>
+                    <Card>
                         <input id='csv' type='file' accept='.csv'/>
-                        <Button flat onClick={this._parseCSV}>Bulk Submit</Button>
-                    </div>
+                        <Button onClick={this._parseCSV}>Bulk Submit</Button>
+                    </Card>
                 </div>
                 <div style={ styles.googleMap }>
                     <GoogleMap locationCoords={ this._coords } routeProperties={ this.state.routeProperties } onDidRenderNewLocations={this._onMapRenderedMarkers}/>

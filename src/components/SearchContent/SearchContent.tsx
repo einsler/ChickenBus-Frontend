@@ -33,11 +33,13 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     public render() {
         return(
             <div style={ styles.root }>
-                <div style={ styles.searchPanel } className="z-depth-5">
-                    <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
-                    <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
-                    <div style={ styles.searchButtonBox }>
-                        <Button onClick={ this._onRoute }>Search</Button>
+                <div className="teal lighten-5" style={ styles.searchPanel }>
+                    <div className="white z-depth-1" style={styles.searchBox}>
+                        <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
+                        <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
+                        <div style={ styles.searchButtonBox }>
+                            <Button onClick={ this._onRoute }>Search</Button>
+                        </div>
                     </div>
                     <div style={{height: '70%', overflowY: 'auto'}}>
                         { this.state.routeInfo ? <h3> Displaying {this.state.routeInfo.length} route(s)</h3> : null}
