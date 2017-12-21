@@ -7,7 +7,7 @@ import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Util
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { getStyles } from "./Login.styles";
 import * as React from "react";
-import { Container, Navbar, NavItem, Button, Input } from 'react-materialize';
+import { Container, Navbar, NavItem, Button, Input, Row} from 'react-materialize';
 
 import Auth from "../../modules/Auth";
 
@@ -16,8 +16,8 @@ interface ILoginState {
 const styles: ILoginStyles = getStyles();
 
 export class Login extends BaseComponent<ILoginProps, ILoginState> {
-    private _username: HTMLInputElement;
-    private _password: HTMLInputElement;
+    private _username: Input;
+    private _password: Input;
 
     constructor(props: ILoginProps) {
         super(props);
@@ -34,21 +34,25 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
     public render() {
         return(
           <div style={ styles.root }>
-              <input placeholder="Username" ref={this._resolveRef("_username")}/>
-              <input placeholder="Password" type="password" ref={this._resolveRef("_password")}/>
+            <form onSubmit={this._onLoginPress}>
+              <Input placeholder="Username" name="username" validate />
+              <Input placeholder="Password" type="password" name="password" validate/>
               <div style={styles.loginButton}>
-                  <Button onClick={this._onLoginPress}> Login </Button>
+                  <Button type="submit"> Login </Button>
               </div>
+            </form>
           </div>
         )
     }
 
     @autobind
-    private _onLoginPress() {
+    private _onLoginPress(event) {
+        event.preventDefault();
+
         let loginDetails = {
-            username: this._username.value,
-            password: this._password.value
-        };
+            username: event.target.username.value,
+            password: event.target.password.value
+        }
 
         console.log(loginDetails);
 

@@ -6,7 +6,6 @@ import {
 } from './EnterGate.Props';
 import { BaseComponent, autobind, IBaseProps } from 'office-ui-fabric-react/lib/Utilities';
 import { Modal } from 'office-ui-fabric-react/lib/Modal';
-import { Label } from 'office-ui-fabric-react/lib/Label';
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 import { GoogleMap } from "../GoogleMap/index";
 import { getStyles } from './EnterGate.styles'
@@ -208,25 +207,25 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                 <div style={styles.form}>
                     <div style={styles.flex}>
                         <div style={styles.label}>
-                            <Label> Name </Label>
+                            <label> Name </label>
                         </div>
                         <div style={styles.input}>
-                            <input ref= { this._resolveRef('_name')} placeholder= 'Enter name of Route here'/>
+                            <input ref={ this._resolveRef('_name')} placeholder='Enter name of Route here'/>
                         </div>
                     </div>
                     {[this._origin].concat(this.state.route).concat([this._destination]).map((val) => val.render())}
                     <div style={styles.enterButtonBox}>
                     <div style={{margin: "5px"}}>
-                        <Button onClick={this.addStop}>Add Stop</Button>
+                        <Button flat onClick={this.addStop}>Add Stop</Button>
                     </div>
                     <div style={{margin: "5px"}}>
-                        <Button onClick={this.removeStop}>Remove Stop</Button>
+                        <Button flat onClick={this.removeStop}>Remove Stop</Button>
                     </div>
                     </div>
                     <div>
                         <div style={styles.flex}>
                             <div style={styles.label}>
-                                <Label> Trip Duration</Label>
+                                <label> Trip Duration</label>
                             </div>
                             <div style={styles.input}>
                                 <input ref = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
@@ -235,7 +234,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                     <div style={{...styles.flex, justifyContent: 'center'}}>
                     <div style={{margin: "10 px"}}>
-                        <Button onClick={()=>this.setState({showModal: true})}>Add Pickup Times</Button>
+                        <Button flat onClick={()=>this.setState({showModal: true})}>Add Pickup Times</Button>
                     </div>
                         <Modal isOpen={this.state.showModal} onDismiss={(() => {this.setState({showModal: false})})}>
                             <div style={{...styles.flex, height: "25px"}}>
@@ -253,18 +252,18 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                             </div>
                             <div style={{display: "flex", margin: "10px"}}>
                                 <div style={{margin: "5px"}}>
-                                    <Button onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}>Add Time</Button>
+                                    <Button flat onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}>Add Time</Button>
                                 </div>
                                 <div style={{margin: "5px"}}>
-                                    <Button onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}>Remove Time</Button>
-                                
+                                    <Button flat onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}>Remove Time</Button>
+
                                 </div>
                             </div>
                         </Modal>
                     </div>
                     <div style={styles.flex}>
                         <div style={styles.label}>
-                            <Label>Cost</Label>
+                            <label>Cost</label>
                         </div>
                         <div style={styles.input}>
                             <input ref = {this._resolveRef('_cost')} placeholder= 'Enter cost in Cordobas'/>
@@ -272,7 +271,7 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                     <div style={styles.flex}>
                         <div style={styles.label}>
-                            <Label>Notes</Label>
+                            <label>Notes</label>
                         </div>
                         <div style={styles.input}>
                             <input ref = {this._resolveRef('_notes')}/>
@@ -280,15 +279,15 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                     <div style={ styles.enterButtonBox }>
                         <div style={{margin: "5px"}}>
-                            <Button onClick={this._previewRoute}>Preview Route</Button>
+                            <Button flat onClick={this._previewRoute}>Preview Route</Button>
                         </div>
                         <div style={{margin: "5px"}}>
-                            <Button onClick={this._addRoute}>Add Route</Button>
+                            <Button flat onClick={this._addRoute}>Add Route</Button>
                         </div>
                     </div>
                     <div>
                         <input id='csv' type='file' accept='.csv'/>
-                        <Button onClick={this._parseCSV}>Bulk Submit</Button>
+                        <Button flat onClick={this._parseCSV}>Bulk Submit</Button>
                     </div>
                 </div>
                 <div style={ styles.googleMap }>

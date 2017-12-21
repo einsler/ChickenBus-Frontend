@@ -28,22 +28,26 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
     public render() {
         return(
           <div style={ styles.root }>
-                <input placeholder="Username" ref={this._resolveRef("_username")}/>
-                <input placeholder="Email" type="email" ref={this._resolveRef("_email")}/>
-                <input placeholder="Password" type="password" ref={this._resolveRef("_password")}/>
+             <form onSubmit={this._onRegister}>
+                <Input placeholder="Username" name="username" validate/>
+                <Input placeholder="Email" type="email" name="email" validate/>
+                <Input placeholder="Password" type="password" name="password" validate/>
                 <div style={styles.registerButton}>
-                    <Button onClick={this._onRegister}> Register </Button>
+                    <Button type="submit"> Register </Button>
                 </div>
+             </form>
           </div>
         )
     }
 
     @autobind
-    private _onRegister() {
+    private _onRegister(event) {
+        event.preventDefault();
+
         let registerDetails = {
-            username: this._username.value,
-            email: this._email.value,
-            password: this._password.value
+            username: event.target.username.value,
+            email: event.target.email.value,
+            password: event.target.password.value,
         };
 
         fetch('/auth/register', {
@@ -59,7 +63,7 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
                 return res.json()
             }
         }).then(responseJson => {
-            console.log(responseJson);
+            alert("Register Successful");
         }).catch(err => {
             console.log(err);
         });
