@@ -35,8 +35,8 @@ export class Login extends BaseComponent<ILoginProps, ILoginState> {
         return(
           <div style={ styles.root }>
             <form onSubmit={this._onLoginPress}>
-              <Input placeholder="Username" name="username" validate />
-              <Input placeholder="Password" type="password" name="password" validate/>
+              <Input label="Username" name="username" validate />
+              <Input label="Password" type="password" name="password" validate/>
               <div style={styles.loginButton}>
                   <Button type="submit"> Login </Button>
               </div>

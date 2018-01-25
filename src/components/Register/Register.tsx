@@ -29,9 +29,9 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
         return(
           <div style={ styles.root }>
              <form onSubmit={this._onRegister}>
-                <Input placeholder="Username" name="username" validate/>
-                <Input placeholder="Email" type="email" name="email" validate/>
-                <Input placeholder="Password" type="password" name="password" validate/>
+                <Input label="Username" name="username" validate/>
+                <Input label="Email" type="email" name="email" validate/>
+                <Input label="Password" type="password" name="password" validate/>
                 <div style={styles.registerButton}>
                     <Button type="submit"> Register </Button>
                 </div>

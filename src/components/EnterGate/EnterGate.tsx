@@ -12,7 +12,7 @@ import { getStyles } from './EnterGate.styles'
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
 import { IRouteInfoProps } from "../RouteInfo/index";
-import { Button, Row, Card } from 'react-materialize';
+import { Button, Row, Card, Input } from 'react-materialize';
 import * as csvParse from 'csv-parse';
 
 const styles = getStyles();
@@ -205,12 +205,10 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
         return(
             <div style={ styles.root }>
                 <div className="teal lighten-5" style={styles.form}>
-                    <div className="z-depth-1" style={styles.flex}>
-                        <div style={styles.label}>
-                            <label>Route Name</label>
-                        </div>
+                    <div className="z-depth-1" style={styles.nonFlex}>
+
                         <div style={styles.input}>
-                            <input ref={ this._resolveRef('_name')} placeholder='Route Name'/>
+                            <Input ref={ this._resolveRef('_name')} label='Route Name'/>
                         </div>
                     </div>
                     <Card>
@@ -226,12 +224,9 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </Card>
 
                     <div>
-                        <div className="z-depth-1" style={styles.flex}>
-                            <div style={styles.label}>
-                                <label> Trip Duration & Pickup Times</label>
-                            </div>
+                        <div className="z-depth-1" style={styles.nonFlex}>
                             <div style={styles.input}>
-                                <input ref = {this._resolveRef('_tripDuration')} placeholder= 'Enter duration in minutes'/>
+                                <Input ref = {this._resolveRef('_tripDuration')} label= 'Duration'/>
                             </div>
                             <div style={styles.enterButtonBox}>
                                 <Button flat onClick={()=>this.setState({showModal: true})}>Add Pickup Times</Button>
@@ -240,47 +235,31 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                     </div>
                     <div style={{...styles.flex, justifyContent: 'center'}}>
                         <Modal isOpen={this.state.showModal} onDismiss={(() => {this.setState({showModal: false})})}>
-                            <div style={{...styles.flex, height: "25px"}}>
-                                <div style={{display: "flex", width: "38%", alignContent: "center", justifyContent:'center'}}><h6 >Time</h6></div>
-                                <div style={{display: "flex", width: "8%", alignContent: "center", justifyContent:'center'}}><h6>M</h6></div>
-                                <div style={{display: "flex", width: "8%", alignContent: "center", justifyContent:'center'}}><h6>T</h6></div>
-                                <div style={{display: "flex", width: "8%", alignContent: "center", justifyContent:'center'}}><h6>W</h6></div>
-                                <div style={{display: "flex", width: "9%", alignContent: "center", justifyContent:'center'}}><h6>Th</h6></div>
-                                <div style={{display: "flex", width: "9%", alignContent: "center", justifyContent:'center'}}><h6>F</h6></div>
-                                <div style={{display: "flex", width: "9%", alignContent: "center", justifyContent:'center'}}><h6>S</h6></div>
-                                <div style={{display: "flex", width: "9%", alignContent: "center", justifyContent:'center'}}><h6>Su</h6></div>
-                            </div>
-                            <div style={{justifyContent: 'center'}}>
+                            <div style={{ maxHeight: '60vh', overflowY: 'auto', justifyContent: 'center'}}>
+                                { console.log(this.state.timeInfo)}
                                 {this.state.timeInfo.map((info, index)=><TimePicker {...info} index={index} onInfoChange={this.onTimesUpdated}/>)}
                             </div>
-                            <div style={{display: "flex", margin: "10px"}}>
+                            <div style={styles.enterButtonBox}>
                                 <div style={{margin: "5px"}}>
-                                    <Button flat onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([this.state.timeInfo[this.state.timeInfo.length-1]])})}>Add Time</Button>
+                                    <Button flat onClick={()=>this.setState({timeInfo: this.state.timeInfo.concat([{time: this.state.timeInfo[this.state.timeInfo.length-1].time}])})}>Add Time</Button>
                                 </div>
                                 <div style={{margin: "5px"}}>
                                     <Button flat onClick={()=>{if(this.state.timeInfo.length > 1) this.setState({timeInfo: this.state.timeInfo.slice(0,this.state.timeInfo.length-1)})}}>Remove Time</Button>
-
                                 </div>
                             </div>
                         </Modal>
                     </div>
-                    <div className="z-depth-1" style={styles.flex}>
-                        <div style={styles.label}>
-                            <label>Cost</label>
-                        </div>
+                    <div className="z-depth-1" style={styles.nonFlex}>
                         <div style={styles.input}>
-                            <input ref = {this._resolveRef('_cost')} placeholder= 'Enter cost in Cordobas'/>
+                            <Input ref = {this._resolveRef('_cost')} label= 'Cost'/>
                         </div>
                     </div>
-                    <div className="z-depth-1" style={styles.flex}>
-                        <div style={styles.label}>
-                            <label>Notes</label>
-                        </div>
+                    <div className="z-depth-1" style={styles.nonFlex}>
                         <div style={styles.input}>
-                            <input ref = {this._resolveRef('_notes')}/>
+                            <Input label={"Notes"} ref = {this._resolveRef('_notes')}/>
                         </div>
                     </div>
-                    <div style={ styles.enterButtonBox }>
+                    <div style={ styles.enterButtonBox}>
                         <div className="white z-depth-1" style={{margin: "5px"}}>
                             <Button flat onClick={this._previewRoute}>Preview Route</Button>
                         </div>
@@ -289,8 +268,10 @@ export class EnterGate extends BaseComponent<IEnterGateProps, IEnterGateState> {
                         </div>
                     </div>
                     <Card>
-                        <input id='csv' type='file' accept='.csv'/>
-                        <Button onClick={this._parseCSV}>Bulk Submit</Button>
+                        <Input id='csv' type='file' accept='.csv'/>
+                        <div style={styles.enterButtonBox}>
+                            <Button onClick={this._parseCSV}>Bulk Submit</Button>
+                        </div>
                     </Card>
                 </div>
                 <div style={ styles.googleMap }>
@@ -317,6 +298,21 @@ interface ITimePickerProps extends IBaseProps, TimeInfo {
     onInfoChange: (index: number, newState:TimeInfo) => void;
 }
 
+/**
+ * Time picker stateless component for adding times for busses. 
+ * Note: there is currently a bug with the Materialize React Input component we use.
+ * Right now it doesn't show up as being checked when passed in a 'checked' value for default value. This case is caused when
+ * a user checks one of the boxes and then adds a new time. The newly added TimePicker should mirror the TimePicker above it.
+ * Will need to open a ticket up on the materialize react page (which seems to be dead - RIP) or find a work around.
+ * 
+ * For now I've disabled using the previous TimePickers value.
+ * To reenable this replace the contents of the concat statement in the onClick of the Add Time button with
+ * [this.state.timeInfo[this.state.timeInfo.length-1]]
+ * instead of using 
+ * [{time: this.state.timeInfo[this.state.timeInfo.length-1].time}]
+ * @param props 
+ */
+
 const TimePicker: React.StatelessComponent<ITimePickerProps> = (props: ITimePickerProps) => {
     let _time: HTMLInputElement;
     let _info: TimeInfo = {
@@ -329,26 +325,26 @@ const TimePicker: React.StatelessComponent<ITimePickerProps> = (props: ITimePick
         saturday: props.saturday,
         sunday: props.sunday
     }
-    let _monday: HTMLInputElement;
-    let _tuesday: HTMLInputElement;
-    let _wednesday: HTMLInputElement;
-    let _thursday: HTMLInputElement;
-    let _friday: HTMLInputElement;
-    let _saturday: HTMLInputElement;
-    let _sunday: HTMLInputElement;
+    let _monday: Input;
+    let _tuesday: Input;
+    let _wednesday: Input;
+    let _thursday: Input;
+    let _friday: Input;
+    let _saturday: Input;
+    let _sunday: Input;
 
     return(
-        <div style={{display: "flex", margin: "5px", alignContent: "center"}} >
-            <form>
-                <input style={{margin: "5px", width: '150px'}} type="time" defaultValue={_info.time} ref={(input) => _time = input} onChangeCapture={() => {_info.time = _time.value;props.onInfoChange(props.index, _info);}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.monday} ref={(input) => _monday = input} onClick={() => { _info.monday = !_info.monday;_monday.checked = _info.monday; props.onInfoChange(props.index, _info)}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.tuesday} ref={(input) => _tuesday = input} onClick={() => {_info.tuesday = !_info.tuesday;_tuesday.checked = _info.tuesday;props.onInfoChange(props.index, _info)}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.wednesday} ref={(input) => _wednesday = input} onClick={() => {_info.wednesday = !_info.wednesday;_wednesday.checked = _info.wednesday;props.onInfoChange(props.index, _info)}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.thursday} ref={(input) => _thursday = input} onClick={() => {_info.thursday = !_info.thursday;_thursday.checked = _info.thursday;props.onInfoChange(props.index, _info)}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.friday} ref={(input) => _friday = input} onClick={() => {_info.friday = !_info.friday;_friday.checked = _info.friday;props.onInfoChange(props.index, _info)}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.saturday} ref={(input) => _saturday = input} onClick={() => {_info.saturday = !_info.saturday;_saturday.checked = _info.saturday;props.onInfoChange(props.index, _info)}}/>
-                <input style={{margin: "5px", width: '10%'}} type="radio" defaultChecked={props.sunday} ref={(input) => _sunday = input} onClick={() => {_info.sunday = !_info.sunday;_sunday.checked = _info.sunday;props.onInfoChange(props.index, _info)}}/>
-            </form>
+        <div style={{display: "flex", margin: "5px", justifyContent: "center",alignContent: "center"}} >
+            <input style={{margin: "5px", width: '125px'}} type="time" defaultValue={_info.time} ref={(input) => _time = input} onChangeCapture={() => {_info.time = _time.value;props.onInfoChange(props.index, _info);}}/>
+            <Row style={{marginTop: '15px'}}>
+                <Input type="checkbox" label={ 'Monday' } defaultValue={props.monday ? 'checked' : null} ref={(input) => _monday = input} onChange={() => { _info.monday = !_info.monday;_monday.checked = _info.monday; props.onInfoChange(props.index, _info)}}/>
+                <Input type="checkbox" label={ 'Tuesday' } defaultValue={props.tuesday ? 'checked' : null} ref={(input) => _tuesday = input} onChange={() => {_info.tuesday = !_info.tuesday;_tuesday.checked = _info.tuesday;props.onInfoChange(props.index, _info)}}/>
+                <Input type="checkbox" label={ 'Wednesday' } defaultValue={props.wednesday ? 'checked' : null} ref={(input) => _wednesday = input} onChange={() => {_info.wednesday = !_info.wednesday;_wednesday.checked = _info.wednesday;props.onInfoChange(props.index, _info)}}/>
+                <Input type="checkbox" label={ 'Thursday' } defaultValue={props.thursday ? 'checked' : null} ref={(input) => _thursday = input} onChange={() => {_info.thursday = !_info.thursday;_thursday.checked = _info.thursday;props.onInfoChange(props.index, _info)}}/>
+                <Input type="checkbox" label={ 'Friday' } defaultValue={props.friday ? 'checked' : null} ref={(input) => _friday = input} onChange={() => {_info.friday = !_info.friday;_friday.checked = _info.friday;props.onInfoChange(props.index, _info)}}/>
+                <Input type="checkbox" label={ 'Saturday' } defaultValue={props.saturday ? 'checked' : null} ref={(input) => _saturday = input} onChange={() => {_info.saturday = !_info.saturday;_saturday.checked = _info.saturday;props.onInfoChange(props.index, _info)}}/>
+                <Input type="checkbox" label={ 'Sunday' } defaultValue={props.sunday ? 'checked' : null} ref={(input) => _sunday = input} onChange={() => {_info.sunday = !_info.sunday;_sunday.checked = _info.sunday;props.onInfoChange(props.index, _info)}}/>
+            </Row>
         </div>
         )
 }

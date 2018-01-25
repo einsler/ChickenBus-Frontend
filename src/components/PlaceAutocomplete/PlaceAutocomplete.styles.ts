@@ -9,13 +9,17 @@ import {
   export const getStyles = memoizeFunction((): IPlaceAutocompleteStyles => {
     return {
       input: {
+        marginTop: '10px',
+        marginLeft: '10px',
+        marginRight: '10px',
         height: '30px'
       },
       root: {
         display: 'flex',
         marginTop: '10px',
         marginLeft: '10px',
-        marginRight: '10px'
+        marginRight: '10px',
+        paddingBottom: '10px'
       },
       labelContainer: {
         width: '28%',

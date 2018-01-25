@@ -39,4 +39,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
      flex: IStyle;
      input: IStyle;
      label: IStyle;
+     nonFlex: IStyle;
   }

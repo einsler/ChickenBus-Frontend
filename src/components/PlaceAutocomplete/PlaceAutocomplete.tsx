@@ -9,7 +9,6 @@ import { Label } from "office-ui-fabric-react/lib/Label";
 import { supportedCountries } from "../../MockData/FrontEndConsts";
 import { getStyles } from "./PlaceAutocomplete.styles";
 import { DetailedReactHTMLElement, InputHTMLAttributes } from "react";
-import { Input } from "react-materialize";
 
 interface IPlaceAutocompleteState {
 
@@ -19,7 +18,7 @@ const styles = getStyles();
 
 export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IPlaceAutocompleteState> implements IPlaceAutocomplete{
     private _autocomplete: google.maps.places.Autocomplete;
-
+    
     constructor(props: IPlaceAutocompleteProps) {
         super(props);
 
@@ -30,8 +29,8 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
     public render() {
         return(
             <div style={ styles.root }>
-                <div style={styles.inputContainer}>
-                    <input ref={this.setAutocomplete} placeholder={this.props.title} style={styles.input} onKeyPress={this._onRouteEnter} />
+                <div style={styles.inputContainer}> 
+                    <input ref={this.setAutocomplete} placeholder={ this.props.title } style={styles.input} onKeyPress={this._onRouteEnter} />
                 </div>
             </div>
         )
@@ -69,7 +68,7 @@ export class PlaceAutocomplete extends BaseComponent<IPlaceAutocompleteProps, IP
 
     /**
      * Method for initializing the google maps autocomplete with the html input element
-     * @param input
+     * @param input 
      */
     @autobind
     private setAutocomplete(input: HTMLInputElement) {
