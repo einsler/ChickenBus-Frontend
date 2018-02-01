@@ -10,7 +10,7 @@ import {
     return {
       root: {
         border: '2px solid #000000',
-        padding: '5px'
+        padding: '6px'
       },
       infoContainer: {
         display: 'flex',
