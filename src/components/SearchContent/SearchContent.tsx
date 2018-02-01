@@ -40,10 +40,10 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                         <div style={ styles.searchButtonBox }>
                             <Button onClick={ this._onRoute }>Search</Button>
                         </div>
-                    </div>
-                    <div style={{height: '70%', overflowY: 'auto'}}>
-                        { this.state.routeInfo ? <h3> Displaying {this.state.routeInfo.length} route(s)</h3> : null}
-                        { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
+                        <div style={{height: '70%', overflowY: 'auto'}}>
+                            { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} route(s)</Label> : null}
+                            { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
+                        </div>
                     </div>
                 </div>
                 <div style={ styles.googleMap } className="z-depth-0">

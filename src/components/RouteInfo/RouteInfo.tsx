@@ -26,22 +26,22 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
         return(
             <div style={styles.root}>
                 <div style={styles.infoContainer}>
-                    <h4 style={styles.title}> Route </h4>
+                    <p style={styles.title}> Route </p>
                     <p> { this.props.name } </p>
                 </div>
                 <div style={styles.infoContainer}>
-                    <h4 style={styles.title} > Duration </h4>
+                    <p style={styles.title} > Duration </p>
                     <p> { this.props.duration } Minutes </p>
                 </div>
                 <div style={styles.infoContainer}>
-                    <h4 style={styles.title}> Cost </h4>
+                    <p style={styles.title}> Cost </p>
                     <p> C${ this.props.cost } </p>
                 </div>
                 <div style={{...styles.infoContainer, height: '50px'}}>
-                    <h4 style={styles.title}> Notes </h4>
+                    <p style={styles.title}> Notes </p>
                     <p style={{overflow: 'auto', maxHeight: '50px',maxWidth: '250px'}}> { this.props.notes } </p>
                 </div>
-                <h4 style={{...styles.title, height: '25px', marginTop: '5', marginBottom: '0'}}> Departure Times </h4>
+                <p style={{...styles.title, height: '25px', marginTop: '5', marginBottom: '0'}}> Departure Times </p>
                 <div style={styles.infoContainer}>
                     <Pivot linkSize={ PivotLinkSize.normal } linkFormat={ PivotLinkFormat.tabs } onLinkClick = {this.onLinkClick}>
                         <PivotItem linkText='Mon'/>

@@ -21,8 +21,9 @@ export const getStyles = memoizeFunction((): IDataInterfaceStyles => {
       margin: '10px',
     },
     table: {
+      overflow: 'auto',
       width: '100%',
-      height: '120%',
+      height: '100%',
     },
     modal: {
     },
