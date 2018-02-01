@@ -18,11 +18,29 @@ import {
         height: '25px',
         maxWidth: '100%'
       },
+      name: {
+        marginTop: '25px',
+        color: 'blue',
+        textAlign: 'left',
+        fontSize: '120%'
+      },
+
+      time: {
+        marginTop: '25px',
+        color: 'green',
+        marginLeft: 'auto',
+        fontSize: '120%'
+      },
+      
       title: {
-        marginLeft: '10px',
-        width: '20%',
         marginRight: '10px'
       },
+
+      cost: {
+        marginLeft: 'auto',
+        color: 'gray'
+      },
+
       text: { 
         
       },
@@ -30,7 +48,6 @@ import {
         display: 'flex',
         justifyItems: 'center',
         maxHeight: '125px',
-        overflowY: 'auto',
         width: '100%'        
       }
     }

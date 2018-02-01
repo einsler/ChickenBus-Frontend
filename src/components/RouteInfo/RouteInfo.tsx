@@ -6,7 +6,7 @@ import {
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import * as React from "react";
 import { getStyles } from "./RouteInfo.styles";
-import { Card } from "react-materialize";
+import { Card, Collapsible, CollapsibleItem } from "react-materialize";
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/components/Pivot';
 
 interface IRouteInfoState {
@@ -25,41 +25,58 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
 
     public render() {
         return(
-            <Card className='blue-grey darken-1'>
-                <div style={styles.root}>
-                    <div style={styles.infoContainer}>
-                        <p style={styles.title}> Routes! </p>
-                        <p> { this.props.name } </p>
+            <Collapsible>
+                <CollapsibleItem header= {
+                    <div> 
+                        <div style={styles.infoContainer}>
+                            <p style={styles.name}> { this.props.name } </p>
+                            <p style={styles.time}> { this.props.duration } Minutes </p>
+                        </div>
+                        <div style={styles.infoContainer}>
+                            <p style={styles.cost}> C${ this.props.cost } </p>
+                        </div>
                     </div>
-                    <div style={styles.infoContainer}>
-                        <p style={styles.title} > Duration </p>
-                        <p> { this.props.duration } Minutes </p>
+                }
+                children = {
+                    <div style={{overflow: 'auto'}}>
+                        <p style={{...styles.title, height: '15px', marginTop: '5px', marginBottom: '5px'}}> Departure Times </p>
+                        <div style={{display: 'flex', alignItems: 'center', marginBottom:'5px'}}>
+                            {this.state.content}
+                        </div> 
                     </div>
-                    <div style={styles.infoContainer}>
-                        <p style={styles.title}> Cost </p>
-                        <p> C${ this.props.cost } </p>
-                    </div>
-                    <div style={{...styles.infoContainer, height: '50px'}}>
-                        <p style={styles.title}> Notes </p>
-                        <p style={{overflow: 'auto', maxHeight: '50px',maxWidth: '250px'}}> { this.props.notes } </p>
-                    </div>
-                    <p style={{...styles.title, height: '25px', marginTop: '5', marginBottom: '0'}}> Departure Times </p>
-                    <div style={styles.infoContainer}>
-                        <Pivot linkSize={ PivotLinkSize.normal } linkFormat={ PivotLinkFormat.tabs } onLinkClick = {this.onLinkClick}>
-                            <PivotItem linkText='Mon'/>
-                            <PivotItem linkText='Tue'/>
-                            <PivotItem linkText='Wed'/>
-                            <PivotItem linkText='Thur'/>
-                            <PivotItem linkText='Fri'/>
-                            <PivotItem linkText='Sat'/>
-                            <PivotItem linkText='Sun'/>
-                        </Pivot>
-                    </div>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        {this.state.content}
-                    </div>
+                }/>
+            </Collapsible>
+            
+                /*{ <div style={styles.infoContainer}>
+                    <p style={styles.name}> { this.props.name } </p>
+                    <p style={styles.time}> { this.props.duration } Minutes </p>
                 </div>
-            </Card>
+                <div style={styles.infoContainer}>
+                    <p style={styles.cost}> C${ this.props.cost } </p>
+                </div>
+                <div style={{...styles.infoContainer, height: '50px'}}>
+                    <p style={styles.title}> Notes </p>
+                    <p style={{overflow: 'auto', maxHeight: '50px',maxWidth: '250px'}}> { this.props.notes } </p>
+                </div>
+                <p style={{...styles.title, height: '25px', marginTop: '5', marginBottom: '0px'}}> Departure Times </p>
+                <div style={{display: 'flex', alignItems: 'center', marginBottom:'5px'}}>
+                    {this.state.content}
+                </div>
+                }*/
+
+                /*{   <div style={styles.infoContainer}>
+                    <Pivot linkSize={ PivotLinkSize.normal } linkFormat={ PivotLinkFormat.tabs } onLinkClick = {this.onLinkClick}>
+                        <PivotItem linkText='Mon'/>
+                        <PivotItem linkText='Tue'/>
+                        <PivotItem linkText='Wed'/>
+                        <PivotItem linkText='Thur'/>
+                        <PivotItem linkText='Fri'/>
+                        <PivotItem linkText='Sat'/>
+                        <PivotItem linkText='Sun'/>
+                    </Pivot>
+                </div>
+                    }*/
+            
         )
     }
 

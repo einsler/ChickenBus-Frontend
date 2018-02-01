@@ -97,4 +97,10 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
        * Style for the displaying container of the times
        */
       timeContainer?: IStyle;
+
+      name?: IStyle;
+
+      time?: IStyle;
+
+      cost?: IStyle;
  }
