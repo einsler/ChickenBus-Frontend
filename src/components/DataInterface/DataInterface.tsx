@@ -16,6 +16,7 @@ import {
   IColumn
 } from "office-ui-fabric-react/lib/components/DetailsList";
 import { Modal } from "office-ui-fabric-react/lib/components/Modal";
+import { Input} from 'react-materialize';
 import { getStyles } from "./DataInterface.styles";
 
 const styles = getStyles();
@@ -53,6 +54,7 @@ interface IDataInterfaceState {
   showModal: any,
   currID: string,
   screen: string,
+  text: string,
 
   modalScreen?: JSX.Element[];
 }
@@ -72,6 +74,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
       showModal: false,
       currID: '',
       screen: '',
+      text: '',
     };
   }
 
@@ -251,7 +254,6 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
   }
   @autobind
   private _onChanged(text: any): void {
-
     if(this.state.screen == 'routes'){
       let dummy = this.createRouteRows(this.state.routes)
       this.setState({ rows: text ? dummy.filter(i => i.routename.toLowerCase().indexOf(text) > -1) : dummy });
@@ -411,9 +413,6 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
         }).catch(err => {
             console.log(err);
         });
-
-
-
     }
   }
 
