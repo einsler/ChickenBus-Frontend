@@ -5,12 +5,12 @@ import {
     getFocusStyle,
     FontSizes
   } from 'office-ui-fabric-react/lib/Styling';
-  import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
-  export const getStyles = memoizeFunction((): IRouteInfoStyles => {
+import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
+export const getStyles = memoizeFunction((): IRouteInfoStyles => {
     return {
       root: {
         border: '2px solid #000000',
-        padding: '6px'
+        padding: '6px',
       },
       infoContainer: {
         display: 'flex',
@@ -31,9 +31,12 @@ import {
         marginLeft: 'auto',
         fontSize: '120%'
       },
-      
+
       title: {
-        marginRight: '10px'
+        marginRight: '10px',
+        height: '15px',
+        marginTop: '5px',
+        marginBottom: '5px'
       },
 
       cost: {
@@ -42,13 +45,19 @@ import {
       },
 
       text: { 
-        
+
+      },
+
+      notes: {
+        color: 'gray',
+        textAlign: 'left',
+        marginTop: '10px'
       },
       timeContainer: {
         display: 'flex',
         justifyItems: 'center',
         maxHeight: '125px',
-        width: '100%'        
-      }
+        width: '100%'
+      },
     }
-})
+});

@@ -102,5 +102,7 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
       time?: IStyle;
 
+      notes?: IStyle;
+
       cost?: IStyle;
  }
