@@ -27,11 +27,11 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
         this.state = {
             timeMon: this.renderTimes(props.departureTimes.monday),
             timeTues: this.renderTimes(props.departureTimes.tuesday),
-            /* timeWed: this.renderTimes(props.departureTimes.wednesday),
+            timeWed: this.renderTimes(props.departureTimes.wednesday),
             timeThurs: this.renderTimes(props.departureTimes.thursday),
             timeFri: this.renderTimes(props.departureTimes.friday),
             timeSat: this.renderTimes(props.departureTimes.saturday),
-            timeSun: this.renderTimes(props.departureTimes.sunday) */
+            timeSun: this.renderTimes(props.departureTimes.sunday)
         };
     }
 
