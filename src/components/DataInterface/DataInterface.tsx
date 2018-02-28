@@ -16,6 +16,7 @@ import {
   IColumn
 } from "office-ui-fabric-react/lib/components/DetailsList";
 import { Modal } from "office-ui-fabric-react/lib/components/Modal";
+import { Input} from 'react-materialize';
 import { getStyles } from "./DataInterface.styles";
 
 const styles = getStyles();
@@ -53,6 +54,7 @@ interface IDataInterfaceState {
   showModal: any,
   currID: string,
   screen: string,
+  text: string,
 
   modalScreen?: JSX.Element[];
 }
@@ -72,6 +74,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
       showModal: false,
       currID: '',
       screen: '',
+      text: '',
     };
   }
 
@@ -251,7 +254,6 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
   }
   @autobind
   private _onChanged(text: any): void {
-
     if(this.state.screen == 'routes'){
       let dummy = this.createRouteRows(this.state.routes)
       this.setState({ rows: text ? dummy.filter(i => i.routename.toLowerCase().indexOf(text) > -1) : dummy });
@@ -327,6 +329,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
       //screenContent.push(<TextField componentRef = {this._resolveRef('id')} placeholder= 'Enter cost in dollars'/>);
 
       screenContent.push(<CommandButton text='Approve' onClick={() => this.approve(this.state.currID, idx, 'routes')}/>);
+      screenContent.push(<CommandButton text='Disapprove' onClick={() => this.disapprove(this.state.currID, idx, 'routes')}/>);
       //screenContent.push(<CommandButton text='Edit' onClick={() => this.editEntry(this.state.currID, 'routes')}/>);
       screenContent.push(<CommandButton text='Delete' onClick={() => this.deleteEntry(this.state.currID, 'routes')}/>);
     }
@@ -350,6 +353,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
       screenContent.push(<TextField label = 'Approved: ' underlined placeholder= {thisStop.properties.approved.toString()}/>);
 
       screenContent.push(<CommandButton text='Approve' onClick={() => this.approve(this.state.currID, idx, 'stops')}/>);
+      screenContent.push(<CommandButton text='Disapprove' onClick={() => this.disapprove(this.state.currID, idx, 'stops')}/>);
       //screenContent.push(<CommandButton text='Edit' onClick={() => this.editEntry(this.state.currID, 'stops')}/>);
       screenContent.push(<CommandButton text='Delete' onClick={() => this.deleteEntry(this.state.currID, 'stops')}/>);
     }
@@ -411,9 +415,59 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
         }).catch(err => {
             console.log(err);
         });
+    }
+  }
 
-
-
+  @autobind
+  public disapprove(id, key, type){
+    let stmt = {}
+    if(type == 'routes' || type == 'stops'){
+      if(type == 'routes'){
+        let routeProp = this.state.routes[key].properties
+        stmt = {
+          properties:{
+            name: routeProp.name,
+            cost: routeProp.cost,
+            departureTimes: routeProp.departureTimes,
+            duration: routeProp.duration,
+            notes: routeProp.notes,
+            approved: false
+          }
+        }
+      }
+      else if(type == 'stops'){
+        let stopProp = this.state.stops[key].properties
+        stmt = {
+          properties:{
+            routes: stopProp.routes,
+            approved: false
+          }
+        }
+      }
+      fetch('api/'+type+'/'+id, {
+          method: 'put',
+          headers: new Headers({
+              'Content-Type': 'application/json'
+          }),
+          body: JSON.stringify(stmt)
+        }).then((res: any) => {
+            if(!res.ok){
+                throw Error(res.statusText);
+            }else{
+                return res.json()
+            }
+        }).then(responseJson => {
+            console.log(responseJson);
+            if(responseJson.success == false){
+              alert('disapprove failed... backend error')
+            }
+            else{
+              alert(type+ ': disapprove on ' + id)
+              this.handleCloseModal()
+            }
+        }).catch(err => {
+            console.log(err);
+        });
     }
   }
 
@@ -461,7 +515,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
               alert('delete failed... backend error')
             }
             else{
-              this.handleCloseModal
+              this.handleCloseModal()
             }
         }).catch(err => {
             console.log(err);

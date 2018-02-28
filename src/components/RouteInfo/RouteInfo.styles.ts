@@ -22,14 +22,14 @@ export const getStyles = memoizeFunction((): IRouteInfoStyles => {
         marginTop: '25px',
         color: 'blue',
         textAlign: 'left',
-        fontSize: '120%'
+        fontSize: '100%'
       },
 
       time: {
         marginTop: '25px',
         color: 'green',
         marginLeft: 'auto',
-        fontSize: '120%'
+        fontSize: '100%'
       },
 
       title: {
@@ -51,7 +51,6 @@ export const getStyles = memoizeFunction((): IRouteInfoStyles => {
       notes: {
         color: 'gray',
         textAlign: 'left',
-        marginTop: '10px'
       },
       timeContainer: {
         display: 'flex',

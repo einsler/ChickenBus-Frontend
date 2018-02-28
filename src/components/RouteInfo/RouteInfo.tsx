@@ -49,10 +49,7 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
                         </div>
                     </div>
                 }>
-                    <div style={styles.infoContainer}>
-                            <p style={styles.notes}> Notes:{ this.props.notes } </p>
-                    </div>
-                    <Tabs className='tab-demo z-depth-1'>
+                    <Tabs className='tab-demo z-depth-1' style={{width: 'auto', padding: '0px'}}>
                         <Tab title='M' active>
                             <div style={{overflow: 'auto'}}>
                                 <div style={{display: 'flex', alignItems: 'center', marginBottom:'5px'}}>
@@ -103,6 +100,9 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
                             </div>
                         </Tab>
                     </Tabs>
+                    <div style={styles.infoContainer}>
+                            <p style={styles.notes}> Notes:{ this.props.notes } </p>
+                    </div>
                 >
                 </CollapsibleItem>
             </Collapsible>
