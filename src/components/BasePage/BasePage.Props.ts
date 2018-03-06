@@ -38,4 +38,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     root: IStyle;
     pivot: IStyle;
     content: IStyle;
+    nav: IStyle;
  }

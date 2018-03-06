@@ -17,12 +17,16 @@ import { Switch, Route, NavLink } from 'react-router-dom'
 
 import Auth from '../../modules/Auth';
 
+
 interface IBasePageState {
     content: JSX.Element;
     navItems?: JSX.Element[];
 }
 
+
 const styles: IBasePageStyles = getStyles();
+const logo = require('../../images/logo.png');
+var Img = <img style={styles.logo} src={logo} />
 
 export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     private _searchContent: JSX.Element;
@@ -51,7 +55,8 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     public render() {
         return(
             <div>
-                <Navbar brand=" ChickenBus" right>
+                <Navbar className="blue-grey lighten-2" style={styles.nav} brand={Img} right>
+
                     {this.state.navItems}
                 </Navbar>
                 <div style={styles.content}>

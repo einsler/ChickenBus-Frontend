@@ -23,9 +23,17 @@ import {
         height: '92vh',
         backgroundColor: '#ffffff'
       },
+      nav: {
+        //height: 'auto',
+      },
       logo: {
-        color: '#ffffff',
-        margin: '10px'
+        position: 'relative',
+        height: '213px',
+        width: '213px',
+        top: '-65px',
+        left: '16px',
+
+
       },
       profile: {
         marginLeft: 'auto',
