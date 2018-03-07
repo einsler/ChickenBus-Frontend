@@ -50,7 +50,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                       <p className="orange-text text-darken-1" style={styles.adspace}> ----------------------ADSPACE----------------------</p>
                       </div>
                     </div>
-                    <footer className="page-footer blue-grey lighten-3" style={styles.footer}>
+                    <footer className="page-footer blue-grey" style={styles.footer}>
                       <div className="container">
                         <div className="row">
                           <div className="col l6">
