@@ -35,6 +35,7 @@
     "office-ui-fabric-react": "^4.44.0",
     "prop-types": "^15.6.0",
     "react": "15.6.1",
+    "react-adsense": "0.0.4",
     "react-dom": "15.6.1",
     "react-materialize": "^1.1.1",
     "react-modal": "^3.1.7",

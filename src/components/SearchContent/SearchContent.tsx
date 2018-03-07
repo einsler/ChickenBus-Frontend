@@ -12,6 +12,7 @@ import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
 import { Button, Input, footer, Icons} from 'react-materialize';
+import AdSense from 'react-adsense';
 
 const styles = getStyles();
 
@@ -28,6 +29,15 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
         super(props);
         this.state = {
         }
+    }
+
+    componentDidMount () {
+        const script = document.createElement("script");
+
+        script.src = "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+        script.async = true;
+
+        document.body.appendChild(script);
     }
 
     public render() {
@@ -47,7 +57,11 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                     </div>
                     <div>
                       <div className="container">
-                      <p className="orange-text text-darken-1" style={styles.adspace}> ----------------------ADSPACE----------------------</p>
+                        <p className="orange-text text-darken-1" style={styles.adspace}> ----------------------ADSPACE----------------------</p>
+                        <AdSense.Google client='ca-pub-2730168194482941'
+                                      //slot='7806394673'
+                                      style={{width: '100%', height: '300px', float: 'left'}}
+                                      format='' />
                       </div>
                     </div>
                     <footer className="page-footer blue-grey" style={styles.footer}>
@@ -89,6 +103,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                 <div style={ styles.googleMap } className="z-depth-0">
                     <GoogleMap locationCoords={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />
                 </div>
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             </div>
         )
     }
