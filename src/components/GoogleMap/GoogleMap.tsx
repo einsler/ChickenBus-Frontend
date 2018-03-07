@@ -203,7 +203,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                    bounds.extend(item);
                 });
                 // Callback for after successful rendering of new markers and routes.
-                that.props.onDidRenderNewLocations();                               
+                that.props.onDidRenderNewLocations();
 
                 if(newProps.routeProperties) {
                     let info = newProps.routeProperties;

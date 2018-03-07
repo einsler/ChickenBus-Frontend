@@ -11,7 +11,7 @@ import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
-import { Button, Input} from 'react-materialize';
+import { Button, Input, footer, Icons} from 'react-materialize';
 
 const styles = getStyles();
 
@@ -38,13 +38,53 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                         <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                         <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
                         <div style={ styles.searchButtonBox }>
-                            <Button onClick={ this._onRoute }>Search</Button>
+                            <Button className="amber darken-2" onClick={ this._onRoute }>Search</Button>
                         </div>
                         <div style={{height: '70%', overflowY: 'auto'}}>
                             { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} route(s)</Label> : null}
                             { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                         </div>
                     </div>
+                    <div>
+                      <div className="container">
+                      <p className="orange-text text-darken-1" style={styles.adspace}> ----------------------ADSPACE----------------------</p>
+                      </div>
+                    </div>
+                    <footer className="page-footer blue-grey lighten-3" style={styles.footer}>
+                      <div className="container">
+                        <div className="row">
+                          <div className="col l6">
+                            <p className="grey-text text-lighten-4">With ChickenBus you will be able to see more of the world, with less of the hassle, and at the prices that locals pay.</p>
+                          </div>
+                          <div className="col l2">
+                            <ul>
+                              <li><h6>About</h6></li>
+                              <li><a href="" className="grey-text text-lighten-3">FAQ</a></li>
+                              <li><a href="" className="grey-text text-lighten-3">Facebook</a></li>
+                              <li><a href="http://www.twitter.com/ChickenBusCo" className="grey-text text-lighten-3">Twitter</a></li>
+                              <li><a href="" className="grey-text text-lighten-3">GoFundMe</a></li>
+                              <li><a href="" className="grey-text text-lighten-3">Affiliates</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div className= 'container'>
+                      <div className = "row">
+                        <a style={styles.icon} href="http://www.twitter.com/ChickenBusCo" className="icon-block col s3">
+                          <i className="small material-icons amber-text text-darken-2">people</i>
+                        </a>
+                        <a style={styles.icon} href="https://www.gofundme.com" className="icon-block col s3">
+                          <i className="small material-icons amber-text text-darken-2">cake</i>
+                        </a>
+                        <a style={styles.icon} href="https://www.facebook.com" className="icon-block col s3">
+                          <i className="small material-icons amber-text text-darken-2">monetization_on</i>
+                        </a>
+                      </div>
+                      </div>
+                      <div className="footer-copyright">
+                        <div className="container">Made by <a href="https://chickenbus.co/">ChickenBusLLC </a></div>
+                      </div>
+                    </footer>
                 </div>
                 <div style={ styles.googleMap } className="z-depth-0">
                     <GoogleMap locationCoords={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />

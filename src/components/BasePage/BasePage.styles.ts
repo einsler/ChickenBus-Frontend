@@ -24,15 +24,17 @@ import {
         backgroundColor: '#ffffff'
       },
       nav: {
-        //height: 'auto',
+        overflow: 'hidden',
+        width: '100%',
+        //height: '',
       },
       logo: {
         position: 'relative',
+        overflow: 'hidden',
         height: '213px',
         width: '213px',
         top: '-65px',
         left: '16px',
-
 
       },
       profile: {

@@ -16,8 +16,9 @@ import {
         display: 'flex'
       },
       searchPanel: {
-        minWidth: '333px',
-        maxHeight: '60 vh'
+        maxWidth: '30%',
+        maxHeight: '100 vh',
+        overflowY: 'scroll',
       },
       searchBox: {
           padding: '10px'
@@ -30,11 +31,21 @@ import {
       },
       googleMap: {
         width: '100%',
-        height: '100%',
+        height: '99%',
       },
       locationInput: {
         width: '100%',
         height: '10%'
+      },
+      adspace: {
+        width: '100%',
+        height: '25px',
+      },
+      icon: {
+      },
+      footer: {
+        width: '100%',
+        minHeight: '10%',
       },
 
   }})
