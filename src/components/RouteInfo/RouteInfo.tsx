@@ -49,6 +49,7 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
                         </div>
                     </div>
                 }>
+                <div style={{overflow:‘scroll’}}>
                     <Tabs className='tab-demo z-depth-1' style={{width: 'auto', padding: '0px'}}>
                         <Tab title='M' active>
                             <div style={{overflow: 'auto'}}>
