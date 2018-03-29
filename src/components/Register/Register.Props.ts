@@ -34,5 +34,4 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
  export interface IRegisterStyles {
    root: IStyle;
    registerButton: IStyle;
-   modal: IStyle;
  }

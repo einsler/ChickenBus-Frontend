@@ -6,6 +6,7 @@ import {
 } from './DataInterface.Props';
 import * as ReactModal from 'react-modal';
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
+import { Label } from 'office-ui-fabric-react/lib/Label';
 import { CommandButton } from "office-ui-fabric-react/lib/components/Button";
 import { TextField } from "office-ui-fabric-react/lib/components/TextField";
 import {
@@ -14,40 +15,36 @@ import {
   Selection,
   IColumn
 } from "office-ui-fabric-react/lib/components/DetailsList";
-import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { Modal } from "office-ui-fabric-react/lib/components/Modal";
-import {Input, Button, TextInput} from 'react-materialize';
+import { Input} from 'react-materialize';
 import { getStyles } from "./DataInterface.styles";
 
 const styles = getStyles();
 
 /*--Constants/Frameworks for Table Column Build-------------------------------*/
 const routeColumns: IColumn[] = [
-  { key: 'column1', name: 'Route Name', fieldName: 'routename', minWidth: 200, maxWidth: 235, isResizable: true, ariaLabel: 'Operations for routename'},
-  { key: 'column2', name: 'Approved', fieldName: 'approved', minWidth: 45, maxWidth: 75, isResizable: true, ariaLabel: 'Operations for approved'},
-  { key: 'column3', name: 'ID', fieldName: 'id', minWidth: 85, maxWidth: 190, isResizable: true, ariaLabel: 'Operations for id'},
-  { key: 'column5', name: 'Cost', fieldName: 'cost', minWidth: 45, maxWidth: 75, isResizable: true, ariaLabel: 'Operations for cost'},
-  { key: 'column4', name: 'Notes', fieldName: 'notes', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for notes'},
+  { key: 'column1', name: 'ID', fieldName: 'id', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for id'},
+  { key: 'column2', name: 'Route Name', fieldName: 'routename', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for routename'},
   //{ key: 'column3', name: 'Duration', fieldName: 'duration', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for duration'},
   //{ key: 'column4', name: 'Departure Times', fieldName: 'departuretimes', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for durationtimes'},
-
-
+  //{ key: 'column5', name: 'Cost', fieldName: 'cost', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for cost'},
+  { key: 'column6', name: 'Notes', fieldName: 'notes', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for notes'},
+  { key: 'column7', name: 'Approved', fieldName: 'approved', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for approved'},
 ];
 
 let userColumns: IColumn[] = [
-  { key: 'column1', name: 'Email', fieldName: 'email', minWidth: 150, maxWidth: 250, isResizable: true, ariaLabel: 'Operations for email'},
-  { key: 'column2', name: 'User Name', fieldName: 'username', minWidth: 150, maxWidth: 150, isResizable: true, ariaLabel: 'Operations for username'},
-  { key: 'column3', name: 'Permission Level', fieldName: 'permission', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for permission'},
-  { key: 'column4', name: 'ID', fieldName: 'id', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for id'},
+  { key: 'column1', name: 'ID', fieldName: 'id', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for id'},
+  { key: 'column2', name: 'User Name', fieldName: 'username', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for username'},
+  { key: 'column3', name: 'Email', fieldName: 'email', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for email'},
+  { key: 'column4', name: 'Permission Level', fieldName: 'permission', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for permission'},
 ];
 
 let stopColumns: IColumn[] = [
-  { key: 'column1', name: 'Stop Name', fieldName: 'stopname', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for stopname'},
-  { key: 'column2', name: 'Approved', fieldName: 'approved', minWidth: 100, maxWidth: 125, isResizable: true, ariaLabel: 'Operations for approved'},
-  { key: 'column3', name: 'Longitude', fieldName: 'longitude', minWidth: 100, maxWidth: 175, isResizable: true, ariaLabel: 'Operations for longitide'},
-  { key: 'column4', name: 'Latitude', fieldName: 'latitude', minWidth: 100, maxWidth: 175, isResizable: true, ariaLabel: 'Operations for latitude'},
-  { key: 'column5', name: 'ID', fieldName: 'id', minWidth: 150, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for id'},
-
+  { key: 'column1', name: 'ID', fieldName: 'id', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for id'},
+  { key: 'column2', name: 'Stop Name', fieldName: 'stopname', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for stopname'},
+  { key: 'column3', name: 'Longitude', fieldName: 'longitude', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for longitide'},
+  { key: 'column4', name: 'Latitude', fieldName: 'latitude', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for latitude'},
+  { key: 'column5', name: 'Approved', fieldName: 'approved', minWidth: 100, maxWidth: 200, isResizable: true, ariaLabel: 'Operations for approved'},
 ];
 
 interface IDataInterfaceState {
@@ -60,7 +57,6 @@ interface IDataInterfaceState {
   text: string,
 
   modalScreen?: JSX.Element[];
-  selectionDetails: any[],
 }
 
 
@@ -70,15 +66,8 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
   private stopRows: any[];
   private _selection: Selection;
 
-  selectionDetails: any[];
-
   constructor(props: IDataInterfaceProps) {
     super(props);
-
-    this._selection = new Selection({
-          onSelectionChanged: () => this.setState({ selectionDetails: this._getSelectionDetails() })
-    });
-
     this.state = {
       routes: [], users: [], stops: [],
       rows: [], columns: [],
@@ -86,10 +75,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
       currID: '',
       screen: '',
       text: '',
-
-      selectionDetails: this._getSelectionDetails(),
     };
-
   }
 
 /*--Initialization------------------------------------------------------------*/
@@ -203,6 +189,7 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
         });
       }
     }
+    console.log(' ')
     return _routeRows;
   }
 
@@ -316,38 +303,59 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
     let screenContent: JSX.Element[] = [];
     if (screen == 'routes' && idx != null){
       let thisRoute = this.state.routes[idx]
-      screenContent.push(<h5> {thisRoute.properties.name} </h5>);
-      screenContent.push(<h6> {"Database ID: "+thisRoute._id} </h6>);
-      screenContent.push(<Input label={"Cost: "+thisRoute.properties.cost}  name="cost" validate/>);
-      screenContent.push(<Input label={"Duration: "+thisRoute.properties.duration}  name="duration" validate/>);
-      screenContent.push(<Input label={"Notes: "+thisRoute.properties.notes}  name="notes" validate/>);
-      screenContent.push(<h5> {"Approved: "+thisRoute.properties.approved.toString()} </h5>);
-      screenContent.push(<div>  <p className="white-text"> Spacing </p> </div>);
+      screenContent.push(<TextField label = 'ID: ' underlined placeholder= {thisRoute._id}/>);
+      screenContent.push(<TextField label = 'Route Name: ' underlined placeholder= {thisRoute.properties.name}/>);
       //drop down with days of the week
-      screenContent.push(<a className="waves-effect green darken-2 waves-light btn" onClick={() => this.approve(this.state.currID, idx, 'routes')}>Approve</a>);
-      screenContent.push(<a className="waves-effect amber darken-2 waves-light btn" onClick={() => this.disapprove(this.state.currID, idx, 'routes')}>Disapprove</a>);
-      screenContent.push(<a className="waves-effect red darken-1 waves-light btn" onClick={() => this.deleteEntry(this.state.currID, 'routes')}>Delete</a>);
+
+      // <GroupedList
+      //   ref='groupedList'
+      //   items={ _items }
+      //   onRenderCell={ this._onRenderCell }
+      //   groupProps={
+      //     {
+      //       onRenderHeader: this._onRenderHeader,
+      //       onRenderFooter: this._onRenderFooter
+      //     }
+      //   }
+      //   groups={ _groups }
+      // />
+
+      //screenContent.push(<TextField label = 'Departure Times: ' underlined placeholder= {thisRoute.properties.departureTimes.saturday[0]}/>);
+      screenContent.push(<TextField label = 'Cost: ' underlined placeholder= {thisRoute.properties.cost}/>);
+      screenContent.push(<TextField label = 'Duration: ' underlined placeholder= {thisRoute.properties.duration}/>);
+      screenContent.push(<TextField label = 'Notes: ' underlined placeholder= {thisRoute.properties.notes}/>);
+      //pinwheel for edit
+      screenContent.push(<TextField label = 'Approved: ' underlined placeholder= {thisRoute.properties.approved.toString()}/>);
+      //screenContent.push(<TextField componentRef = {this._resolveRef('id')} placeholder= 'Enter cost in dollars'/>);
+
+      screenContent.push(<CommandButton text='Approve' onClick={() => this.approve(this.state.currID, idx, 'routes')}/>);
+      screenContent.push(<CommandButton text='Disapprove' onClick={() => this.disapprove(this.state.currID, idx, 'routes')}/>);
+      //screenContent.push(<CommandButton text='Edit' onClick={() => this.editEntry(this.state.currID, 'routes')}/>);
+      screenContent.push(<CommandButton text='Delete' onClick={() => this.deleteEntry(this.state.currID, 'routes')}/>);
     }
     else if (screen == 'users'){
       let thisUser = this.state.users[idx]
-      screenContent.push(<Input label={"ID: "+thisUser._id}  name="ID" validate/>);
-      screenContent.push(<Input label={"User Name: "+thisUser.username}  name="username" validate/>);
-      screenContent.push(<Input label={"Email: "+thisUser.email}  name="email" validate/>);
-      screenContent.push(<Input label={"Permission Level: "+thisUser.permissionLevel}  name="permission" validate/>);
-      screenContent.push(<a className="waves-effect red waves-light btn" onClick={() => this.deleteEntry(this.state.currID, 'users')}>Delete</a>);
+      screenContent.push(<TextField label = 'ID: ' underlined placeholder= {thisUser._id}/>);
+      screenContent.push(<TextField label = 'User Name: ' underlined placeholder= {thisUser.username}/>);
+      screenContent.push(<TextField label = 'Email: ' underlined placeholder= {thisUser.email}/>);
+      screenContent.push(<TextField label = 'Permission Level: ' underlined placeholder= {thisUser.permissionLevel}/>);
+
+      //screenContent.push(<CommandButton text='Edit' onClick={() => this.editEntry(this.state.currID, 'users')}/>);
+      screenContent.push(<CommandButton text='Delete' onClick={() => this.deleteEntry(this.state.currID, 'users')}/>);
     }
     else if (screen == 'stops'){
       let thisStop = this.state.stops[idx]
-      screenContent.push(<Label> {'Stop: '+idx + '... stop names should be a feature in new backend'} </Label>);
-      screenContent.push(<Label> {"Approved: "+thisStop.properties.approved.toString()} </Label>);
-      screenContent.push(<Label> {"ID: "+thisStop._id} </Label>);
-      screenContent.push(<Label> {"Longitude: "+thisStop.geometry.coordinates[0]} </Label>);
-      screenContent.push(<Label> {"Latitude: "+thisStop.geometry.coordinates[1]} </Label>);
-      screenContent.push(<Label> {"Associated Routes: "+thisStop.properties.routes.toString()} </Label>);
+      screenContent.push(<TextField label = 'ID: ' underlined placeholder= {thisStop._id}/>);
+      screenContent.push(<TextField label = 'Stop Name: ' underlined placeholder= {'stop'+idx} />);
+      screenContent.push(<TextField label = 'Longitude: ' underlined placeholder= {thisStop.geometry.coordinates[0]}/>);
+      screenContent.push(<TextField label = 'Latitude: ' underlined placeholder= {thisStop.geometry.coordinates[1]}/>);
+      screenContent.push(<TextField label = 'Associated Routes: ' underlined placeholder= {thisStop.properties.routes[0]}/>);
+      screenContent.push(<TextField label = 'Approved: ' underlined placeholder= {thisStop.properties.approved.toString()}/>);
 
-      screenContent.push(<a className="waves-effect green darken-2 waves-light btn" onClick={() => this.approve(this.state.currID, idx, 'stops')}>Approve</a>);
-      screenContent.push(<a className="waves-effect yellow darken-2 waves-light btn" onClick={() => this.disapprove(this.state.currID, idx, 'stops')}>Disapprove</a>);
-      screenContent.push(<a className="waves-effect red darken-1 waves-light btn" onClick={() => this.deleteEntry(this.state.currID, 'stops')}>Delete</a>);
+      screenContent.push(<CommandButton text='Approve' onClick={() => this.approve(this.state.currID, idx, 'stops')}/>);
+      screenContent.push(<CommandButton text='Disapprove' onClick={() => this.disapprove(this.state.currID, idx, 'stops')}/>);
+      //screenContent.push(<CommandButton text='Edit' onClick={() => this.editEntry(this.state.currID, 'stops')}/>);
+      screenContent.push(<CommandButton text='Delete' onClick={() => this.deleteEntry(this.state.currID, 'stops')}/>);
     }
     else{
       alert('Modal Call without params')
@@ -515,136 +523,19 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
 
     }
   }
-
-  @autobind
-  public approveSel(){
-    let selectionCount = this.state.selectionDetails.length;
-    if(selectionCount == 0){
-      alert("No Items are Selected");
-    }
-    else{
-      let selectionEntries = this.state.selectionDetails;
-      let dataType = [];
-      if(this.state.screen === 'routes'){
-          dataType = this.state.routes;
-      }
-      else if(this.state.screen === 'users'){
-          dataType = this.state.users;
-      }
-      else if(this.state.screen === 'stops'){
-          dataType = this.state.stops;
-      }
-      else{
-          alert('No current screen');
-          dataType = null;
-      }
-      if(dataType != null){
-        for(var i= 0; i < selectionCount; i++){
-          for(var j=0; j<dataType.length; j++){
-            if (selectionEntries[i].id == dataType[j]._id){
-              this.approve(selectionEntries[i].id, j, this.state.screen);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  @autobind
-  public disapproveSel(){
-    let selectionCount = this.state.selectionDetails.length;
-    if(selectionCount == 0){
-      alert("No Items are Selected");
-    }
-    else{
-      let selectionEntries = this.state.selectionDetails;
-      let dataType = [];
-      if(this.state.screen === 'routes'){
-          dataType = this.state.routes;
-      }
-      else if(this.state.screen === 'users'){
-          dataType = this.state.users;
-      }
-      else if(this.state.screen === 'stops'){
-          dataType = this.state.stops;
-      }
-      else{
-          alert('No current screen');
-          dataType = null;
-      }
-      for(var iterator = 0; iterator < selectionCount; iterator++){
-        if(dataType != null){
-          for(var i=0; i<dataType.length; i++){
-            if (selectionEntries[iterator].id == dataType[i]._id){
-              this.disapprove(selectionEntries[iterator].id, i, this.state.screen);
-            }
-          }
-        }
-      }
-    }
-  }
-  @autobind
-  public deleteEntrySel(){
-    let selectionCount = this.state.selectionDetails.length;
-    if(selectionCount == 0){
-      alert("No Items are Selected");
-    }
-    else{
-      for(var iterator = 0; iterator < selectionCount; iterator++){
-        this.deleteEntry(this.state.selectionDetails[iterator].id, this.state.screen);
-        console.log("deleted", this.state.selectionDetails[iterator].routename);
-      }
-    }
-  }
-
-  private _getSelectionDetails(): any[] {
-    const selectionCount = this._selection.getSelectedCount();
-    const selectionInfo = this._selection.getSelection();
-    return selectionInfo;
-/*
-    //useless
-    switch (selectionCount) {
-      case 0:
-        return 'No items selected';
-      case 1:
-        return '1 item selected: ' + (this._selection.getSelection()[0] as any).name;
-      default:
-        return `${selectionCount} items selected`;
-      }
-
-
-
-*/
-
-  }
-
 /*--Render--------------------------------------------------------------------*/
   public render() {
     return (
       <div style={ styles.root }>
           <div style={styles.header}>
-            <h6> Admin Tables </h6>
             <div><CommandButton text='Bus Routes' onClick={() => this.loadTable('routes')}/></div>
             <div><CommandButton text='Users' onClick={() => this.loadTable('users')}/></div>
             <div><CommandButton text='Stops' onClick={() => this.loadTable('stops')}/></div>
-
-            <div>
-              <p className="white-text"> Spacing </p>
-            </div>
-
-            <div style={{width: '80%'}}>
-              <p> Database Tools </p>
-              <div><CommandButton text='Approve Selected' onClick={() => this.approveSel()}/></div>
-              <div><CommandButton text='Disapprove Selected' onClick={() => this.disapproveSel()}/></div>
-              <div><CommandButton text='Delete Selected' onClick={() => this.deleteEntrySel()}/></div>
-            </div>
-
-
           </div>
 
           <div style={styles.table}>
             <TextField
-              label='Filter by Name!'
+              label='Filter by name:'
               onChanged={ this._onChanged }
               />
             <DetailsList
@@ -667,15 +558,13 @@ export class DataInterface extends BaseComponent< IDataInterfaceProps, IDataInte
             onRequestClose={this.handleCloseModal}
             shouldCloseOnEsc={true}>
 
-
+              <Label>Select Screen</Label>
               {this.state.modalScreen}
-              <a className="waves-effect blue-grey darken-2 waves-light btn" onClick={this.handleCloseModal}>Close[Esc]</a>
+              <CommandButton text='Close [Esc]' onClick={this.handleCloseModal} />
+
             </ReactModal>
           </div>
       </div>
     );
   }
 }
-/*
-
-*/

@@ -11,14 +11,10 @@ import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
-import { Button, Input, footer, Icons, Collapsible} from 'react-materialize';
+import { Button, Input, footer, Icons} from 'react-materialize';
 import AdSense from 'react-adsense';
 
-
 const styles = getStyles();
-
-const emblem = require('../../images/emblem.png');
-var Img = <img style={styles.emblem} src={emblem} />
 
 interface ISearchContentState {
     originDestination?: google.maps.LatLng[];
@@ -55,75 +51,54 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                             <Button className="amber darken-2" onClick={ this._onRoute }>Search</Button>
                         </div>
                         <div style={{height: '70%', overflowY: 'auto'}}>
-                            { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} trip(s)</Label> : null}
+                            { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} route(s)</Label> : null}
                             { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                         </div>
-                      <div>
-                      <ul className="collapsible">
-                      <li>
-                        <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">description</i>About Us</div>
-                        <div className="collapsible-body"><span>ChickenBus gives you the opportunity to have the information needed to comfortably travel in developing countries that is otherwise difficult to discover.</span></div>
-                      </li>
-                       <li>
-                         <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">directions_bus</i>How it Works</div>
-                         <div className="collapsible-body"><span>Just enter an origin and destination and we'll help you find a route. If we can't find anything, most likely, we are still trying to collect that data.</span></div>
-                       </li>
-                       <li>
-                         <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">map</i>Want to Help?</div>
-                         <div className="collapsible-body"><span>If you have access to transportation data and want to make it available to the public, consider creating an account in order to upload route data. Have a lot of data? We'd love to talk...</span></div>
-                       </li>
-                       <li>
-                         <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">email</i>Contact</div>
-                         <div className="collapsible-body"><span>Want to help? Have Questions? Feel free to contact us at ridethechickenbus@gmail.com</span></div>
-                       </li>
-                      </ul>
-                      </div>
                     </div>
-                    <footer className="page-footer blue-grey" style={styles.footer}>
-                      <div className="container">
-                        <div className="row">
-                          <div className="col s6">
-                            <p>With ChickenBus you will be able to see more of the world, with less of the hassle, and at the prices that locals pay.</p>
-                          </div>
-                          <div className="col l2">
-                            <ul>
-                              <li><h6 className="amber-text text-darken-2">Links</h6></li>
-                              <li><a href="https://chickenbus.co/" className="grey-text text-lighten-2">Home Page</a></li>
-                              <li><a href="https://www.facebook.com/ChickenBus.co" className="grey-text text-lighten-2">Facebook</a></li>
-                              <li><a href="http://www.twitter.com/ChickenBusCo" className="grey-text text-lighten-2">Twitter</a></li>
-                              <li><a href="https://www.linkedin.com/company/28149593/" className="grey-text text-lighten-2">LinkedIn</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className= 'container'>
-                        <div className= 'container'>
-                          <div className = "row">
-                            <a style={styles.icon} href="http://www.twitter.com/ChickenBusCo" className="icon-block col s4">
-                              <i className="small material-icons amber-text text-darken-2">people</i>
-                            </a>
-                            <a style={styles.icon} href="https://www.gofundme.com" className="icon-block col s4">
-                              <i className="small material-icons amber-text text-darken-2">cake</i>
-                            </a>
-                            <a style={styles.icon} href="https://www.facebook.com" className="icon-block col s4">
-                              <i className="small material-icons amber-text text-darken-2">monetization_on</i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="footer-copyright">
-                        <div className="container grey-text text-lighten-2">Made by <a className=" amber-text text-darken-2"href="https://chickenbus.co/">ChickenBusLLC </a></div>
-                      </div>
-                    </footer>
                     <div>
                       <div className="container">
+                        <p className="orange-text text-darken-1" style={styles.adspace}> ----------------------ADSPACE----------------------</p>
                         <AdSense.Google client='ca-pub-2730168194482941'
                                       //slot='7806394673'
                                       style={{width: '100%', height: '200px', float: 'left'}}
                                       format='' />
                       </div>
                     </div>
+                    <footer className="page-footer blue-grey" style={styles.footer}>
+                      <div className="container">
+                        <div className="row">
+                          <div className="col l6">
+                            <p className="grey-text text-lighten-4">With ChickenBus you will be able to see more of the world, with less of the hassle, and at the prices that locals pay.</p>
+                          </div>
+                          <div className="col l2">
+                            <ul>
+                              <li><h6>About</h6></li>
+                              <li><a href="" className="grey-text text-lighten-3">FAQ</a></li>
+                              <li><a href="" className="grey-text text-lighten-3">Facebook</a></li>
+                              <li><a href="http://www.twitter.com/ChickenBusCo" className="grey-text text-lighten-3">Twitter</a></li>
+                              <li><a href="" className="grey-text text-lighten-3">GoFundMe</a></li>
+                              <li><a href="" className="grey-text text-lighten-3">Affiliates</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div className= 'container'>
+                      <div className = "row">
+                        <a style={styles.icon} href="http://www.twitter.com/ChickenBusCo" className="icon-block col s3">
+                          <i className="small material-icons amber-text text-darken-2">people</i>
+                        </a>
+                        <a style={styles.icon} href="https://www.gofundme.com" className="icon-block col s3">
+                          <i className="small material-icons amber-text text-darken-2">cake</i>
+                        </a>
+                        <a style={styles.icon} href="https://www.facebook.com" className="icon-block col s3">
+                          <i className="small material-icons amber-text text-darken-2">monetization_on</i>
+                        </a>
+                      </div>
+                      </div>
+                      <div className="footer-copyright">
+                        <div className="container">Made by <a href="https://chickenbus.co/">ChickenBusLLC </a></div>
+                      </div>
+                    </footer>
                 </div>
                 <div style={ styles.googleMap } className="z-depth-0">
                     <GoogleMap locationCoords={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />

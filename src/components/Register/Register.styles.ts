@@ -16,9 +16,6 @@ import {
       registerButton: {
           margin: '0 auto',
           textAlign: 'center'
-      },
-      modal: {
-        
       }
     }
     });
