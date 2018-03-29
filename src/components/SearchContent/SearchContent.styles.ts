@@ -16,6 +16,7 @@ import {
         display: 'flex'
       },
       searchPanel: {
+        minWidth: '30%',
         maxWidth: '30%',
         maxHeight: '100 vh',
         overflowY: 'scroll',
@@ -46,6 +47,12 @@ import {
       footer: {
         width: '100%',
         minHeight: '10%',
+      },
+      emblem: {
+        height: '20%',
+        width: '20%',
+
+
       },
 
   }})
