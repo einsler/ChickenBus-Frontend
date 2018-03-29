@@ -47,7 +47,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
     public render() {
         return(
             <div style={ styles.root }>
-                <div className="blue-grey" style={ styles.searchPanel }>
+                <div className="teal lighten-5" style={ styles.searchPanel }>
                     <div className="white z-depth-1" style={styles.searchBox}>
                         <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                         <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
@@ -58,6 +58,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                             { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} trip(s)</Label> : null}
                             { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                         </div>
+<<<<<<< HEAD
                       <div>
                       <ul className="collapsible">
                       <li>
@@ -77,6 +78,16 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                          <div className="collapsible-body"><span>Want to help? Have Questions? Feel free to contact us at ridethechickenbus@gmail.com</span></div>
                        </li>
                       </ul>
+=======
+                    </div>
+                    <div>
+                      <div className="container">
+                        <p className="orange-text text-darken-1" style={styles.adspace}> ----------------------ADSPACE----------------------</p>
+                        <AdSense.Google client='ca-pub-2730168194482941'
+                                      //slot='7806394673'
+                                      style={{width: '100%', height: '300px', float: 'left'}}
+                                      format='' />
+>>>>>>> parent of 8fed37b... style
                       </div>
                     </div>
                     <footer className="page-footer blue-grey" style={styles.footer}>
