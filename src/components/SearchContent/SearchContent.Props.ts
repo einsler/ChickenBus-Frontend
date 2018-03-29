@@ -39,5 +39,4 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     footer: IStyle;
     icon: IStyle;
     adspace: IStyle;
-    emblem: IStyle;
  }
