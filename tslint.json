@@ -1,4 +1,10 @@
 {
+    /*
+     * Possible values:
+     * - the name of a built-in config
+     * - the name of an NPM module which has a "main" file that exports a config object
+     * - a relative path to a JSON file
+     */
     "extends": "tslint:recommended",
     "rules": {
       "adjacent-overload-signatures": true,
@@ -83,6 +89,7 @@
       "no-unnecessary-initializer": true,
       "no-unsafe-finally": true,
       "no-unused-expression": true,
+      // disable this rule as it is very heavy performance-wise and not that useful
       "no-use-before-declare": false,
       "no-var-keyword": true,
       "no-var-requires": true,
@@ -186,10 +193,16 @@
       }
   },
     "jsRules": {
+      /*
+       * Any rules specified here will override those from the base config we are extending.
+       */
       "curly": true
     },
     "rulesDirectory": [
-
+      /*
+       * A list of relative or absolute paths to directories that contain custom rules.
+       * See the Custom Rules documentation below for more details.
+       */
     ],
     "defaultSeverity": "warning"
   }
