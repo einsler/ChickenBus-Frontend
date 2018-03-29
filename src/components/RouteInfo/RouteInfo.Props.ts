@@ -13,7 +13,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
  export interface IRouteInfoProps extends React.HTMLAttributes<HTMLElement | RouteInfo> {
 
     // The following props should be in most every component prop interface.
-
     /**
      * Optional callback to access the IRouteInfo interface. Use this instead of ref for accessing
      * the public methods and properties of the component.
@@ -37,7 +36,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     ariaDescribedBy?: string;
 
     // End of props shared by all components.
-
     /**
      * The title of the route to be displayed
      */
@@ -97,4 +95,12 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
        * Style for the displaying container of the times
        */
       timeContainer?: IStyle;
+
+      name?: IStyle;
+
+      time?: IStyle;
+
+      notes?: IStyle;
+
+      cost?: IStyle;
  }

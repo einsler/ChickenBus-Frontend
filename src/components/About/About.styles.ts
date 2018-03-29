@@ -1,4 +1,4 @@
-import { IRegisterStyles } from './Register.Props';
+import { IAboutStyles } from './About.Props';
 import {
     ITheme,
     mergeStyleSets,
@@ -7,18 +7,11 @@ import {
   } from 'office-ui-fabric-react/lib/Styling';
   import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
 
-  export const getStyles = memoizeFunction((): IRegisterStyles => {
+  export const getStyles = memoizeFunction((): IAboutStyles => {
     return {
       root: {
         margin: '0 auto',
         width: '800px'
       },
-      registerButton: {
-          margin: '0 auto',
-          textAlign: 'center'
-      },
-      modal: {
-        
-      }
     }
     });

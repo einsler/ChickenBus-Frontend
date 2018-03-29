@@ -6,3 +6,4 @@ export * from './EnterGate/index';
 export * from './DataInterface/index';
 export * from './Login/index';
 export * from './Register/index'
+export * from './About/index'

@@ -15,7 +15,7 @@ import {
       header: {
         width:'100%',
         display: 'flex',
-        height: '10vh',
+        //height: '10vh',
         backgroundColor: '#a9a9a9',
         justifyContent: 'flex-End',
       },
