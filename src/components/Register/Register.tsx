@@ -6,11 +6,14 @@ import {
 import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { getStyles } from "./Register.styles";
+import * as ReactModal from 'react-modal';
 import { Container, Navbar, NavItem, Button, Input } from 'react-materialize';
 
 import * as React from "react";
 
 interface IRegisterState {
+    showModal: any,
+
 }
 const styles: IRegisterStyles = getStyles();
 
@@ -22,6 +25,7 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
     constructor(props: IRegisterProps) {
         super(props);
         this.state = {
+          showModal: false,
         }
     }
 
@@ -36,14 +40,35 @@ export class Register extends BaseComponent<IRegisterProps, IRegisterState> {
                     <Button type="submit"> Register </Button>
                 </div>
              </form>
+             <Button className="blue-grey darken-2" onClick={this.handleOpenModal}>User Agreement</Button>
+             <div style={styles.modal}>
+               <ReactModal
+               isOpen={this.state.showModal}
+               contentLabel="Selection Screen"
+               onRequestClose={this.handleCloseModal}
+               shouldCloseOnEsc={true}>
+
+                 <h5> User Agreement </h5>
+                 <h6> this is all user agreement information</h6>
+                 <a className="waves-effect blue-grey darken-2 waves-light btn" onClick={this.handleCloseModal}>Agree</a>
+               </ReactModal>
+             </div>
           </div>
         )
     }
 
     @autobind
-    private _onRegister(event) {
-        event.preventDefault();
+    public handleOpenModal () {
+      this.setState({ showModal: true });
+    }
+    @autobind
+    public handleCloseModal () {
+      this.setState({ showModal: false });
+    }
 
+
+    @autobind
+    private _onRegister(event) {
         let registerDetails = {
             username: event.target.username.value,
             email: event.target.email.value,

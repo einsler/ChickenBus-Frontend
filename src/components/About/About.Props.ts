@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Register } from './Register';
+import { About } from './About';
 import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
 /**
@@ -7,32 +7,31 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
  * the component.
  */
 
- export interface IRegister {
+ export interface IAbout {
 
  }
 
- export interface IRegisterProps extends React.HTMLAttributes<HTMLBaseElement | Register> {
+ export interface IAboutProps extends React.HTMLAttributes<HTMLBaseElement | About> {
 
     // The following props should be in most every component prop interface.
 
     /**
-     * Optional callback to access the IRegister interface. Use this instead of ref for accessing
+     * Optional callback to access the IAbout interface. Use this instead of ref for accessing
      * the public methods and properties of the component.
      */
-    componentRef?: (component: IRegister) => void;
+    componentRef?: (component: IAbout) => void;
 
     // End of props shared by all components.
 
     content?: JSX.Element;
 
     /**
-     * The optional custom styling to be applied to the Register component.
+     * The optional custom styling to be applied to the About component.
      */
-    styles?: IRegisterStyles;
+    styles?: IAboutStyles;
+
  }
 
- export interface IRegisterStyles {
+ export interface IAboutStyles {
    root: IStyle;
-   registerButton: IStyle;
-   modal: IStyle;
  }
