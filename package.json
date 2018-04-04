@@ -48,6 +48,7 @@
     "awesome-typescript-loader": "^3.2.3",
     "file-loader": "^1.1.11",
     "image-webpack-loader": "^4.1.0",
+    "react-social-icons": "^2.8.1",
     "source-map-loader": "^0.2.1",
     "url-loader": "^1.0.1"
   }

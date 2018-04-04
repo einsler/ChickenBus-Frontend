@@ -6,6 +6,7 @@ import {
     FontSizes
   } from 'office-ui-fabric-react/lib/Styling';
   import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
+  const tour = require('../../images/nicaragua.jpg');
 
   export const getStyles = memoizeFunction((): ISearchContentStyles => {
     return {
@@ -20,6 +21,10 @@ import {
         maxWidth: '30%',
         maxHeight: '100 vh',
         overflowY: 'scroll',
+        backgroundImage: "url('../../images/nicaragua.jpg')",
+        backgroundSize: '30% auto',
+        backgroundPosition: 'bottom 10px left',
+        backgroundAttachment: 'fixed',
       },
       searchBox: {
           padding: '10px'
@@ -32,7 +37,7 @@ import {
       },
       googleMap: {
         width: '100%',
-        height: '99%',
+        height: 'auto',
       },
       locationInput: {
         width: '100%',
@@ -43,16 +48,29 @@ import {
         height: '25px',
       },
       icon: {
+        //backgroundImage: "url('../../images/circle.png')",
+        //backgroundRepeat: 'no-repeat',
+        //backgroundSize: '300% auto',
+        //backgroundPosition: 'center 100px',
+        margin: '20px',
       },
+
       footer: {
         width: '100%',
         minHeight: '10%',
       },
       emblem: {
-        height: '20%',
-        width: '20%',
-
-
+        height: '25%',
+        width: '25%',
+      },
+      white: {
+        height: '100%',
+        width: '100%',
+        zIndex: '-1',
+      },
+      tour: {
+        width: "100%", /* you can use % */
+        height: 'auto',
       },
 
   }})

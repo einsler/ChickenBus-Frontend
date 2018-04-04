@@ -73,6 +73,7 @@ export class GoogleMap extends BaseComponent<IGoogleMapProps, IGoogleMapState> i
                 fetch('/api/routes/find-near?latOrig='+markerCoords[0].lat()+'&lngOrig='+markerCoords[0].lng()+'&lngDest='+markerCoords[markerCoords.length-1].lng()+'&latDest='+markerCoords[markerCoords.length-1].lat()).then((response: any) => {
                     return response.json();
                 }).then(function(responseJson){
+                    console.log(responseJson.routesInfo);
                     let map = that._map;
 
                     let curvature: number = 0.4; // how curvy to make the arc

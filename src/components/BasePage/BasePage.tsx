@@ -65,7 +65,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
     public render() {
         return(
             <div>
-                <Navbar className="blue-grey darken-1" style={styles.nav} brand={Img} right>
+                <Navbar className="blue-grey" style={styles.nav} brand={Img} right>
                   {this.state.navItems}
                 </Navbar>
                 <div style={styles.content}>

@@ -40,4 +40,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     icon: IStyle;
     adspace: IStyle;
     emblem: IStyle;
+    tour: IStyle;
+    white: IStyle;
  }
