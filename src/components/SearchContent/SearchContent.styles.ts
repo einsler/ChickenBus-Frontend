@@ -54,6 +54,11 @@ import {
         //backgroundPosition: 'center 100px',
         margin: '20px',
       },
+      signature: {
+        width: '100%',
+        height: '8%',
+        textAlign: 'center'
+      },
 
       footer: {
         width: '100%',

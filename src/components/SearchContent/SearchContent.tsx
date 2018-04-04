@@ -1,29 +1,29 @@
+//Imports
+import * as React from "react";
+
+import AdSense from 'react-adsense';
 import {
     ISearchContent,
     ISearchContentProps,
     ISearchContentStyles
 } from './SearchContent.Props';
-import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
-import * as React from "react";
-import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { getStyles } from './SearchContent.styles'
+import { BaseComponent, autobind } from "office-ui-fabric-react/lib/Utilities";
+import { Label } from "office-ui-fabric-react/lib/components/Label";
 import { APIKey, supportedCountries } from '../../MockData/FrontEndConsts'
 import { GoogleMap } from "../GoogleMap/index";
 import { PlaceAutocomplete } from "../PlaceAutocomplete/index";
 import { RouteInfo, IRouteInfoProps } from "../RouteInfo/index";
 import { Button, Input, footer, Icons, Collapsible} from 'react-materialize';
 import { SocialIcon } from 'react-social-icons';
-import AdSense from 'react-adsense';
 
 const styles = getStyles();
-
 const emblem = require('../../images/emblem.png');
-var Img = <img style={styles.emblem} src={emblem} />
-
 const tour = require('../../images/nicaragua.jpg');
-var Nic = <img style={styles.tour} src={tour} />
-
 const white = require('../../images/circle.png');
+
+var Img = <img style={styles.emblem} src={emblem} />
+var Nic = <img style={styles.tour} src={tour} />
 var circle = <img style={styles.white} src={white} />
 
 var urls = [
@@ -63,39 +63,49 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                 <div className="" style={ styles.searchPanel }>
                     <div className="white" style={{marginBottom: '-6px'}}>
                       <div style={styles.searchBox}>
+
                         <PlaceAutocomplete componentRef={ this._resolveRef("_originAutocomplete")} title='Origin' onEnterPressed={ this._onRoute } />
                         <PlaceAutocomplete componentRef={ this._resolveRef("_destinationAutocomplete")} title='Destination' onEnterPressed={ this._onRoute } />
+
                         <div style={ styles.searchButtonBox }>
                             <Button className="amber darken-2 z-depth-0" onClick={ this._onRoute }>Search</Button>
                         </div>
+
                         <div style={{height: '70%', overflowY: 'auto'}}>
-                            { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} Routes(s)</Label> : null}
+                            { this.state.routeInfo ? <Label> Displaying {this.state.routeInfo.length} Route(s)</Label> : null}
                             { this.state.routeInfo ? this.state.routeInfo.map((info)=><RouteInfo {...info}/>): null }
                         </div>
-                        </div>
-                        <ul className="collapsible z-depth-0" style={{marginBottom: '3px'}}>
-                        <li>
-                          <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">description</i>About Us</div>
-                          <div className="collapsible-body"><span>ChickenBus gives you the opportunity to have the information needed to comfortably travel in developing countries that is otherwise difficult to discover.</span></div>
-                        </li>
-                         <li>
-                           <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">directions_bus</i>How it Works</div>
-                           <div className="collapsible-body "><span>Just enter an origin and destination and we'll help you find a route. If we can't find anything, most likely, we are still trying to collect that data.</span></div>
-                         </li>
-                         <li>
-                           <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">email</i>Contact</div>
-                           <div className="collapsible-body"><span>Want to help? Have Questions? Feel free to contact us at ridethechickenbus@gmail.com</span></div>
-                         </li>
-                         <li>
-                           <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">smartphone</i>Mobile App</div>
-                           <div className="collapsible-body"><span>{Img}</span></div>
-                         </li>
-                         <li>
-                           <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">map</i>Want to Help?</div>
-                           <div className="collapsible-body"><span>If you have access to transportation data and want to make it available to the public, consider creating an account in order to upload route data. Have a lot of data? We'd love to talk...</span></div>
-                         </li>
-                        </ul>
+                      </div>
+                      <div style = {styles.signature} className=""><p><em>ChickenBus - Travel Unlocked</em></p></div>
+                      <ul className="collapsible z-depth-0" style={{marginBottom: '-3px'}}>
+                          <li>
+                            <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">description</i>About Us</div>
+                            <div className="collapsible-body"><span>ChickenBus collects inter-city bus, ferry, and train schedules for low and middle-income countries and makes the schedules available for travelers. The website is currently available and a mobile app is coming soon.</span></div>
+
+                          </li>
+                           <li>
+                             <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">directions_bus</i>How it Works</div>
+                             <div className="collapsible-body "><span>Type in your origin and destination and click “Search.” If there are routes they will display on the map and in the results area below the search boxes. Currently we only offer inter-city transportation options in Nicaragua, but we are constantly collecting more data and opening more countries soon.</span></div>
+                           </li>
+                           <li>
+                             <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">smartphone</i>Mobile App</div>
+                             <div className="collapsible-body"><span>{Img}</span></div>
+                             <div className="collapsible-body"><span>coming soon</span></div>
+                           </li>
+                           <li>
+                             <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">map</i>Want to Help?</div>
+                             <div className="collapsible-body"><span>If you have access to transportation data and want to make it available to the public, consider creating an account in order to upload your route data. Have a lot of data? We would love to talk ...</span></div>
+                             <div className="collapsible-body"><p>Learn more about ChickenBus on our <a>href="http://maps.chickenbus.co/#/about" className="red-text red-lighten-1">About</a> page.</p></div>
+                           </li>
+                           <li>
+                             <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">email</i>Contact</div>
+                             <div className="collapsible-body"><span>Want to contribute? Have Questions? Feel free to contact us at ridethechickenbus@gmail.com.</span></div>
+                           </li>
+
+                      </ul>
+                      <div style = {styles.signature} className=""><p><em>ChickenBus - Travel Unlocked</em></p></div>
                     </div>
+
                     <div className=''>
                       <AdSense.Google client='ca-pub-2730168194482941'
                                     slot='7806394673'
@@ -192,13 +202,12 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                       <p className="container blue-grey lighten-2">filler</p>
                     </div>
                     <div className="container blue-grey lighten-2" style={{ position:'absolute', bottom:0, width: "100%", height:'6%', opacity: 1.0 }} >
-                      <div style={{ paddingTop: '10px', paddingLeft: '35px' }} className="grey-text text-lighten-2">Made by <a className=" amber-text text-darken-2"href="https://chickenbus.co/">ChickenBusLLC </a></div>
+                      <div style={{ paddingTop: '10px', paddingLeft: '20px' }} className="grey-text text-lighten-2">Made by <a className=" amber-text text-darken-2"href="https://chickenbus.co/">ChickenBusLLC </a></div>
                     </div>
                 </div>
                 <div style={ styles.googleMap } className="z-depth-0">
                     <GoogleMap locationCoords={ this.state.originDestination } findRoute={ true } onDidRenderNewLocations={ this._onMapDidRenderNewLocations } />
                 </div>
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             </div>
         )
     }

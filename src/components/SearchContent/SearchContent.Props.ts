@@ -42,4 +42,5 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     emblem: IStyle;
     tour: IStyle;
     white: IStyle;
+    signature: IStyle;
  }

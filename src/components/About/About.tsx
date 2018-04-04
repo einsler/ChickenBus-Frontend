@@ -14,6 +14,9 @@ import Auth from "../../modules/Auth";
 interface IAboutState {
 }
 const styles: IAboutStyles = getStyles();
+const about = require('../../images/about.jpg');
+const emblem = require('../../images/emblem.png');
+var Img = <img style={styles.emblem} src={emblem} />
 
 export class About extends BaseComponent<IAboutProps, IAboutState> {
 
@@ -27,24 +30,50 @@ export class About extends BaseComponent<IAboutProps, IAboutState> {
 
         return(
           <div style={ styles.root }>
-            <h3> Welcome to ChickenBus </h3>
-            <p className="grey-text">
-              ChickenBus is a growing effort, with the current goal of constructing an accessible environment to display bus routes in Nicaragua.
-              This is for the benefit of locals, travelers, and general commerce.
-              There are far too many countries with no robust infrastructure for public transportation,
-              and ChickenBus is a solution. Cross-bred from contact with local envoys and crowdsourcing, we are proud to bring you this information.
-              If there is no information for a route when you do a search, it might be that we do not have this information yet. Rest assured We are working hard
-              to collect this information! Visit our links below for ways to support us.
-            </p>
-            <h5> FAQS </h5>
-            <ul>
-            <li><p> Questions: Answer</p></li>
-            <li><p> Why ChickenBus?</p></li>
-            <li><p> example 3</p></li>
-            <li><p> example 4</p></li>
-            </ul>
-          </div>
+            <div className='blue-grey lighten-5' style={ styles.text }>
+              <div style={styles.info}>
+              <h3> Welcome to ChickenBus </h3>
+                <p className="">
+                  ChickenBus collects inter-city bus, ferry, and train schedules for low and middle-income countries and makes the schedules available for travelers. The website is currently available and a mobile app is coming soon.
+                </p>
+                <p className="">
+                  <em>Mission:</em> Improve access to transportation in low and middle-income countries
+                </p>
+                <p className="">
+                  <em>Vision:</em> Provide users with all viable options to get from any two points on Earth.
+                </p>
+                <p className="">
+                  ChickenBus is a growing effort which currently offers inter-city bus and ferry route timetables in Nicaragua. We are in the process of expanding to Costa Rica and Honduras. Beyond that, we hope to cover all of Central America, South America, Sub-Saharan Africa, and Southeast Asia. Some day we hope to offer transportation options across the whole world.
+                </p>
+                <p className="">
+                  ChickenBus benefits tourists as well as citizens of the countries we serve. ChickenBus is a solution for all countries with no robust infrastructure for public transportation information. All of our data come from locals in the countries we serve. If there are no results for an origin-destination pair that you search, it might be that we do not have the information yet. Rest assured, we are working hard to collect this information! We are also developing the ability to recommend transfers between routes to optimize your trips.
+                </p>
+                <p className="">
+                  <em>ChickenBus – Travel Unlocked</em>
+                </p>
+              </div>
+              <div style={ styles.faq }>
+                <h5> Frequently Asked Questions </h5>
+                <ol>
+                  <li><h6>Why ChickenBus?</h6><p> ChickenBus is the best source of inter-city transportation information for low and middle-income countries. For many of these countries the information is not available online in any form.</p></li>
+                  <li><h6>Do the buses leave on time?</h6><p> Generally, yes, they absolutely do! The transportation sector is well managed and regulated. However, we always recommend arriving early. While we are always trying to capture schedule changes, sometimes the unexpected happens and your travel plans will need to change. Arriving early also increases your chances of getting a good seat.</p></li>
+                  <li><h6>Do the buses arrive to their destinations on time?</h6><p> Sometimes yes, sometimes no. Just like in all countries around the world, there may be traffic which delays the buses. Road conditions may also vary along the route, and weather could also slow things down. We recommend planning extra time into your trip for the unexpected.</p></li>
+                  <li><h6>What is ChickenBus’s social mission?...</h6></li>
+                </ol>
+              </div>
+              <div style={ styles.mission }>
+                <h5> There are four tenets of ChickenBus’s social mission. </h5>
+                <ol>
+                  <li><h6>Economic Development</h6><p>By improving access to transportation in low and middle-income countries, citizens will more easily be able to travel, build <strong>homegrown businesses</strong>, and bring their <strong>products to markets</strong></p></li>
+                  <li><h6>Community Tourism</h6><p> Sometimes communities that can most benefit from the tourism industry do not reap the rewards of travelers because travelers cannot access these locations. ChickenBus <strong>unlocks these locations</strong> and spurs the development of the <strong>sustainable tourism industry.</strong></p></li>
+                  <li><h6>Social Networks</h6><p> Traveling builds networks. Social networks are <strong>important for social cohesion</strong> and economic growth. ChickenBus will unlock travel for international tourists as well as country citizens and <strong>strengthen social networks</strong> around the world.</p></li>
+                  <li><h6>Greenhouse Gas Emissions</h6><p> Around the developing world car ownership is increasing and <strong>road congestion is increasingly becoming a problem</strong>. Making public transportation systems more efficient and usable is critical to <strong>preventing serious climate change.</strong></p></li>
+                </ol>
+              </div>
+              <div style ={{textAlign: 'center', margin: '50px'}}> {Img} </div>
+            </div>
 
+          </div>
         )
     }
 }

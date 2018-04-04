@@ -34,4 +34,10 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
 
  export interface IAboutStyles {
    root: IStyle;
+   text: IStyle;
+   info: IStyle;
+   faq: IStyle;
+   mission: IStyle;
+   emblem: IStyle;
+
  }
