@@ -27,8 +27,11 @@ import {
         overflowY: 'scroll',
       },
       emblem: {
-        height: '20%',
-        width: '20%',
+        paddingTop: '0px',
+        height: '25%',
+        width: '25%',
+        margin: '20px',
+        opacity: '0.9',
       },
       info:{
         margin: '20px',

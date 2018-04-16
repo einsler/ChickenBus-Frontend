@@ -37,16 +37,16 @@ export class RouteInfo extends BaseComponent<IRouteInfoProps, IRouteInfoState> {
   public render() {
     return (
       <div>
-      <Collapsible className="z-depth-0" accordion>
+      <Collapsible className="z-depth-1" accordion>
         <CollapsibleItem header={
           <div>
             <div style={styles.infoContainer}>
-              <p style={styles.name}> {this.props.name} </p>
-              <p style={styles.time}> {this.props.duration} Minutes </p>
+              <em className="teal-text text-lighten-1" style={styles.name}> {this.props.name} </em>
+              <p className="blue-grey-text text-darken-3" style={styles.time}> {this.props.duration} Minutes </p>
             </div>
             <div style={styles.infoContainer}>
-              <p style={styles.notes}> {this.props.notes} </p>
-              <p style={styles.cost}> C${this.props.cost} </p>
+              <p className="blue-grey-text text-darken-1" style={styles.notes}> {this.props.notes} </p>
+              <p className="green-text text-darken-2" style={styles.cost}> C${this.props.cost} </p>
             </div>
           </div>
         }>

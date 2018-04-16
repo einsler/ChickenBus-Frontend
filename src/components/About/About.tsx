@@ -7,7 +7,7 @@ import { BaseComponent, getRTL, autobind } from "office-ui-fabric-react/lib/Util
 import { Label } from "office-ui-fabric-react/lib/Label";
 import { getStyles } from "./About.styles";
 import * as React from "react";
-import { Container } from 'react-materialize';
+import { Container, Footer} from 'react-materialize';
 
 import Auth from "../../modules/Auth";
 
@@ -70,9 +70,42 @@ export class About extends BaseComponent<IAboutProps, IAboutState> {
               <li><h6>Greenhouse Gas Emissions</h6><p> Around the developing world car ownership is increasing and <strong>road congestion is increasingly becoming a problem</strong>. Making public transportation systems more efficient and usable is critical to <strong>preventing serious climate change.</strong></p></li>
             </ol>
           </div>
-          <div style={{ textAlign: 'center', margin: '50px' }}> {Img} </div>
-        </div>
+          <div style={{ textAlign: 'center', margin: '15px' }}>
+            {Img}{Img}{Img}
+          </div>
+          <footer className="page-footer blue-grey lighten-1">
+          <div className="container">
+            <div className="row">
+              <div className="col l4">
+                <h5 className="white-text">ChickenBus</h5>
+                <p className="grey-text text-lighten-4">Travel Unlocked</p>
+                <p className="grey-text text-lighten-4">Nicaragua Pilot Launch 2018</p>
 
+              </div>
+              <div className="col l5">
+                <h5 className="white-text">Help Us Grow</h5>
+                <p className="grey-text text-lighten-4">Collecting hard to find routes and bringing them to you.</p>
+                <p className="grey-text text-lighten-4">Mobile Application is coming soon.</p>
+              </div>
+              <div className="col l3">
+                <h5 className="white-text">Connect</h5>
+                <ul>
+                  <li><a className="amber-text text-darken-1" href="http://facebook.com/ChickenBus.co">Facebook</a></li>
+                  <li><a className="amber-text text-darken-1" href="http://www.twitter.com/ChickenBusCo">Twitter</a></li>
+                  <li><a className="amber-text text-darken-1" href="https://www.linkedin.com/company/28149593/">GoFundMe</a></li>
+                  <li><a className="amber-text text-darken-1" href="https://www.gofundme.com/chickenbus-company?sharetype=teams&member=44022&rcid=r01-152388675197-23ffd808e14a4dd1&pc=ot_co_campmgmt_w">LinkedIn</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="footer-copyright">
+            <div className="container">
+                Made by ChickenBusLLC
+            <a className="grey-text text-lighten-4 right" href="mailto:ridethechickenbus@gmail.com">ridethechickenbus@gmail.com</a>
+            </div>
+          </div>
+        </footer>
+        </div>
       </div>
     )
   }

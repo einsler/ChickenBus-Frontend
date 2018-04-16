@@ -19,7 +19,6 @@ export const getStyles = memoizeFunction((): IRouteInfoStyles => {
     },
     name: {
       marginTop: '15px',
-      color: 'blue',
       textAlign: 'left',
       fontSize: '100%',
       lineHeight: '175%'
@@ -27,7 +26,6 @@ export const getStyles = memoizeFunction((): IRouteInfoStyles => {
 
     time: {
       marginTop: '15px',
-      color: 'green',
       textAlign: 'right',
       marginLeft: 'auto',
       fontSize: '100%',
@@ -43,14 +41,12 @@ export const getStyles = memoizeFunction((): IRouteInfoStyles => {
 
     cost: {
       marginLeft: 'auto',
-      color: 'red'
     },
 
     text: {
     },
 
     notes: {
-      color: 'gray',
       textAlign: 'left',
       lineHeight: '175%'
     },

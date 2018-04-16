@@ -56,9 +56,14 @@ import {
         margin: '20px',
       },
       signature: {
+        backgroundImage: "url('../../images/cb.jpg')",
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% auto',
+        backgroundPosition: 'center',
         width: '100%',
-        height: '8%',
-        textAlign: 'center'
+        height: '190px',
+        display: 'block',
+        textAlign: 'center',
       },
 
       footer: {

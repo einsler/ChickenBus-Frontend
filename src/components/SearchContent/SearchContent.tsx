@@ -34,6 +34,7 @@ var urls = [
   'http://facebook.com/ChickenBus.co',
   'http://www.twitter.com/ChickenBusCo',
   'https://www.linkedin.com/company/28149593/',
+  'https://www.gofundme.com/chickenbus-company?sharetype=teams&member=44022&rcid=r01-152388675197-23ffd808e14a4dd1&pc=ot_co_campmgmt_w'
 ];
 
 interface ISearchContentState {
@@ -81,8 +82,11 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                 style={{ width: '100%', height: 'auto' }}
                 format='' />
             </div>
-            <div style={styles.signature} className=""><p><em>ChickenBus - Travel Unlocked</em></p></div>
-            <ul className="collapsible z-depth-0" style={{ marginBottom: '-3px' }}>
+            <div style={styles.signature} className="amber-text text-darken-1">
+              <p style={{ visibility: 'hidden' }}><em>ChickenBus - Travel Unlocked</em></p>
+              <p style={{ marginTop: '45px' }}><em>ChickenBus - Travel Unlocked</em></p>
+            </div>
+            <ul className="collapsible z-depth-1" style={{ marginTop: '-3px', marginBottom: '-3px' }}>
               <li>
                 <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">description</i>About Us</div>
                 <div className="collapsible-body"><span>ChickenBus collects inter-city bus, ferry, and train schedules for low and middle-income countries and makes the schedules available for travelers. The website is currently available and a mobile app is coming soon.</span></div>
@@ -93,17 +97,13 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                 <div className="collapsible-body"><span>Type in your origin and destination and click “Search.” If there are routes they will display on the map and in the results area below the search boxes. Currently we only offer inter-city transportation options in Nicaragua, but we are constantly collecting more data and opening more countries soon.</span></div>
               </li>
               <li>
-                <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">smartphone</i>Mobile App</div>
-                <div className="collapsible-body"><span>{Img}</span><a>Mobile Application coming soon</a></div>
-              </li>
-              <li>
-                <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">map</i>Want to Help?</div>
+                <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">map</i>Help Us Grow</div>
                 <div className="collapsible-body"><span>If you have access to transportation data and want to make it available to the public, consider creating an account in order to upload your route data. Have a lot of data? We would love to talk ...</span></div>
                 <div className="collapsible-body"><p>Learn more about ChickenBus on our <a className="amber-text amber-darken-2" href="http://maps.chickenbus.co/#/about" > About</a> page.</p> </div>
               </li>
               <li>
                 <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">email</i>Contact</div>
-                <div className="collapsible-body"><span>Want to contribute? Have Questions? Feel free to contact us at <a className="amber-text amber-darken-2"> ridethechickenbus@gmail.com</a>.</span></div>
+                <div className="collapsible-body"><span>Want to contribute? Have Questions? Feel free to contact us at <a href="mailto:ridethechickenbus@gmail.com" className="amber-text amber-darken-4"> ridethechickenbus@gmail.com</a>.</span></div>
               </li>
             </ul>
           </div>
@@ -112,7 +112,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
               <div style={{ visibility: 'hidden', marginTop: '10px' }} className="col s12"><span className="flow-text">I am always full-width (col s12)</span></div>
               <div style={{ visibility: 'hidden' }} className="col s12"><span className="flow-text">I am always full-width (col s12)</span></div>
               <a style={styles.icon}>
-                <a href="http://chickenbus.co" target="_blank" className="social-icon" style={{ display: 'inline-block', width: '45px', height: '45px', position: 'relative', overflow: 'hidden', verticalAlign: 'middle' }}>
+                <a href="https://www.gofundme.com/chickenbus-company?sharetype=teams&member=44022&rcid=r01-152388675197-23ffd808e14a4dd1&pc=ot_co_campmgmt_w" target="_blank" className="social-icon" style={{ display: 'inline-block', width: '45px', height: '45px', position: 'relative', overflow: 'hidden', verticalAlign: 'middle' }}>
                   <div className="social-container" style={{ position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%' }}>
                     <svg className="social-svg" viewBox="0 0 64 64" style={{ borderRadius: '50%', position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%', fillRule: 'evenodd' }}>
                       <g className="social-svg-background" style={{ transition: 'fill 170ms ease-in-out', fill: 'white' }}>
