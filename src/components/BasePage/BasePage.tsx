@@ -100,7 +100,7 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
       NavLinks.push(<li><NavLink to="/about">About</NavLink></li>);
       NavLinks.push(<li><NavLink to="/">Search</NavLink></li>);
       NavLinks.push(<li><NavLink to="/route-entry">Route Entry</NavLink></li>);
-      NavLinks.push(<li><NavLink to="/data-interface">Data Interface</NavLink></li>);
+      //NavLinks.push(<li><NavLink to="/data-interface">Data Interface</NavLink></li>);
       NavLinks.push(<li><Button flat onClick={this.logout}>Logout</Button></li>);
     } else {
       NavLinks.push(<li><NavLink to="/">Search</NavLink></li>);

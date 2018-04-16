@@ -81,7 +81,7 @@ export class SearchContent extends BaseComponent<ISearchContentProps, ISearchCon
                 style={{ width: '100%', height: 'auto' }}
                 format='' />
             </div>
-            <div style={styles.signature} className=""><h5><em>ChickenBus - Travel Unlocked</em></h5></div>
+            <div style={styles.signature} className=""><p><em>ChickenBus - Travel Unlocked</em></p></div>
             <ul className="collapsible z-depth-0" style={{ marginBottom: '-3px' }}>
               <li>
                 <div className="collapsible-header"><i className="material-icons blue-grey-text text-darken-1">description</i>About Us</div>
