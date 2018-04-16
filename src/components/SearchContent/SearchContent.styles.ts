@@ -7,6 +7,7 @@ import {
   } from 'office-ui-fabric-react/lib/Styling';
   import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
   const tour = require('../../images/nicaragua.jpg');
+  const bus = require('../../images/cb.jpg');
 
   export const getStyles = memoizeFunction((): ISearchContentStyles => {
     return {
@@ -74,8 +75,20 @@ import {
         zIndex: '-1',
       },
       tour: {
-        width: "100%", /* you can use % */
+        width: "100%",
         height: 'auto',
+      },
+      fakeAd: {
+        width: "100%",
+        height: 'auto',
+      },
+      something: {
+        backgroundImage: "url('../../images/cb.jpg')",
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '100% auto',
+        backgroundPosition: 'center',
+        justifyContent: "center"
+
       },
 
   }})

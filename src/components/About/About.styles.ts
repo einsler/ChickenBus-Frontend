@@ -17,7 +17,7 @@ import {
         overflowY: 'scroll',
         backgroundImage: "url('../../images/about.jpg')",
         backgroundSize: 'auto 100%',
-        backgroundPosition: 'center',
+        backgroundPosition: 'left',
         backgroundAttachment: 'fixed',
       },
       text:{

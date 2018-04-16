@@ -1,62 +1,65 @@
 import { IRouteInfoStyles } from './RouteInfo.Props';
 import {
-    ITheme,
-    mergeStyleSets,
-    getFocusStyle,
-    FontSizes
-  } from 'office-ui-fabric-react/lib/Styling';
+  ITheme,
+  mergeStyleSets,
+  getFocusStyle,
+  FontSizes
+} from 'office-ui-fabric-react/lib/Styling';
 import { memoizeFunction } from 'office-ui-fabric-react/lib/Utilities';
 export const getStyles = memoizeFunction((): IRouteInfoStyles => {
-    return {
-      root: {
-        border: '2px solid #000000',
-        padding: '6px',
-      },
-      infoContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        height: '25px',
-        maxWidth: '100%'
-      },
-      name: {
-        marginTop: '25px',
-        color: 'blue',
-        textAlign: 'left',
-        fontSize: '100%'
-      },
+  return {
+    root: {
+      border: '2px solid #000000',
+      padding: '6px',
+    },
+    infoContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      maxWidth: '100%'
+    },
+    name: {
+      marginTop: '15px',
+      color: 'blue',
+      textAlign: 'left',
+      fontSize: '100%',
+      lineHeight: '175%'
+    },
 
-      time: {
-        marginTop: '25px',
-        color: 'green',
-        marginLeft: 'auto',
-        fontSize: '100%'
-      },
+    time: {
+      marginTop: '15px',
+      color: 'green',
+      textAlign: 'right',
+      marginLeft: 'auto',
+      fontSize: '100%',
+      lineHeight: '175%'
+    },
 
-      title: {
-        marginRight: '10px',
-        height: '15px',
-        marginTop: '5px',
-        marginBottom: '5px'
-      },
+    title: {
+      marginRight: '10px',
+      height: '15px',
+      marginTop: '5px',
+      marginBottom: '5px'
+    },
 
-      cost: {
-        marginLeft: 'auto',
-        color: 'gray'
-      },
+    cost: {
+      marginLeft: 'auto',
+      color: 'red'
+    },
 
-      text: {
+    text: {
+    },
 
-      },
+    notes: {
+      color: 'gray',
+      textAlign: 'left',
+      lineHeight: '175%'
+    },
 
-      notes: {
-        color: 'gray',
-        textAlign: 'left',
-      },
-      timeContainer: {
-        display: 'flex',
-        justifyItems: 'center',
-        maxHeight: '125px',
-        width: '100%'
-      },
-    }
+    timeContainer: {
+      display: 'flex',
+      justifyItems: 'center',
+      maxHeight: '125px',
+      width: '100%'
+    },
+  }
 });

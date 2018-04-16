@@ -43,4 +43,6 @@ import { IStyle, ITheme } from 'office-ui-fabric-react/lib/Styling';
     tour: IStyle;
     white: IStyle;
     signature: IStyle;
+    fakeAd: IStyle;
+    something: IStyle;
  }
