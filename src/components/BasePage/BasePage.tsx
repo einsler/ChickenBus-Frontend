@@ -14,6 +14,7 @@ import { examplePersona } from "../../MockData/FrontEndConsts";
 
 import { Container, Navbar, NavItem, Button, Dropdown, TapTarget } from 'react-materialize';
 import { Switch, Route, NavLink } from 'react-router-dom'
+import { BrowserView, MobileView, isBrowser, isMobile } from "react-device-detect";
 
 import * as $ from "jquery";
 
@@ -27,12 +28,9 @@ interface IBasePageState {
   //dropItems?: JSX.Element[];
 }
 
-
 const styles: IBasePageStyles = getStyles();
 const logo = require('../../images/logo.png');
 var Img = <img style={styles.logo} src={logo} />
-
-
 
 export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
   private _searchContent: JSX.Element;
@@ -41,9 +39,6 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
   private _login: JSX.Element;
   private _register: JSX.Element;
   private _about: JSX.Element;
-
-
-
 
   constructor(props: IBasePageProps) {
     super(props);
@@ -77,10 +72,21 @@ export class BasePage extends BaseComponent<IBasePageProps, IBasePageState> {
           <Route path="/about" component={About} />
           <Route path="/data-interface" component={DataInterface} />
         </div>
-
       </div>
     )
   }
+
+  /*
+  <BrowserView device={isBrowser}>
+    browser stuff
+  </BrowserView>
+
+  <MobileView device={isMobile}>
+    <h1> This is rendered only on mobile </h1>
+  </MobileView>
+
+  */
+
   /*
   <a id="menu" className="waves-effect waves-light btn btn-floating" ><i className="material-icons">menu</i></a>
 
